@@ -15,9 +15,9 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
+### Mockup JSON-SERVER
 ```
-npm run lint
+npm run backend
 ```
 
 ### Customize configuration
