@@ -1,19 +1,88 @@
 {
-  "posts": [
+  "Product": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "brandId": "A001",
+      "brandName": "Samsung",
+      "name": "Galaxy S20",
+      "description": "A Mobile Phone from South Korea",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": 2,
+      "brandId": "A001",
+      "brandName": "Samsung",
+      "name": "Galaxy S50",
+      "description": "A Mobile Phone from South Korea",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    },
+    {
+      "id": 3,
+      "brandId": "A003",
+      "brandName": "Oppo",
+      "name": "P100 Lite",
+      "description": "A Mobile Phone from China",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    },
+    {
+      "id": 4,
+      "brandId": "A002",
+      "brandName": "Apple",
+      "name": "I-Phone 10s",
+      "description": "A Mobile Phone from Europe",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+    ,
+    {
+      "id": 5,
+      "brandId": "A002",
+      "brandName": "Apple",
+      "name": "I-Phone 10s",
+      "description": "A Mobile Phone from Europe",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    }
+    ,
+    {
+      "id": 6,
+      "brandId": "A002",
+      "brandName": "Apple",
+      "name": "I-Phone 10s",
+      "description": "A Mobile Phone from Europe",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    }
+    ,
+    {
+      "id": 7,
+      "brandId": "A002",
+      "brandName": "Apple",
+      "name": "I-Phone 10s",
+      "description": "A Mobile Phone from Europe",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    }
+    ,
+    {
+      "id": 8,
+      "brandId": "A002",
+      "brandName": "Apple",
+      "name": "I-Phone 10s",
+      "description": "A Mobile Phone from Europe",
+      "colorHex" : ["#fa8072","#619e8d","#0a75ad"],
+      "manufactoryDate": "2021-22-04",
+      "image" : "../assets/ped.png"
+    }
+  ]
 }
