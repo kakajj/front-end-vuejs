@@ -1,4 +1,5 @@
 <template>
+  <nav-bar></nav-bar>
   <div class="about">
     <h1>เจอกันอีกแล้วไอพวกเหี้ย</h1>
     <img alt="Vue logo" src="../assets/ped.png">

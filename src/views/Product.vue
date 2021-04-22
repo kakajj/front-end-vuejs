@@ -1,6 +1,7 @@
 <template>
+  <nav-bar nav-bar></nav-bar>
   <div>
-    <h1>This is Product Page</h1>
+    <slide-show></slide-show>
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
@@ -20,9 +21,11 @@
 </template>
 
 <script>
+import SlideShow from '../components/SlideShow.vue';
 const axios = require("axios");
 // import PaginationFooter from "../components/PaginationFooter.vue";
 export default {
+  components: { SlideShow },
   // components: { PaginationFooter },
   created() {
     this.fetchProduct();

@@ -23,7 +23,10 @@ export default {
 .item, .item-home{
     @apply text-gray-300 bg-transparent text-sm inline-block box-border py-3 px-4
 }
-.item:hover,item-home:hover{
+.item:hover{
+    @apply bg-gray-900
+}
+.item-home:hover{
     @apply bg-gray-900
 }
 
