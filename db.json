@@ -84,5 +84,46 @@
       "manufactoryDate": "2021-22-04",
       "image" : "../assets/ped.png"
     }
+  ],
+  "Brand":[
+    {
+      "brandId": "A001",
+      "brandName": "Samsung"
+    },
+    {
+      "brandId": "A002",
+      "brandName": "Apple"
+    },
+    {
+      "brandId": "A003",
+      "brandName": "Oppo"
+    }
+  ],
+  "Color":[
+    {
+      "colorId": 1,
+      "colorName": "Red",
+      "colorHex": "#FF0000"
+    },
+    {
+      "colorId": 2,
+      "colorName": "Green",
+      "colorHex": "#00FF00"
+    },
+    {
+      "colorId": 3,
+      "colorName": "Blue",
+      "colorHex": "#0000FF"
+    },
+    {
+      "colorId": 4,
+      "colorName": "Grey",
+      "colorHex": "#A9A9A9"
+    },
+    {
+      "colorId": 5,
+      "colorName": "Silver",
+      "colorHex": "#C0C0C0"
+    }
   ]
 }
