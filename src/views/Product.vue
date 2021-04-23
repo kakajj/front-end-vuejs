@@ -1,40 +1,52 @@
 <template>
   <nav-bar nav-bar></nav-bar>
-  <div>
+  <div class="container">
     <slide-show></slide-show>
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
           <p>{{ p.brandName }} {{ p.name }}</p>
-          <img class="blank-img" :src="require('../assets/ped.png')"/>
+          <img class="blank-img" :src="require('../assets/ped.png')" />
           <p>{{ p.description }}</p>
           <p>Release: {{ p.manufactoryDate }}</p>
           <div class="btn">
-            <button class="btn-view">View</button>
+            <router-link
+              :to="{ name: 'ViewProduct', params: { slug: p.id } }"
+              class="btn-view"
+            >
+              View
+            </router-link>
             <button class="btn-edit">Edit</button>
-            <button class="btn-delete">Delete</button>
+            <button class="btn-delete" @click="showModal(p.id)">Delete</button>
           </div>
         </div>
       </div>
+      <decision-modal v-show="isModal" @close="closeModal" @submit="removeProduct">
+              <template v-slot:header> Warning </template>
+              <template v-slot:body>Delete from products?</template>
+      </decision-modal>
     </div>
   </div>
 </template>
 
 <script>
-import SlideShow from '../components/SlideShow.vue';
+import SlideShow from "../components/SlideShow.vue";
+import DecisionModal from "../components/DecisionModal";
+
 const axios = require("axios");
 // import PaginationFooter from "../components/PaginationFooter.vue";
 export default {
-  components: { SlideShow },
+  components: { SlideShow, DecisionModal },
   // components: { PaginationFooter },
   created() {
     this.fetchProduct();
   },
   data() {
     return {
+      isModal: false,
       url: "http://localhost:3000/Product",
-      page: [],
       productList: [],
+      currentProduct: null
     };
   },
   methods: {
@@ -48,6 +60,30 @@ export default {
         .then(() => {})
         .catch((err) => {
           console.error(err);
+        });
+    },
+    showModal(id) {
+      this.currentProduct = id;
+      this.isModal = true;
+    },
+    closeModal() {
+      this.currentProduct = null;
+      this.isModal = false;
+    },
+    removeProduct(id){
+      id = this.currentProduct ; 
+      axios
+        .delete(`${this.url}/${this.currentProduct}`)
+        .then((response) => {
+        return response.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .then(()=>{
+        this.productList = this.productList.filter(
+        (diary) => diary.id !== id);
+        this.closeModal();
         });
     },
   },
