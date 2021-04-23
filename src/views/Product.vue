@@ -1,7 +1,30 @@
 <template>
   <nav-bar nav-bar></nav-bar>
   <div class="container">
-    <slide-show></slide-show>
+    <slide-show class="w-11/12 mx-auto"></slide-show>
+    <div class="text-center bg-black w-11/12 h-10 mx-auto my-2 rounded-full">
+      <span
+        v-if="isSearch"
+        class="material-icons py-2 w-full hover:text-white transition duration-500"
+        @click="startSearch"
+      >search</span>
+      <div v-else class="w-full flex flex-row justify-center py-1">
+        <input
+          class="border-2 w-11/12 m-1 h-6 focus:outline-none focus:ring focus:border-black text-sm"
+          v-model="searchField"
+          type="text"
+          placeholder="Enter keyword..."
+        />
+        <button
+          @click="startSearch"
+          class="material-icons text-gray-700 hover:text-white transition duration-500"
+        >
+          cancel
+        </button>
+      </div>
+    </div>
+    <p>มีสินค้าทั้งหมด {{productList.length}} ชิ้น</p>
+    <pagination-footer :listData="productList"></pagination-footer>
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
@@ -21,9 +44,13 @@
           </div>
         </div>
       </div>
-      <decision-modal v-show="isModal" @close="closeModal" @submit="removeProduct">
-              <template v-slot:header> Warning </template>
-              <template v-slot:body>Delete from products?</template>
+      <decision-modal
+        v-show="isModal"
+        @close="closeModal"
+        @submit="removeProduct"
+      >
+        <template v-slot:header> Warning </template>
+        <template v-slot:body>Delete from products?</template>
       </decision-modal>
     </div>
   </div>
@@ -32,21 +59,23 @@
 <script>
 import SlideShow from "../components/SlideShow.vue";
 import DecisionModal from "../components/DecisionModal";
+import PaginationFooter from '../components/PaginationFooter.vue';
 
 const axios = require("axios");
 // import PaginationFooter from "../components/PaginationFooter.vue";
 export default {
-  components: { SlideShow, DecisionModal },
+  components: { SlideShow, DecisionModal, PaginationFooter },
   // components: { PaginationFooter },
   created() {
     this.fetchProduct();
   },
   data() {
     return {
+      isSearch: true,
       isModal: false,
       url: "http://localhost:3000/Product",
       productList: [],
-      currentProduct: null
+      currentProduct: null,
     };
   },
   methods: {
@@ -70,21 +99,25 @@ export default {
       this.currentProduct = null;
       this.isModal = false;
     },
-    removeProduct(id){
-      id = this.currentProduct ; 
+    removeProduct(id) {
+      id = this.currentProduct;
       axios
         .delete(`${this.url}/${this.currentProduct}`)
         .then((response) => {
-        return response.data;
+          return response.data;
         })
         .catch((err) => {
           console.error(err);
         })
-        .then(()=>{
-        this.productList = this.productList.filter(
-        (diary) => diary.id !== id);
-        this.closeModal();
+        .then(() => {
+          this.productList = this.productList.filter(
+            (diary) => diary.id !== id
+          );
+          this.closeModal();
         });
+    },
+    startSearch() {
+      this.isSearch = !this.isSearch;
     },
   },
 };
@@ -102,7 +135,7 @@ export default {
   @apply bg-gray-600 max-w-md max-h-20 mx-auto;
 }
 .content {
-  @apply text-gray-900 bg-blue-100 font-semibold text-center box-border h-full p-2 rounded-md;
+  @apply text-gray-900 bg-gray-200 font-semibold text-center box-border h-full p-2 rounded-md;
 }
 .btn {
   @apply flex justify-center text-sm inline-block;
