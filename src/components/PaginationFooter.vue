@@ -30,7 +30,8 @@ export default {
 </script>
 
 <style scoped>
+
 .pagination-btn{
-    @apply cursor-pointer border-2 p-2 m-1 text-xs
+    @apply cursor-pointer border-2 p-1 m-1 text-xs
 }
 </style>

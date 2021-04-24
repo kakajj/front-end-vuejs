@@ -25,9 +25,9 @@ export default {
 
 <style scoped>
 .go-back {
-
+ @apply w-12 m-4 focus:outline-none text-blue-600 text-sm  rounded-full border border-blue-600 hover:bg-blue-50;
 }
 button {
-  @apply cursor-pointer mx-auto my-2 w-8 h-8;
+  @apply cursor-pointer mx-auto  w-4 mt-1;
 }
 </style>

@@ -12,7 +12,8 @@
         "#0a75ad"
       ],
       "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
+      "image": "iphone.png",
+      "Price": "19,000.0"
     },
     {
       "id": 3,
@@ -26,7 +27,8 @@
         "#0a75ad"
       ],
       "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
+      "image": "oppo.jpg",
+      "Price": "15,000.0"
     },
     {
       "id": 4,
@@ -40,7 +42,8 @@
         "#0a75ad"
       ],
       "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
+      "image": "s20.jpg",
+      "Price": "18,000.0"
     },
     {
       "id": 5,
@@ -54,35 +57,8 @@
         "#0a75ad"
       ],
       "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
-    },
-    {
-      "id": 6,
-      "brandId": "A002",
-      "brandName": "Apple",
-      "name": "I-Phone 10s",
-      "description": "A Mobile Phone from Europe",
-      "colorHex": [
-        "#fa8072",
-        "#619e8d",
-        "#0a75ad"
-      ],
-      "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
-    },
-    {
-      "id": 7,
-      "brandId": "A002",
-      "brandName": "Apple",
-      "name": "I-Phone 10s",
-      "description": "A Mobile Phone from Europe",
-      "colorHex": [
-        "#fa8072",
-        "#619e8d",
-        "#0a75ad"
-      ],
-      "manufactoryDate": "2021-22-04",
-      "image": "../assets/ped.png"
+      "image": "ped.png",
+      "Price": "19,000.0"
     }
   ],
   "Brand": [
