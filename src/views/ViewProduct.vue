@@ -6,7 +6,7 @@
     </h1>
     <div class="product">
       <div class="prod-img">
-        <img :src="img" :alt="pic" />
+        <img @click="toggleView" :src="img" :alt="pic" />
       </div>
       <div class="description">
         <p>Brand : {{ product.brandName }}</p>
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <h2 class="text-right text-xl pt-52 ">
+      <h2 class="text-right text-xl pt-52 justify-self-end">
         Price : {{ product.Price }} บาท
       </h2>
     </div>
@@ -36,6 +36,12 @@
         <template v-slot:header> Warning </template>
         <template v-slot:body>Delete from products?</template>
       </decision-modal>
+      <view-pic
+        v-show="isView"
+        @switchModal="toggleView"
+        :pic="product"
+        :img="img"
+      ></view-pic>
   </div>
 </template>
 
@@ -44,8 +50,9 @@ import DecisionModal from '../components/DecisionModal.vue';
 import GoBack from "../components/GoBack.vue";
 const axios = require("axios");
 import NavBar from "../components/NavBar.vue";
+import ViewPic from '../components/ViewPic.vue';
 export default {
-  components: { NavBar, GoBack, DecisionModal },
+  components: { NavBar, GoBack, DecisionModal, ViewPic },
   created() {
     this.fetchProduct();
   },
@@ -60,9 +67,13 @@ export default {
       product: [],
       img: null,
       isModal: false,
+      isView: false,
     };
   },
   methods: {
+    toggleView(){
+      this.isView = !this.isView;
+    },
     toggleModal(){
       this.isModal = !this.isModal
     },
@@ -97,11 +108,14 @@ export default {
 </script>
 
 <style scope>
+.description{
+  @apply flex-grow
+}
 .prod-img {
-  @apply relative w-96 h-60 overflow-hidden;
+  @apply relative w-2/6 h-60 overflow-hidden cursor-pointer; 
 }
 .product {
-  @apply flex flex-row justify-between bg-gray-300 p-4;
+  @apply flex flex-row   bg-gray-300 p-4;
 }
 p {
   @apply text-left px-4 text-sm;

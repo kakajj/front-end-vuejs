@@ -1,6 +1,6 @@
 <template>
   <nav-bar nav-bar></nav-bar>
-  <div class="container">
+  <div class="container my-5">
     <slide-show class="w-11/12 mx-auto"></slide-show>
     <div class="text-center bg-black w-11/12 h-10 mx-auto my-2 rounded-full">
       <span

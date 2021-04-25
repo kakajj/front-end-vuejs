@@ -16,21 +16,6 @@
       "Price": "19,000.0"
     },
     {
-      "id": 3,
-      "brandId": "A003",
-      "brandName": "Oppo",
-      "name": "P100 Lite",
-      "description": "A Mobile Phone from China",
-      "colorHex": [
-        "#fa8072",
-        "#619e8d",
-        "#0a75ad"
-      ],
-      "manufactoryDate": "2021-22-04",
-      "image": "oppo.jpg",
-      "Price": "15,000.0"
-    },
-    {
       "id": 4,
       "brandId": "A002",
       "brandName": "Apple",

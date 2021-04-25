@@ -126,8 +126,6 @@ export default {
 
 .btn-red {
   color: white;
-  background: red;
-  border: 1px solid red;
-  border-radius: 2px;
+  @apply fill-current text-red-300 hover:text-red-600
 }
 </style>
