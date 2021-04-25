@@ -29,7 +29,7 @@
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
           <p>{{ p.brandName }} {{ p.name }}</p>
-          <img class="blank-img" :src="require('@/assets/'+p.image)" />
+          <img class="blank-img cursor-pointer" @click="go(p.id)" :src="require('@/assets/'+p.image)">
           <p>{{ p.description }}</p>
           <p>Release: {{ p.manufactoryDate }}</p>
           <div class="btn">
@@ -79,6 +79,9 @@ export default {
     };
   },
   methods: {
+    go(id){
+      this.$router.push({ name: 'ViewProduct', params: { slug: id } })
+    },
     fetchProduct() {
       axios
         .get(this.url)

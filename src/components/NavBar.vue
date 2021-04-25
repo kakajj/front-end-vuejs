@@ -5,7 +5,7 @@
     </div>
     <div class="group">
         <div @mouseover='toggleShow' class="item">Product</div>
-        <router-link to="/Product" v-show="showMenu" @mouseleave="toggleShow" class="item">Add Product</router-link>
+        <router-link to="/product/add" v-show="showMenu" @mouseleave="toggleShow" class="item">Add Product</router-link>
         <router-link to="/about" class="item">About</router-link>
     </div>
   </nav>
@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .menu-bar {
-    @apply bg-black text-white  flex justify-between box-border mb-2 
+    @apply bg-black text-white  flex justify-between box-border
 }
 .item, .item-home{
     @apply  bg-transparent text-sm inline-block box-border py-3 px-4
