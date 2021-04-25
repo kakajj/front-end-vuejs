@@ -2,7 +2,7 @@
   <nav-bar></nav-bar>
   <div class="container px-4 py-1">
     <h1 class="text-left font-bold">
-      ชื่อสินค้า : {{ product.brandName }} {{ product.name }}
+      ชื่อสินค้า : {{ product.brands.brandName }} {{ product.productName }}
     </h1>
     <div class="product">
       <div class="prod-img">
@@ -79,7 +79,7 @@ export default {
     },
     removeProduct(){
       axios
-        .delete("http://localhost:3000/Product/" + this.slug)
+        .delete("http://localhost/products/get/" + this.slug)
         .then((response) => {
           return response.data;
         })
@@ -96,7 +96,7 @@ export default {
         .get("http://localhost:3000/Product/" + this.slug)
         .then((response) => {
           this.product = response.data;
-          this.img = require("@/assets/" + response.data.image);
+          this.img = require("@/assets/" + response.data.productCode);
           return response.data;
         })
         .catch((err) => {

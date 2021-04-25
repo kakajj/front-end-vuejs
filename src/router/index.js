@@ -34,6 +34,11 @@ const routes = [
     name: 'AddProduct',
     component: ()=> import(/* webpackChunkName: "AddProduct" */ '../views/AddProduct.vue'),
   },
+  {
+    path:'/health',
+    name: 'HealthCheck',
+    component: ()=> import(/* webpackChunkName: "HealthCheck" */ '../views/HealthCheck.vue'),
+  }
 ]
 
 const router = createRouter({

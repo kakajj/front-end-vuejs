@@ -28,19 +28,19 @@
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
-          <p>{{ p.brandName }} {{ p.name }}</p>
-          <img class="blank-img cursor-pointer" @click="go(p.id)" :src="require('@/assets/'+p.image)">
-          <p>{{ p.description }}</p>
-          <p>Release: {{ p.manufactoryDate }}</p>
+          <p>{{ p.brands.brandName }} {{ p.productName }}</p>
+          <img class="blank-img cursor-pointer" @click="go(p.productCode)" :src="require('@/assets/ped.png')">
+          <p>{{ p.productDescription }}</p>
+          <p>Release: {{ p.date }}</p>
           <div class="btn">
             <router-link 
-              :to="{ name: 'ViewProduct', params: { slug: p.id }}"
+              :to="{ name: 'ViewProduct', params: { slug: p.productCode }}"
               class="btn-view"
             >
               View
             </router-link>
             <button class="btn-edit">Edit</button>
-            <button class="btn-delete" @click="showModal(p.id)">Delete</button>
+            <button class="btn-delete" @click="showModal(p.productCode)">Delete</button>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default {
     return {
       isSearch: true,
       isModal: false,
-      url: "http://localhost:3000/Product",
+      url: "http://localhost/products",
       productList: [],
       currentProduct: null,
     };
@@ -84,12 +84,14 @@ export default {
     },
     fetchProduct() {
       axios
-        .get(this.url)
+        .get(`${this.url}/getall`)
         .then((response) => {
           this.productList = response.data;
           return response.data;
         })
-        .then(() => {})
+        .then((data) => {
+          console.log(data)
+        })
         .catch((err) => {
           console.error(err);
         });
@@ -105,7 +107,7 @@ export default {
     removeProduct(id) {
       id = this.currentProduct;
       axios
-        .delete(`${this.url}/${this.currentProduct}`)
+        .delete(`${this.url}/delete/${this.currentProduct}`)
         .then((response) => {
           return response.data;
         })
@@ -114,7 +116,7 @@ export default {
         })
         .then(() => {
           this.productList = this.productList.filter(
-            (diary) => diary.id !== id
+            (product) => product.id !== id
           );
           this.closeModal();
         });
