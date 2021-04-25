@@ -2,9 +2,8 @@
   <nav-bar></nav-bar>
   <div class="container flex flex-row">
     <div class="bg-gray-200 w-2/6 h-screen">
-      <head>
-        <h1 class="title">Add New Product เพิ่มสินค้า</h1>
-      </head>
+      <h1 class="title">Add New Product</h1>
+      <h1 class="title">เพิ่มสินค้า</h1>
     </div>
     <div class="w-full p-6">
       <form id="form">
@@ -16,12 +15,13 @@
             id="brand"
             type="radio"
             placeholder="Select Brand"
+            v-model="newProduct.brandName"
             required
           >
             <option
               v-for="(brand, index) in brandArray"
               :key="index"
-              :value="brand.brandId"
+              :value="brand.brandName"
             >
               {{ brand.brandName }}
             </option>
@@ -34,6 +34,7 @@
             name="name"
             id="name"
             placeholder="Product Name"
+            v-model="newProduct.name"
             required
           />
         </div>
@@ -45,6 +46,7 @@
             id="price"
             type="number"
             placeholder="Product Price"
+            v-model="newProduct.Price"
             required
           />
         </div>
@@ -56,39 +58,36 @@
             id="date"
             type="date"
             placeholder="Ingresa tu Fecha de Nacimiento"
+            v-model="newProduct.manufactoryDate"
             required
           />
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Color </label>
-          <select
-             :style="{ backgroundColor: selectColor }"
-            v-model="selectColor"
-            class="input"
-            name="color"
-            id="color"
-            type="checkbox"
-            placeholder="Select color"
-            required
+          <div
+            class="flex flex-row"
+            v-for="(color, index) in colorArray"
+            :key="index"
           >
-            <option
-              v-for="(color, index) in colorArray"
-              :key="index"
+            <input
+              type="checkbox"
+              class="box"
               :value="color.colorHex"
-            >
-              {{ color.colorName }}
-            </option>
-          </select>
+              :style="{ backgroundColor: color.colorHex }"
+              v-model="newProduct.colorHex"
+            />
+            <p :style="{ color: color.colorHex }">{{ color.colorName }}</p>
+          </div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="name"> Description </label>
-
           <textarea
-            class="input"
+            class="input h-44"
             name="message2"
             id="message2"
             type="text"
             placeholder="product description"
+             v-model="newProduct.description"
             required
           ></textarea>
         </div>
@@ -102,15 +101,15 @@
             type="file"
             placeholder="product image"
             required
-          >
+          />
         </div>
-        <!-- <div class="flex items-center justify-end">
+        <div class="flex items-center justify-end">
                 <button id="submit"
                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit">
-                    <i class="fab fa-whatsapp"></i> Enviar a WhatsApp
+                    type="submit" @click="sendData(newProduct)">
+                    <i class="fab fa-whatsapp"></i> ส่งข้อมูล
                 </button>
-            </div> -->
+            </div>
       </form>
     </div>
   </div>
@@ -127,12 +126,35 @@ export default {
   },
   data() {
     return {
+      newProduct: {
+        brandId: "",
+        brandName: "",
+        name: "",
+        description: "",
+        colorHex: [],
+        manufactoryDate: "",
+        image: "ped.png",
+        Price: "",
+      },
       brandArray: [],
       colorArray: [],
-      selectColor: '', 
+      selectColor: "",
     };
   },
   methods: {
+    clear(){
+      let clearProduct = {
+        brandId: "",
+        brandName: "",
+        name: "",
+        description: "",
+        colorHex: [],
+        manufactoryDate: "",
+        image: "ped.png",
+        Price: ""
+      }
+      this.newProduct = clearProduct;
+    },
     fetchBrand() {
       axios
         .get("http://localhost:3000/Brand")
@@ -156,6 +178,19 @@ export default {
           console.error(err);
         });
     },
+    sendData(product){
+      axios
+        .post("http://localhost:3000/Product", product)
+        .then((response) => {
+          alert(response.data) 
+        })
+        .catch((err) => {
+          console.error(err);
+        }).then(()=>{
+            this.clear();
+            return this.$router.go(-1)
+        });
+    },
   },
 };
 </script>
@@ -172,5 +207,8 @@ form {
 }
 .input {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md;
+}
+.box {
+  @apply mr-2 font-extralight text-xs border-2 border-opacity-70 hover:border-black;
 }
 </style>

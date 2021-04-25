@@ -44,6 +44,20 @@
       "manufactoryDate": "2021-22-04",
       "image": "ped.png",
       "Price": "19,000.0"
+    },
+    {
+      "brandId": "",
+      "brandName": "Apple",
+      "name": "Iphone 200",
+      "description": "This is An APPLE!!!",
+      "colorHex": [
+        "#C0C0C0",
+        "#A9A9A9"
+      ],
+      "manufactoryDate": "2021-04-25",
+      "image": "ped.png",
+      "Price": "20000.00",
+      "id": 6
     }
   ],
   "Brand": [
