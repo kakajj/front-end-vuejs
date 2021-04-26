@@ -6,7 +6,7 @@
     </h1>
     <div class="product">
       <div class="prod-img">
-        <img @click="toggleView" :src="img" :alt="pic" />
+        <img @click="toggleView" src="http://localhost/picture/get/1001.jpg" :alt="pic" />
       </div>
       <div class="description">
         <p>Brand : {{ product.brands.brandName }}</p>

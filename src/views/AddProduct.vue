@@ -70,13 +70,16 @@
             :key="index"
           >
             <input
+              class="mt-2"
               type="checkbox"
-              class="box"
               :value="color.colorHex"
               :style="{ backgroundColor: color.colorHex }"
               v-model="newProduct.colorHex"
             />
-            <p :style="{ color: color.colorHex }">{{ color.colorName }}</p>
+            <button
+              class="box"
+              :style="{ backgroundColor: color.colorHex }"
+            ></button>
           </div>
         </div>
         <div class="mb-4">
@@ -87,29 +90,33 @@
             id="message2"
             type="text"
             placeholder="product description"
-             v-model="newProduct.description"
+            v-model="newProduct.description"
             required
           ></textarea>
         </div>
         <div class="mb-4">
           <label class="input-name" for="name"> Upload Picture </label>
-
           <input
             class="input"
             name="file"
             id="file"
             type="file"
+            ref="file"
             placeholder="product image"
             required
+            v-on:change="handleFileUpload"
           />
         </div>
         <div class="flex items-center justify-end">
-                <button id="submit"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit" @click="sendData(newProduct)">
-                    <i class="fab fa-whatsapp"></i> ส่งข้อมูล
-                </button>
-            </div>
+          <button
+            id="submit"
+            class="btn-submit"
+            type="submit"
+            @click="uploadPic()"
+          >
+            <i class="fab fa-whatsapp"></i> ส่งข้อมูล
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -126,6 +133,7 @@ export default {
   },
   data() {
     return {
+      file: '',
       newProduct: {
         brandId: "",
         brandName: "",
@@ -142,7 +150,7 @@ export default {
     };
   },
   methods: {
-    clear(){
+    clear() {
       let clearProduct = {
         brandId: "",
         brandName: "",
@@ -151,13 +159,13 @@ export default {
         colorHex: [],
         manufactoryDate: "",
         image: "ped.png",
-        Price: ""
-      }
+        Price: "",
+      };
       this.newProduct = clearProduct;
     },
     fetchBrand() {
       axios
-        .get("http://localhost:3000/Brand")
+        .get("http://localhost/brands/getall")
         .then((response) => {
           this.brandArray = response.data;
           return response.data;
@@ -169,7 +177,7 @@ export default {
     },
     fetchColor() {
       axios
-        .get("http://localhost:3000/Color")
+        .get("http://localhost/colors/getall")
         .then((response) => {
           this.colorArray = response.data;
           return response.data;
@@ -178,17 +186,37 @@ export default {
           console.error(err);
         });
     },
-    sendData(product){
+    uploadPic() {
+      var bodyFormData = new FormData();
+      bodyFormData.append("File", this.file);
+      axios.post('http://localhost/picture/add/1006',
+          bodyFormData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        ).then(function () {
+          console.log('SUCCESS!!');
+        })
+        .catch(function () {
+          console.log('FAILURE!!');
+        });
+    },
+    handleFileUpload(){
+       this.file = this.$refs.file.files[0];
+    },
+    sendData(product) {
       axios
         .post("http://localhost:3000/Product", product)
         .then((response) => {
-          alert(response.data) 
+          alert(response.data);
         })
         .catch((err) => {
           console.error(err);
-        }).then(()=>{
-            this.clear();
-            return this.$router.go(-1)
+        })
+        .then(() => {
+          this.clear();
+          return this.$router.go(-1);
         });
     },
   },
@@ -209,6 +237,9 @@ form {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md;
 }
 .box {
-  @apply mr-2 font-extralight text-xs border-2 border-opacity-70 hover:border-black;
+  @apply mx-1 w-8 h-8 font-extralight text-xs border-2 border-opacity-70 hover:border-black;
+}
+.btn-submit {
+  @apply bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none;
 }
 </style>
