@@ -1,7 +1,7 @@
 <template>
   <nav-bar></nav-bar>
   <div class="container px-4 py-1">
-    <h1 class="text-left font-bold">
+    <h1 class="text-left font-bold pt-2">
       ชื่อสินค้า : {{ product.brands.brandName }} {{ product.productName }}
     </h1>
     <div class="product">
@@ -9,18 +9,19 @@
         <img @click="toggleView" :src="img" :alt="pic" />
       </div>
       <div class="description">
-        <p>Brand : {{ product.brandName }}</p>
-        <p>Release Date : {{ product.manufactoryDate }}</p>
-        <p>Description : {{ product.description }}</p>
+        <p>Brand : {{ product.brands.brandName }}</p>
+        <p>Release Date : {{ product.date }}</p>
+        <p>Warranty : {{product.productWarranty.warrantyDescription}}</p>
+        <p>Description : {{ product.productDescription }}</p>
         <div class="color">
-          <p class="pt-1">color :</p>
-          <div v-for="(color, index) in product.colorHex" :key="index">
-            <button class="box" :style="{ backgroundColor: color }"></button>
+          <p class="pt-1">Color Available :</p>
+          <div v-for="(color, index) in product.colors" :key="index">
+            <button class="box" :style="{ backgroundColor: color.colorHex }"></button>
           </div>
         </div>
       </div>
-      <h2 class="text-right text-xl pt-52 justify-self-end">
-        Price : {{ product.Price }} บาท
+      <h2 class="text-right text-xl pt-52 w-1/6">
+        Price : {{ product.productPrice }} บาท
       </h2>
     </div>
     <div class="btn-all">
@@ -79,7 +80,7 @@ export default {
     },
     removeProduct(){
       axios
-        .delete("http://localhost/products/get/" + this.slug)
+        .delete("http://localhost/products/delete/" + this.slug)
         .then((response) => {
           return response.data;
         })
@@ -93,10 +94,12 @@ export default {
     },
     fetchProduct() {
       axios
-        .get("http://localhost:3000/Product/" + this.slug)
+        .get("http://localhost/products/get/" + this.slug)
         .then((response) => {
           this.product = response.data;
-          this.img = require("@/assets/" + response.data.productCode);
+          this.img = require('../../../back-end-springboot-dev/pictures/' +
+                this.product.productCode +
+                '.jpg');
           return response.data;
         })
         .catch((err) => {
@@ -109,7 +112,7 @@ export default {
 
 <style scope>
 .description{
-  @apply flex-grow
+  @apply flex-grow max-w-3xl break-normal  
 }
 .prod-img {
   @apply relative w-2/6 h-60 overflow-hidden cursor-pointer; 
