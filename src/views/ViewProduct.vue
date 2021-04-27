@@ -109,10 +109,10 @@ export default {
     },
     fetchProduct() {
       axios
-        .get("http://localhost/products/get/" + this.slug)
+        .get("http://localhost:8082/products/get/" + this.slug)
         .then((response) => {
           this.product = response.data;
-          this.img = "http://localhost/picture/get/" + this.slug + ".jpg";
+          this.img = "http://localhost:8082/picture/get/" + this.slug + ".jpg";
           this.isLoading = false;
           return response.data;
         })

@@ -6,7 +6,7 @@
       <h1 class="title">เพิ่มสินค้า</h1>
     </div>
     <div class="w-full p-6">
-      <form id="form">
+      <form id="form" enctype="multipart/form-data">
         <div class="mb-4">
           <label class="input-name" for="Date"> Brand Name </label>
           <select
@@ -15,13 +15,13 @@
             id="brand"
             type="radio"
             placeholder="Select Brand"
-            v-model="newProduct.brands.brandName"
+            v-model="newProduct.brands"
             required
           >
             <option
               v-for="brand in brandArray"
               :key="brand.brandId"
-              :value="brand.brandName"
+              :value="brand"
             >
               {{ brand.brandName }}
             </option>
@@ -70,20 +70,20 @@
             id="warranty"
             type="warranty"
             placeholder="Select Warranty"
-            v-model="newProduct.productWarranty.warrantyDescription"
+            v-model="newProduct.productWarranty"
             required
           >
             <option
               v-for="waranty in warrantyArray"
               :key="waranty.warrantyId"
-              :value="waranty.warrantyId"
+              :value="waranty"
             >
               {{ waranty.warrantyDescription }}
             </option>
           </select>
         </div>
         <div class="mb-4">
-          <label class="input-name" for="Date"> Color Available </label>
+          <label class="input-name" for="Color"> Color Available </label>
           <div
             class="flex flex-row"
             v-for="color in colorArray"
@@ -92,17 +92,14 @@
             <input
               class="mt-2"
               type="checkbox"
-              :value="color.colorHex"
-              v-model="newProduct.colors.colorHex"
+              :value="color"
+              v-model="newProduct.colors"
             />
-            <button
-              class="box"
-              :style="{ backgroundColor: color.colorHex }"
-            ></button>
+            <div class="box" :style="{ backgroundColor: color.colorHex }"></div>
           </div>
         </div>
         <div class="mb-4">
-          <label class="input-name" for="name"> Description </label>
+          <label class="input-name" for="desc"> Description </label>
           <textarea
             class="input h-44"
             name="message2"
@@ -114,14 +111,9 @@
           ></textarea>
         </div>
         <div class="mb-4">
-          <label class="input-name" for="name"> Upload Picture </label>
+          <label class="input-name" for="upload"> Upload Picture </label>
           <input
-            class="input"
-            name="file"
-            id="file"
-            type="file"
-            ref="file"
-            placeholder="product image"
+            type="file" id="file" ref="file"
             required
             v-on:change="handleFileUpload"
           />
@@ -131,7 +123,7 @@
             id="submit"
             class="btn-submit"
             type="submit"
-            @click="sendProduct"
+            @click.prevent="sendProduct"
           >
             <i class="fab fa-whatsapp"></i> ส่งข้อมูล
           </button>
@@ -149,10 +141,10 @@ export default {
   },
   data() {
     return {
-      ColorUrl: "http://localhost/colors/getall",
-      productUrl: "http://localhost/products/getall",
-      brandUrl: "http://localhost/brands/getall",
-      warrantyUrl: "http://localhost/warranty/getall",
+      ColorUrl: "http://localhost:8082/colors/getall",
+      productUrl: "http://localhost:8082/products/getall",
+      brandUrl: "http://localhost:8082/brands/getall",
+      warrantyUrl: "http://localhost:8082/warranty/getall",
       file: "",
       newProduct: {
         productCode: null,
@@ -176,82 +168,94 @@ export default {
           },
         ],
       },
-      productList: null,
-      lastProductCode: null,
+      newProductCode: null,
       brandArray: [],
-      colorArray: [],
+      colorArray: {},
       warrantyArray: [],
     };
   },
   methods: {
-    clear() {
-      let clearProduct = {
-        brandId: "",
-        brandName: "",
-        name: "",
-        description: "",
-        colorHex: [],
-        manufactoryDate: "",
-        image: "ped.png",
-        Price: "",
-      };
-      this.newProduct = clearProduct;
+    clearData() {
+        this.newProduct.productCode = null;
+        this.newProduct.productName = "";
+        this.newProduct.productDescription = ""
+        this.newProduct.productPrice = 0 ;
+        this.newProduct.date = "";
+        this.newProduct.brands.brandId = ""; 
+        this.newProduct.brandName = "" ;
+        this.newProduct.productWarranty.warrantyId = null;
+        this.newProduct.productWarranty.warrantyDescription = "";
+        this.newProduct.colors.colorId = null;
+        this.newProduct.colors.colorName = "";
+        this.newProduct.colors.colorName =  "";
+        this.newProduct.colors.colorHex = "";
+        return this.$router.go(-1);
     },
     fetchMultipleData() {
       const requestBrand = axios.get(this.brandUrl);
       const requestWarranty = axios.get(this.warrantyUrl);
       const requestColor = axios.get(this.ColorUrl);
-      const requestLastProduct = axios.get(this.productUrl)
+      const requestLastProduct = axios.get(this.productUrl);
       axios
         .all([requestBrand, requestWarranty, requestColor, requestLastProduct])
         .then(
           axios.spread((...responses) => {
-            return responses
+            return responses;
           })
-        ).then((data)=>{
+        )
+        .then((data) => {
           this.brandArray = data[0].data;
-          this.warrantyArray = data[1].data
-          this.colorArray = data[2].data
-          this.lastProductCode =  data[3].data[data[3].data.length-1].productCode
-          console.log(this.colorArray);
+          this.warrantyArray = data[1].data;
+          this.colorArray = data[2].data;
+          var maxProductCode =
+            data[3].data[data[3].data.length - 1].productCode;
+          this.newProductCode = parseInt(maxProductCode);
+          this.newProductCode++;
         })
         .catch((errors) => {
-          console.log(errors)
+          console.log(errors);
         });
     },
     uploadPic() {
-      var bodyFormData = new FormData();
-      bodyFormData.append("File", this.file);
+      let formData = new FormData();
+      formData.append("File", this.file);
       axios
-        .post("http://localhost/picture/add/1006", bodyFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        .post(
+          "http://localhost:8082/picture/add/" + this.newProductCode,
+          formData,
+          {
+            'Content-Type': 'multipart/form-data',
+          }
+        )
+        .then((response)=>{
+          console.log(response);
         })
-        .then(function () {
-          console.log("SUCCESS!!");
+        .then(()=>{
+          this.clearData();
         })
-        .catch(function () {
-          console.log("FAILURE!!");
+        .catch((errr)=>{
+          console.log(errr);
         });
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
     },
     sendProduct() {
-      console.log(this.newProduct);
-      // axios
-      //   .post("http://localhost:3000/Product")
-      //   .then((response) => {
-      //     alert(response.data);
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //   })
-      //   .then(() => {
-      //     this.clear();
-      //     return this.$router.go(-1);
-      //   });
+      this.newProduct.productCode = this.newProductCode;
+      var filtered = this.newProduct.colors.filter((el) => {
+        return el.colorId != null;
+      });
+      this.newProduct.colors = filtered;
+      axios
+        .post("http://localhost:8082/products/create", this.newProduct)
+        .then((response) => {
+          console.log(response);       
+        }).then(()=>{
+          this.uploadPic();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
   },
 };
