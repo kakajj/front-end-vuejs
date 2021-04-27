@@ -1,12 +1,12 @@
 <template>
     <nav class="menu-bar">
     <div class="group">
-       <router-link  to="/" class="item-home">Home</router-link>
+       <router-link  to="/" class="item-home" >Home</router-link>
     </div>
     <div class="group">
         <div @mouseover='toggleShow' class="item">Product</div>
-        <router-link to="/product/add" v-show="showMenu" @mouseleave="toggleShow" class="item">Add Product</router-link>
-        <router-link to="/about" class="item">About</router-link>
+        <router-link to="/add" v-show="showMenu" @mouseleave="toggleShow" class="item" >Add Product</router-link>
+        <router-link to="/about" class="item" >About</router-link>
     </div>
   </nav>
   

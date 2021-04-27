@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pagin">
         <div class="pagination-row">
              <button class="pagination-btn">Previus</button>
             <span v-for="(item,index) in listData" :key="index">
@@ -30,8 +30,13 @@ export default {
 </script>
 
 <style scoped>
-
+.pagin{
+    @apply mx-auto
+}
 .pagination-btn{
-    @apply cursor-pointer border-2 p-1 m-1 text-xs
+    @apply cursor-pointer border-2 p-1 m-1 text-xs  text-center
+}
+.pagination-row{
+    @apply mx-auto
 }
 </style>

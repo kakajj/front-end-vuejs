@@ -25,13 +25,10 @@ export default {
 
 <style scoped>
 .home{
-  @apply w-screen h-screen bg-black
+  @apply w-screen h-screen bg-black text-center
 }
 .greeting{
   @apply pt-52 text-white
-}
-img {
-  @apply max-w-sm mx-auto 
 }
 .btn{
   @apply m-2 focus:outline-none text-sm py-2.5 px-5 rounded-md hover:bg-gray-600

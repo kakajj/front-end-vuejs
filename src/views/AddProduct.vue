@@ -15,12 +15,12 @@
             id="brand"
             type="radio"
             placeholder="Select Brand"
-            v-model="newProduct.brandName"
+            v-model="newProduct.brands.brandName"
             required
           >
             <option
-              v-for="(brand, index) in brandArray"
-              :key="index"
+              v-for="brand in brandArray"
+              :key="brand.brandId"
               :value="brand.brandName"
             >
               {{ brand.brandName }}
@@ -34,7 +34,7 @@
             name="name"
             id="name"
             placeholder="Product Name"
-            v-model="newProduct.name"
+            v-model="newProduct.productName"
             required
           />
         </div>
@@ -46,7 +46,7 @@
             id="price"
             type="number"
             placeholder="Product Price"
-            v-model="newProduct.Price"
+            v-model="newProduct.productPrice"
             required
           />
         </div>
@@ -58,23 +58,42 @@
             id="date"
             type="date"
             placeholder="Ingresa tu Fecha de Nacimiento"
-            v-model="newProduct.manufactoryDate"
+            v-model="newProduct.date"
             required
           />
         </div>
         <div class="mb-4">
-          <label class="input-name" for="Date"> Color </label>
+          <label class="input-name" for="Date"> Waranty </label>
+          <select
+            class="input"
+            name="warranty"
+            id="warranty"
+            type="warranty"
+            placeholder="Select Warranty"
+            v-model="newProduct.productWarranty.warrantyDescription"
+            required
+          >
+            <option
+              v-for="waranty in warrantyArray"
+              :key="waranty.warrantyId"
+              :value="waranty.warrantyId"
+            >
+              {{ waranty.warrantyDescription }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="input-name" for="Date"> Color Available </label>
           <div
             class="flex flex-row"
-            v-for="(color, index) in colorArray"
-            :key="index"
+            v-for="color in colorArray"
+            :key="color.colorId"
           >
             <input
               class="mt-2"
               type="checkbox"
               :value="color.colorHex"
-              :style="{ backgroundColor: color.colorHex }"
-              v-model="newProduct.colorHex"
+              v-model="newProduct.colors.colorHex"
             />
             <button
               class="box"
@@ -90,7 +109,7 @@
             id="message2"
             type="text"
             placeholder="product description"
-            v-model="newProduct.description"
+            v-model="newProduct.productDescription"
             required
           ></textarea>
         </div>
@@ -112,7 +131,7 @@
             id="submit"
             class="btn-submit"
             type="submit"
-            @click="uploadPic()"
+            @click="sendProduct"
           >
             <i class="fab fa-whatsapp"></i> ส่งข้อมูล
           </button>
@@ -124,29 +143,44 @@
 
 <script>
 const axios = require("axios");
-import NavBar from "../components/NavBar.vue";
 export default {
-  components: { NavBar },
   created() {
-    this.fetchBrand();
-    this.fetchColor();
+    this.fetchMultipleData();
   },
   data() {
     return {
-      file: '',
+      ColorUrl: "http://localhost/colors/getall",
+      productUrl: "http://localhost/products/getall",
+      brandUrl: "http://localhost/brands/getall",
+      warrantyUrl: "http://localhost/warranty/getall",
+      file: "",
       newProduct: {
-        brandId: "",
-        brandName: "",
-        name: "",
-        description: "",
-        colorHex: [],
-        manufactoryDate: "",
-        image: "ped.png",
-        Price: "",
+        productCode: null,
+        productName: "",
+        productDescription: "",
+        productPrice: null,
+        date: "",
+        brands: {
+          brandId: "",
+          brandName: "",
+        },
+        productWarranty: {
+          warrantyId: null,
+          warrantyDescription: "",
+        },
+        colors: [
+          {
+            colorId: null,
+            colorName: "",
+            colorHex: "",
+          },
+        ],
       },
+      productList: null,
+      lastProductCode: null,
       brandArray: [],
       colorArray: [],
-      selectColor: "",
+      warrantyArray: [],
     };
   },
   methods: {
@@ -163,61 +197,61 @@ export default {
       };
       this.newProduct = clearProduct;
     },
-    fetchBrand() {
+    fetchMultipleData() {
+      const requestBrand = axios.get(this.brandUrl);
+      const requestWarranty = axios.get(this.warrantyUrl);
+      const requestColor = axios.get(this.ColorUrl);
+      const requestLastProduct = axios.get(this.productUrl)
       axios
-        .get("http://localhost/brands/getall")
-        .then((response) => {
-          this.brandArray = response.data;
-          return response.data;
+        .all([requestBrand, requestWarranty, requestColor, requestLastProduct])
+        .then(
+          axios.spread((...responses) => {
+            return responses
+          })
+        ).then((data)=>{
+          this.brandArray = data[0].data;
+          this.warrantyArray = data[1].data
+          this.colorArray = data[2].data
+          this.lastProductCode =  data[3].data[data[3].data.length-1].productCode
+          console.log(this.colorArray);
         })
-        .then(() => {})
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    fetchColor() {
-      axios
-        .get("http://localhost/colors/getall")
-        .then((response) => {
-          this.colorArray = response.data;
-          return response.data;
-        })
-        .catch((err) => {
-          console.error(err);
+        .catch((errors) => {
+          console.log(errors)
         });
     },
     uploadPic() {
       var bodyFormData = new FormData();
       bodyFormData.append("File", this.file);
-      axios.post('http://localhost/picture/add/1006',
-          bodyFormData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        ).then(function () {
-          console.log('SUCCESS!!');
+      axios
+        .post("http://localhost/picture/add/1006", bodyFormData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function () {
+          console.log("SUCCESS!!");
         })
         .catch(function () {
-          console.log('FAILURE!!');
+          console.log("FAILURE!!");
         });
     },
-    handleFileUpload(){
-       this.file = this.$refs.file.files[0];
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     },
-    sendData(product) {
-      axios
-        .post("http://localhost:3000/Product", product)
-        .then((response) => {
-          alert(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .then(() => {
-          this.clear();
-          return this.$router.go(-1);
-        });
+    sendProduct() {
+      console.log(this.newProduct);
+      // axios
+      //   .post("http://localhost:3000/Product")
+      //   .then((response) => {
+      //     alert(response.data);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   })
+      //   .then(() => {
+      //     this.clear();
+      //     return this.$router.go(-1);
+      //   });
     },
   },
 };

@@ -7,7 +7,7 @@
           <!--header-->
           <div class="header">
             <h3 class="text-3xl font-semibold text-white">
-              {{ pic.name }}
+              {{ pic.productName }}
             </h3>
             <button v-on:click="switchModal()">
               <svg
@@ -25,7 +25,7 @@
           </div>
           <!--body-->
           <div class="picture">
-            <img v-bind:src="img" />
+            <img  v-bind:src="img" />
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .outline-fade-enter,
 .outline-fade-leave-to {
   opacity: 0;
@@ -61,18 +61,18 @@ export default {
   @apply overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-black bg-opacity-95;
 }
 .outline-header {
-  @apply relative w-auto my-6 mx-auto max-w-6xl;
+  @apply relative w-auto my-6 mx-auto;
 }
 .content {
-  @apply border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none;
+  @apply border-0 rounded-lg shadow-lg relative flex flex-col outline-none focus:outline-none max-w-xs;
 }
 .header {
-  @apply flex items-start justify-center pt-5  text-center space-x-4;
+  @apply flex justify-center space-x-4;
 }
 .btn-close {
-  @apply bg-transparent  w-14 h-14 block outline-none focus:outline-none fill-current text-gray-600 cursor-pointer hover:text-white transition duration-500;
+  @apply bg-transparent w-8 h-8 block outline-none focus:outline-none fill-current text-gray-600 cursor-pointer hover:text-white transition duration-500;
 }
 .picture {
-  @apply relative p-6 flex-auto mx-auto w-9/12;
+  @apply relative p-6 flex-auto mx-auto max-w-sm ;
 }
 </style>

@@ -1,22 +1,25 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="container px-4 py-1">
+  <div class="container px-4 py-1" v-if="!isLoading">
     <h1 class="text-left font-bold pt-2">
       ชื่อสินค้า : {{ product.brands.brandName }} {{ product.productName }}
     </h1>
     <div class="product">
       <div class="prod-img">
-        <img @click="toggleView" src="http://localhost/picture/get/1001.jpg" :alt="pic" />
+        <img @click="toggleView" :src="img" :alt="pic" />
       </div>
       <div class="description">
         <p>Brand : {{ product.brands.brandName }}</p>
         <p>Release Date : {{ product.date }}</p>
-        <p>Warranty : {{product.productWarranty.warrantyDescription}}</p>
+        <p>Warranty : {{ product.productWarranty.warrantyDescription }}</p>
         <p>Description : {{ product.productDescription }}</p>
         <div class="color">
           <p class="pt-1">Color Available :</p>
-          <div v-for="(color, index) in product.colors" :key="index">
-            <button class="box" :style="{ backgroundColor: color.colorHex }"></button>
+          <div v-for="color in product.colors" :key="color.colorId">
+            <button
+              class="box"
+              :style="{ backgroundColor: color.colorHex }"
+            ></button>
           </div>
         </div>
       </div>
@@ -30,33 +33,31 @@
       <go-back></go-back>
     </div>
     <decision-modal
-        v-show="isModal"
-        @close="toggleModal"
-        @submit="removeProduct"
-      >
-        <template v-slot:header> Warning </template>
-        <template v-slot:body>Delete from products?</template>
-      </decision-modal>
-      <view-pic
-        v-show="isView"
-        @switchModal="toggleView"
-        :pic="product"
-        :img="img"
-      ></view-pic>
+      v-show="isModal"
+      @close="toggleModal"
+      @submit="removeProduct"
+    >
+      <template v-slot:header> Warning </template>
+      <template v-slot:body>Delete from products?</template>
+    </decision-modal>
+    <view-pic
+      v-show="isView"
+      @switchModal="toggleView"
+      :pic="product"
+      :img="img"
+    ></view-pic>
   </div>
 </template>
 
 <script>
-import DecisionModal from '../components/DecisionModal.vue';
-import GoBack from "../components/GoBack.vue";
 const axios = require("axios");
-import NavBar from "../components/NavBar.vue";
-import ViewPic from '../components/ViewPic.vue';
+import DecisionModal from "../components/DecisionModal.vue";
+import ViewPic from "../components/ViewPic.vue";
 export default {
-  components: { NavBar, GoBack, DecisionModal, ViewPic },
   created() {
     this.fetchProduct();
   },
+  components: { DecisionModal, ViewPic },
   props: {
     slug: {
       require: true,
@@ -65,41 +66,54 @@ export default {
   },
   data() {
     return {
-      product: [],
+      isLoading: true,
+      product: null,
       img: null,
       isModal: false,
       isView: false,
     };
   },
   methods: {
-    toggleView(){
+    toggleView() {
       this.isView = !this.isView;
     },
-    toggleModal(){
-      this.isModal = !this.isModal
+    toggleModal() {
+      this.isModal = !this.isModal;
     },
-    removeProduct(){
+    removeImage(curentProduct) {
       axios
-        .delete("http://localhost/products/delete/" + this.slug)
+        .delete(this.urlImage + "/delete/" + curentProduct + ".jpg")
         .then((response) => {
           return response.data;
         })
+        .then(() => {
+          axios
+            .delete(`${this.url}/delete/${curentProduct}`)
+            .then((response) => {
+              return response.data;
+            })
+            .then(() => {
+              console.log("Remove Success");
+              this.closeModal();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
         .catch((err) => {
           console.error(err);
-        })
-        .then(() => {
-          this.$router.push({name:'Product'})
-          this.closeModal();
         });
+    },
+    removeProduct() {
+      this.removeImage(this.slug);
     },
     fetchProduct() {
       axios
         .get("http://localhost/products/get/" + this.slug)
         .then((response) => {
           this.product = response.data;
-          this.img = require('../../../back-end-springboot-dev/pictures/' +
-                this.product.productCode +
-                '.jpg');
+          this.img = "http://localhost/picture/get/" + this.slug + ".jpg";
+          this.isLoading = false;
           return response.data;
         })
         .catch((err) => {
@@ -111,11 +125,11 @@ export default {
 </script>
 
 <style scope>
-.description{
-  @apply flex-grow max-w-3xl break-normal  
+.description {
+  @apply flex-grow max-w-3xl break-normal;
 }
 .prod-img {
-  @apply relative w-2/6 h-60 overflow-hidden cursor-pointer; 
+  @apply relative w-2/6 h-60 overflow-hidden cursor-pointer;
 }
 .product {
   @apply flex flex-row   bg-gray-300 p-4;

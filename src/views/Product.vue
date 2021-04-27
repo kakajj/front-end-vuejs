@@ -24,8 +24,8 @@
         </button>
       </div>
     </div>
-    <h1>มีสินค้าทั้งหมด {{ productList.length }} ชิ้น</h1>
-    <pagination-footer :listData="productList"></pagination-footer>
+    <h1 class="text-center">มีสินค้าทั้งหมด {{ productList.length }} ชิ้น</h1>
+    <!-- <pagination-footer :listData="productList"></pagination-footer> -->
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
@@ -33,13 +33,14 @@
           <img
             class="blank-img cursor-pointer"
             @click="go(p.productCode)"
-            :src= "require('../../../back-end-springboot-dev/pictures/' + p.productCode +'.jpg')"/>
+            :src="urlImage+ '/get/' + p.productCode + '.jpg'"
+          />
           <p class="truncate">{{ p.productDescription }}</p>
           <div class="product-p">
             <p>Release: {{ p.date }}</p>
-            <p>Price : {{p.productPrice}} บาท</p>
-            <p>Warranty : {{p.productWarranty.warrantyDescription}}</p>
-            <p>{{p.colors.length}} colors available</p>
+            <p>Price : {{ p.productPrice }} บาท</p>
+            <p>Warranty : {{ p.productWarranty.warrantyDescription }}</p>
+            <p>{{ p.colors.length }} colors available</p>
           </div>
           <div class="btn">
             <router-link
@@ -70,12 +71,12 @@
 <script>
 import SlideShow from "../components/SlideShow.vue";
 import DecisionModal from "../components/DecisionModal";
-import PaginationFooter from "../components/PaginationFooter.vue";
+// import PaginationFooter from "../components/PaginationFooter.vue";
 
 const axios = require("axios");
 // import PaginationFooter from "../components/PaginationFooter.vue";
 export default {
-  components: { SlideShow, DecisionModal, PaginationFooter },
+  components: { SlideShow, DecisionModal },
   // components: { PaginationFooter },
   created() {
     this.fetchProduct();
@@ -83,17 +84,20 @@ export default {
   },
   data() {
     return {
+      message: "",
       isSearch: true,
       isModal: false,
       url: "http://localhost/products",
-      urlImage: "http://localhost/picture/get/",
+      urlImage: "http://localhost/picture",
       productList: [],
       currentProduct: null,
       imageArray: [],
-      imageLocation: "../../../back-end-springboot-dev/pictures/",
     };
   },
   methods: {
+    setMessage() {
+      this.message = "Bar " + this.$route.params.id;
+    },
     go(id) {
       this.$router.push({ name: "ViewProduct", params: { slug: id } });
     },
@@ -119,39 +123,35 @@ export default {
       this.currentProduct = null;
       this.isModal = false;
     },
-    // imageEncode(arrayBuffer) {
-    // let b64encoded = btoa([].reduce.call(new Uint8Array(arrayBuffer),function(p,c){return p+String.fromCharCode(c)},''))
-    // let mimetype="image/jpeg"
-    // return "data:"+mimetype+";base64,"+b64encoded
-    // },
-    // fetchImage(){
-    //   axios
-    //     .get(`${this.urlImage}1001.jpg`,{
-    //      responseType: 'arraybuffer'
-    //     })
-    //     .then((response) => {
-    //       let this.mypic =  this.imageEncode(response.data);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //     });
-    // },
-    removeProduct(id) {
-      id = this.currentProduct;
+    removeImage(curentProduct) {
       axios
-        .delete(`${this.url}/delete/${this.currentProduct}`)
+        .delete(this.urlImage + "/delete/" + curentProduct + ".jpg")
         .then((response) => {
           return response.data;
         })
+        .then(() => {
+          axios
+            .delete(`${this.url}/delete/${curentProduct}`)
+            .then((response) => {
+              this.productList = this.productList.filter(
+                (product) => product.productCode !== curentProduct
+              );
+              return response.data;
+            })
+            .then(() => {
+              console.log("Remove Success")
+              this.closeModal();
+            })
+            .catch((err) => {
+              console.error(err);
+            })
+        })
         .catch((err) => {
           console.error(err);
-        })
-        .then(() => {
-          this.productList = this.productList.filter(
-            (product) => product.id !== id
-          );
-          this.closeModal();
         });
+    },
+    removeProduct() {
+      this.removeImage(this.currentProduct);
     },
     startSearch() {
       this.isSearch = !this.isSearch;
@@ -161,8 +161,8 @@ export default {
 </script>
 
 <style scoped>
-.product-p{
-  @apply font-light text-sm
+.product-p {
+  @apply font-light text-sm;
 }
 .flexbox {
   @apply flex flex-row flex-wrap justify-start items-stretch box-border mt-2;

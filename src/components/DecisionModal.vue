@@ -26,7 +26,7 @@
         <footer class="modal-footer">
           <slot name="footer"></slot>
           <button type="button" class="btn-red" @click="submit" aria-label="Close modal">
-            <svg
+            <svg class="ml-14"
               xmlns="http://www.w3.org/2000/svg"
               width="30"
               height="30"
@@ -58,7 +58,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .modal-fade-enter,
 .modal-fade-leave-to {
   opacity: 0;
@@ -126,6 +126,6 @@ export default {
 
 .btn-red {
   color: white;
-  @apply fill-current text-red-300 hover:text-red-600
+  @apply fill-current text-red-300 hover:text-red-600 
 }
 </style>
