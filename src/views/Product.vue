@@ -1,6 +1,6 @@
 <template>
   <nav-bar nav-bar></nav-bar>
-  <div class="container my-5">
+  <div class="my-5">
     <slide-show class="w-11/12 mx-auto"></slide-show>
     <div class="text-center bg-black w-11/12 h-10 mx-auto my-2 rounded-full">
       <span
@@ -24,12 +24,13 @@
         </button>
       </div>
     </div>
-    <h1 class="text-center">มีสินค้าทั้งหมด {{ productList.length }} ชิ้น</h1>
+    <h1 class=" py-4 text-center">มีสินค้าทั้งหมด {{ productList.length }} ชิ้น</h1>
     <!-- <pagination-footer :listData="productList"></pagination-footer> -->
+    <div v-if="loading" class="loader"></div>
     <div class="flexbox">
       <div class="item" v-for="(p, index) in productList" :key="index">
         <div class="content">
-          <p>{{ p.brands.brandName }} {{ p.productName }}</p>
+          <h1 class="text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
             class="blank-img cursor-pointer"
             @click="go(p.productCode)"
@@ -80,10 +81,10 @@ export default {
   // components: { PaginationFooter },
   created() {
     this.fetchProduct();
-    // this.fetchImage();
   },
   data() {
     return {
+      loading: false,
       message: "",
       isSearch: true,
       isModal: false,
@@ -102,10 +103,12 @@ export default {
       this.$router.push({ name: "ViewProduct", params: { slug: id } });
     },
     fetchProduct() {
+      this.loading = true
       axios
         .get(`${this.url}/getall`)
         .then((response) => {
           this.productList = response.data;
+          this.loading = false;
           return response.data;
         })
         .then((data) => {
@@ -124,6 +127,7 @@ export default {
       this.isModal = false;
     },
     removeImage(curentProduct) {
+      this.loading = true;
       axios
         .delete(this.urlImage + "/delete/" + curentProduct + ".jpg")
         .then((response) => {
@@ -133,6 +137,7 @@ export default {
           axios
             .delete(`${this.url}/delete/${curentProduct}`)
             .then((response) => {
+              this.loading = false;
               this.productList = this.productList.filter(
                 (product) => product.productCode !== curentProduct
               );
@@ -162,7 +167,7 @@ export default {
 
 <style scoped>
 .product-p {
-  @apply font-light text-sm;
+  @apply font-light;
 }
 .flexbox {
   @apply flex flex-row flex-wrap justify-start items-stretch box-border mt-2;
@@ -172,10 +177,10 @@ export default {
   @apply box-border mb-4 px-4;
 }
 .blank-img {
-  @apply bg-gray-600 max-w-lg max-h-40 mx-auto;
+  @apply bg-gray-600 max-w-lg max-h-64 mx-auto shadow-lg;
 }
 .content {
-  @apply text-gray-900 bg-gray-200 font-semibold text-center box-border h-full p-2 rounded-md;
+  @apply text-gray-900 bg-gray-200 font-semibold text-center box-border h-full py-4 space-y-2 rounded-md;
 }
 .btn {
   @apply flex justify-center text-sm inline-block;
@@ -188,5 +193,21 @@ export default {
 }
 .btn-delete {
   @apply mr-2 mt-2 focus:outline-none text-red-600 text-sm py-1 px-5 rounded-full border border-red-600 hover:bg-red-50;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  @apply w-72 h-72 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black bg-opacity-95;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

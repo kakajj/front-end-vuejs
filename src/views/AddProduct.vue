@@ -1,7 +1,8 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="container flex flex-row">
-    <div class="bg-gray-200 w-2/6 h-screen">
+  <div class="loader" v-if="loading"></div>
+  <div class="flex flex-row">
+    <div class="bg-gray-200 w-2/6 pt-10">
       <h1 class="title">Add New Product</h1>
       <h1 class="title">เพิ่มสินค้า</h1>
     </div>
@@ -195,6 +196,7 @@ export default {
       success: false,
       errors: {},
       message: null,
+      loading:false,
     };
   },
   methods: {
@@ -219,10 +221,12 @@ export default {
       const requestWarranty = axios.get(this.warrantyUrl);
       const requestColor = axios.get(this.ColorUrl);
       const requestLastProduct = axios.get(this.productUrl);
+      this.loading = true;
       axios
         .all([requestBrand, requestWarranty, requestColor, requestLastProduct])
         .then(
           axios.spread((...responses) => {
+            this.loading = false;
             return responses;
           })
         )
@@ -242,6 +246,7 @@ export default {
     uploadPic() {
       let formData = new FormData();
       formData.append("File", this.file);
+      this.loading = true;
       axios
         .post(
           "http://localhost:8082/picture/add/" + this.newProductCode,
@@ -251,6 +256,7 @@ export default {
           }
         )
         .then((response) => {
+          this.loading = false;
           console.log(response);
         })
         .then(() => {
@@ -265,9 +271,11 @@ export default {
     },
     sendProduct() {
       this.newProduct.productCode = this.newProductCode;
+      this.loading = true;
       axios
         .post("http://localhost:8082/products/create", this.newProduct)
         .then((response) => {
+          this.loading = false;
           console.log(response);
         })
         .then(() => {
@@ -352,7 +360,7 @@ export default {
 
 <style scope>
 .title {
-  @apply text-left font-extrabold text-2xl pl-4 pt-9;
+  @apply text-right font-bold text-2xl px-2;
 }
 form {
   @apply bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
@@ -371,5 +379,21 @@ form {
 }
 .validate {
   @apply text-red-400 font-bold underline;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  @apply w-72 h-72 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black bg-opacity-95;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

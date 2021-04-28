@@ -1,14 +1,15 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="container px-4 py-1" v-if="!isLoading">
-    <h1 class="text-left font-bold pt-2">
+  <div class="loader" v-if="loading"></div>
+  <div class="px-4 py-1" v-if="!isLoading">
+    <h1 class="text-left font-bold pt-2 text-2xl">
       ชื่อสินค้า : {{ product.brands.brandName }} {{ product.productName }}
     </h1>
     <div class="product">
       <div class="prod-img">
         <img @click="toggleView" :src="img" :alt="pic" />
       </div>
-      <div class="description">
+      <div class="description flex-grow">
         <p>Brand : {{ product.brands.brandName }}</p>
         <p>Release Date : {{ product.date }}</p>
         <p>Warranty : {{ product.productWarranty.warrantyDescription }}</p>
@@ -23,9 +24,10 @@
           </div>
         </div>
       </div>
-      <h2 class="text-right text-xl pt-52 w-1/6">
-        Price : {{ product.productPrice }} บาท
-      </h2>
+      <div class="text-right text-xl pt-52 flex flex-col justify-end m-2 flex-1 w-20">
+        <h2> Price : {{ product.productPrice }} บาท</h2>
+      </div>
+      
     </div>
     <div class="btn-all">
       <button class="btn-edit">Edit</button>
@@ -71,6 +73,7 @@ export default {
       img: null,
       isModal: false,
       isView: false,
+      loading:false,
     };
   },
   methods: {
@@ -81,9 +84,11 @@ export default {
       this.isModal = !this.isModal;
     },
     removeImage(curentProduct) {
+      this.loading = true;
       axios
         .delete(this.urlImage + "/delete/" + curentProduct + ".jpg")
         .then((response) => {
+          this.loading = false;
           return response.data;
         })
         .then(() => {
@@ -108,12 +113,14 @@ export default {
       this.removeImage(this.slug);
     },
     fetchProduct() {
+      this.loading = true;
       axios
         .get("http://localhost:8082/products/get/" + this.slug)
         .then((response) => {
           this.product = response.data;
           this.img = "http://localhost:8082/picture/get/" + this.slug + ".jpg";
           this.isLoading = false;
+          this.loading = false;
           return response.data;
         })
         .catch((err) => {
@@ -129,13 +136,13 @@ export default {
   @apply flex-grow max-w-3xl break-normal;
 }
 .prod-img {
-  @apply relative w-2/6 h-60 overflow-hidden cursor-pointer;
+  @apply relative max-w-md h-auto overflow-visible cursor-pointer;
 }
 .product {
-  @apply flex flex-row   bg-gray-300 p-4;
+  @apply flex flex-row justify-start bg-gray-300 p-4;
 }
 p {
-  @apply text-left px-4 text-sm;
+  @apply text-left px-4 text-lg;
 }
 .color {
   @apply flex flex-row space-x-4 pt-2;
@@ -151,5 +158,21 @@ p {
 }
 .btn-edit {
   @apply w-14 h-8 mt-3 focus:outline-none text-green-600 text-sm  rounded-full border border-green-600 hover:bg-green-50;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  @apply w-72 h-72 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black bg-opacity-95;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

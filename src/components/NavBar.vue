@@ -30,10 +30,10 @@ export default {
 
 <style scoped>
 .menu-bar {
-    @apply bg-black text-white  flex justify-between box-border
+    @apply bg-black text-white  flex justify-between box-border 
 }
 .item, .item-home{
-    @apply  bg-transparent text-sm inline-block box-border py-3 px-4
+    @apply  bg-transparent text-sm inline-block box-border py-3 px-4 text-xl
 }
 .item:hover{
     @apply bg-gray-900

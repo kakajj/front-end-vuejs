@@ -26,10 +26,10 @@
         <footer class="modal-footer">
           <slot name="footer"></slot>
           <button type="button" class="btn-red" @click="submit" aria-label="Close modal">
-            <svg class="ml-14"
+            <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
+              width="50"
+              height="50"
               viewBox="0 0 24 24"
             >
               <path
@@ -102,7 +102,7 @@ export default {
 
 .modal-footer {
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .modal-body {
@@ -126,6 +126,6 @@ export default {
 
 .btn-red {
   color: white;
-  @apply fill-current text-red-300 hover:text-red-600 
+  @apply fill-current text-red-300 hover:text-red-600 ml-12 
 }
 </style>
