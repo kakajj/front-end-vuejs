@@ -34,6 +34,10 @@ const routes = [
     name: 'AddProduct',
     component: ()=> import(/* webpackChunkName: "AddProduct" */ '../views/AddProduct.vue'),
   },
+  {
+    path: "/index.html",
+    redirect: "/" 
+  }
 ]
 
 const router = createRouter({

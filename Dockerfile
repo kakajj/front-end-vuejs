@@ -1,5 +1,5 @@
 # build stage
-FROM node:lts-alpine as build-stage
+FROM node:lts as build-stage
 WORKDIR /usr/src/app
 
 COPY package*.json /usr/src/app/
