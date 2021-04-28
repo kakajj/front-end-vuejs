@@ -35,7 +35,7 @@ spec:
     - cat
     tty: true
   - name: java-node
-    image: maven:3.8.1-jdk-11-slim
+    image: timbru31/java-node:11-alpine-jre-14
     command:
     - cat
     tty: true   
