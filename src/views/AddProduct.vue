@@ -26,6 +26,7 @@
               {{ brand.brandName }}
             </option>
           </select>
+          <!-- <div class="validate">{{errors.brandName}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Product Name </label>
@@ -37,6 +38,7 @@
             v-model="newProduct.productName"
             required
           />
+          <!-- <div class="validate">{{errors.productName}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Product Price </label>
@@ -49,6 +51,7 @@
             v-model="newProduct.productPrice"
             required
           />
+          <!-- <div class="validate">{{errors.productPrice}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Manufactory Date </label>
@@ -61,9 +64,10 @@
             v-model="newProduct.date"
             required
           />
+           <!-- <div class="validate">{{errors.date}}</div> -->
         </div>
         <div class="mb-4">
-          <label class="input-name" for="Date"> Waranty </label>
+          <label class="input-name" for="warranty"> Waranty </label>
           <select
             class="input"
             name="warranty"
@@ -80,6 +84,7 @@
             >
               {{ waranty.warrantyDescription }}
             </option>
+             <!-- <div class="validate">{{errors.waranty}}</div> -->
           </select>
         </div>
         <div class="mb-4">
@@ -97,6 +102,7 @@
             />
             <div class="box" :style="{ backgroundColor: color.colorHex }"></div>
           </div>
+           <!-- <div class="validate">{{errors.color}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="desc"> Description </label>
@@ -109,6 +115,7 @@
             v-model="newProduct.productDescription"
             required
           ></textarea>
+           <!-- <div class="validate">{{errors.desc}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
@@ -118,6 +125,7 @@
             v-on:change="handleFileUpload"
           />
         </div>
+         <!-- <div class="validate">{{errors.upload}}</div> -->
         <div class="flex items-center justify-end">
           <button
             id="submit"
