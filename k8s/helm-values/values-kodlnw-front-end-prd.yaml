@@ -5,7 +5,7 @@ frontend:
   replicas: 1
   imagePullSecrets: kodlnw-registry
   port: 80
-  healthCheckPath: "/health"
+  healthCheckPath: "/health.html"
 ingress:
   host: kodlnw-product.net
   serviceType: ClusterIP
