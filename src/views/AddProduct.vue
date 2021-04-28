@@ -64,7 +64,7 @@
             v-model="newProduct.date"
             required
           />
-           <!-- <div class="validate">{{errors.date}}</div> -->
+          <!-- <div class="validate">{{errors.date}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="warranty"> Waranty </label>
@@ -84,25 +84,26 @@
             >
               {{ waranty.warrantyDescription }}
             </option>
-             <!-- <div class="validate">{{errors.waranty}}</div> -->
+            <!-- <div class="validate">{{errors.waranty}}</div> -->
           </select>
         </div>
         <div class="mb-4">
           <label class="input-name" for="Color"> Color Available </label>
-          <div
-            class="flex flex-row"
-            v-for="color in colorArray"
-            :key="color.colorId"
-          >
-            <input
-              class="mt-2"
-              type="checkbox"
-              :value="color"
-              v-model="newProduct.colors"
-            />
-            <div class="box" :style="{ backgroundColor: color.colorHex }"></div>
+          <div class="flex flex-row">
+            <div class="flex flex-row" v-for="color in colorArray" :key="color.colorId">
+              <input
+                class="mt-2 mx-auto"
+                type="checkbox"
+                :value="color"
+                v-model="newProduct.colors"
+              />
+              <div
+                class="box"
+                :style="{ backgroundColor: color.colorHex }"
+              ></div>
+            </div>
           </div>
-           <!-- <div class="validate">{{errors.color}}</div> -->
+          <!-- <div class="validate">{{errors.color}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="desc"> Description </label>
@@ -115,17 +116,19 @@
             v-model="newProduct.productDescription"
             required
           ></textarea>
-           <!-- <div class="validate">{{errors.desc}}</div> -->
+          <!-- <div class="validate">{{errors.desc}}</div> -->
         </div>
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
           <input
-            type="file" id="file" ref="file"
+            type="file"
+            id="file"
+            ref="file"
             required
             v-on:change="handleFileUpload"
           />
         </div>
-         <!-- <div class="validate">{{errors.upload}}</div> -->
+        <!-- <div class="validate">{{errors.upload}}</div> -->
         <div class="flex items-center justify-end">
           <button
             id="submit"
@@ -184,20 +187,20 @@ export default {
   },
   methods: {
     clearData() {
-        this.newProduct.productCode = null;
-        this.newProduct.productName = "";
-        this.newProduct.productDescription = ""
-        this.newProduct.productPrice = 0 ;
-        this.newProduct.date = "";
-        this.newProduct.brands.brandId = ""; 
-        this.newProduct.brandName = "" ;
-        this.newProduct.productWarranty.warrantyId = null;
-        this.newProduct.productWarranty.warrantyDescription = "";
-        this.newProduct.colors.colorId = null;
-        this.newProduct.colors.colorName = "";
-        this.newProduct.colors.colorName =  "";
-        this.newProduct.colors.colorHex = "";
-        return this.$router.go(-1);
+      this.newProduct.productCode = null;
+      this.newProduct.productName = "";
+      this.newProduct.productDescription = "";
+      this.newProduct.productPrice = 0;
+      this.newProduct.date = "";
+      this.newProduct.brands.brandId = "";
+      this.newProduct.brandName = "";
+      this.newProduct.productWarranty.warrantyId = null;
+      this.newProduct.productWarranty.warrantyDescription = "";
+      this.newProduct.colors.colorId = null;
+      this.newProduct.colors.colorName = "";
+      this.newProduct.colors.colorName = "";
+      this.newProduct.colors.colorHex = "";
+      return this.$router.go(-1);
     },
     fetchMultipleData() {
       const requestBrand = axios.get(this.brandUrl);
@@ -232,16 +235,16 @@ export default {
           "http://localhost:8082/picture/add/" + this.newProductCode,
           formData,
           {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           }
         )
-        .then((response)=>{
+        .then((response) => {
           console.log(response);
         })
-        .then(()=>{
+        .then(() => {
           this.clearData();
         })
-        .catch((errr)=>{
+        .catch((errr) => {
           console.log(errr);
         });
     },
@@ -257,8 +260,9 @@ export default {
       axios
         .post("http://localhost:8082/products/create", this.newProduct)
         .then((response) => {
-          console.log(response);       
-        }).then(()=>{
+          console.log(response);
+        })
+        .then(() => {
           this.uploadPic();
         })
         .catch((err) => {
