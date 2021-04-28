@@ -1,6 +1,5 @@
 module.exports = {
-    publicPath: "/",
-    devServer: {
-      port: 80
-    }
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/dist/'
+    : '/'
 }
