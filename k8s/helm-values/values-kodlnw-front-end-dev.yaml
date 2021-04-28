@@ -8,7 +8,6 @@ frontend:
   healthCheckPath: "/health"
 ingress:
   host: dev.kodlnw-product.net
-  path: "(/|$)(.*)"
   serviceType: ClusterIP
   annotations:
     kubernetes.io/ingress.class: nginx
