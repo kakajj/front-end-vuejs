@@ -34,7 +34,7 @@
             class="blank-img cursor-pointer"
             @click="go(p.productCode)"
             :src="urlImage+ '/get/' + p.productCode + '.jpg'"
-          />
+            alt="picofproducts"/>
           <p class="truncate">{{ p.productDescription }}</p>
           <div class="product-p">
             <p>Release: {{ p.date }}</p>

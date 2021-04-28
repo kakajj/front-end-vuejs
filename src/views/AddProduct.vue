@@ -136,7 +136,7 @@
             type="submit"
             @click.prevent="sendProduct"
           >
-            <i class="fab fa-whatsapp"></i> ส่งข้อมูล
+            <em class="fab fa-whatsapp"></em> ส่งข้อมูล
           </button>
         </div>
       </form>

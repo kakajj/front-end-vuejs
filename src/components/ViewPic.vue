@@ -25,7 +25,7 @@
           </div>
           <!--body-->
           <div class="picture">
-            <img  v-bind:src="img" />
+            <img  v-bind:src="img" alt="picofproduct" />
           </div>
         </div>
       </div>
