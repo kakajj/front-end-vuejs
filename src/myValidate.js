@@ -3,7 +3,7 @@ let product = []
 
 let fetchProduct = () => {
   axios
-    .get(`http://localhost:8082/products/getall`)
+    .get(process.env.VUE_APP_PRODUCT_API+'/getall')
     .then((response) => {
       return response.data;
     })

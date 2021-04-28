@@ -88,17 +88,14 @@ export default {
       message: "",
       isSearch: true,
       isModal: false,
-      url: "http://localhost:8082/products",
-      urlImage: "http://localhost:8082/picture",
+      url: process.env.VUE_APP_PRODUCT_API,
+      urlImage: process.env.VUE_APP_IMAGE_API,
       productList: [],
       currentProduct: null,
       imageArray: [],
     };
   },
   methods: {
-    setMessage() {
-      this.message = "Bar " + this.$route.params.id;
-    },
     go(id) {
       this.$router.push({ name: "ViewProduct", params: { slug: id } });
     },

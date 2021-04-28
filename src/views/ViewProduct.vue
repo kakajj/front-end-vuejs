@@ -115,10 +115,10 @@ export default {
     fetchProduct() {
       this.loading = true;
       axios
-        .get("http://localhost:8082/products/get/" + this.slug)
+        .get(process.env.VUE_APP_PRODUCT_API+"/get/"+this.slug)
         .then((response) => {
           this.product = response.data;
-          this.img = "http://localhost:8082/picture/get/" + this.slug + ".jpg";
+          this.img = process.env.VUE_APP_IMAGE_API+"/get/" + this.slug + ".jpg";
           this.isLoading = false;
           this.loading = false;
           return response.data;

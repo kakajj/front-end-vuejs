@@ -161,10 +161,10 @@ export default {
   },
   data() {
     return {
-      ColorUrl: "http://localhost:8082/colors/getall",
-      productUrl: "http://localhost:8082/products/getall",
-      brandUrl: "http://localhost:8082/brands/getall",
-      warrantyUrl: "http://localhost:8082/warranty/getall",
+      ColorUrl: process.env.VUE_APP_COLOR_API+"/getall",
+      productUrl: process.env.VUE_APP_PRODUCT_API+"/getall",
+      brandUrl: process.env.VUE_APP_BRAND_API+"/getall",
+      warrantyUrl: process.env.VUE_APP_WARRANTY_API+"/getall",
       file: "",
       newProduct: {
         productCode: null,
@@ -249,7 +249,7 @@ export default {
       this.loading = true;
       axios
         .post(
-          "http://localhost:8082/picture/add/" + this.newProductCode,
+          process.env.VUE_APP_IMAGE_API+"/add/" + this.newProductCode,
           formData,
           {
             "Content-Type": "multipart/form-data",
@@ -273,7 +273,7 @@ export default {
       this.newProduct.productCode = this.newProductCode;
       this.loading = true;
       axios
-        .post("http://localhost:8082/products/create", this.newProduct)
+        .post(process.env.VUE_APP_PRODUCT_API+"/create", this.newProduct)
         .then((response) => {
           this.loading = false;
           console.log(response);
