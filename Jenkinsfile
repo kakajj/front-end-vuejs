@@ -35,7 +35,7 @@ spec:
     - cat
     tty: true
   - name: java-node
-    image: maven:3.8.1-jdk-11-slim
+    image: timbru31/java-node:11-alpine-jre-14
     command:
     - cat
     tty: true   
@@ -151,7 +151,7 @@ spec:
                 script {
                     // dend Docker Image to Anchore Analyzer
                     writeFile file: 'anchore_images' , text: "ghcr.io/kodlnw-software-house/front-end-service:${ENV_NAME}"
-                    anchore name: 'anchore_images' , bailOnFail: false
+                    anchore name: 'anchore_images' , bailOnFail: false , engineRetries: '10000'
                 } // End script
             } // End container
         } // End steps
