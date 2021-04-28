@@ -6,7 +6,7 @@
       <h1 class="title">เพิ่มสินค้า</h1>
     </div>
     <div class="w-full p-6">
-      <form id="form" enctype="multipart/form-data">
+      <form name="form" id="form" enctype="multipart/form-data">
         <div class="mb-4">
           <label class="input-name" for="Date"> Brand Name </label>
           <select
@@ -26,7 +26,7 @@
               {{ brand.brandName }}
             </option>
           </select>
-          <!-- <div class="validate">{{errors.brandName}}</div> -->
+          <div class="validate">{{ errors.brandName }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Product Name </label>
@@ -38,7 +38,8 @@
             v-model="newProduct.productName"
             required
           />
-          <!-- <div class="validate">{{errors.productName}}</div> -->
+          <div class="validate">{{ errors.productName }}</div>
+          <div class="validate">{{ errors.productNameDuplicate }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Product Price </label>
@@ -51,7 +52,7 @@
             v-model="newProduct.productPrice"
             required
           />
-          <!-- <div class="validate">{{errors.productPrice}}</div> -->
+          <div class="validate">{{ errors.productPrice }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="Date"> Manufactory Date </label>
@@ -64,7 +65,7 @@
             v-model="newProduct.date"
             required
           />
-          <!-- <div class="validate">{{errors.date}}</div> -->
+          <div class="validate">{{ errors.date }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="warranty"> Waranty </label>
@@ -84,13 +85,17 @@
             >
               {{ waranty.warrantyDescription }}
             </option>
-            <!-- <div class="validate">{{errors.waranty}}</div> -->
           </select>
+          <div class="validate">{{ errors.waranty }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="Color"> Color Available </label>
           <div class="flex flex-row">
-            <div class="flex flex-row" v-for="color in colorArray" :key="color.colorId">
+            <div
+              class="flex flex-row"
+              v-for="color in colorArray"
+              :key="color.colorId"
+            >
               <input
                 class="mt-2 mx-auto"
                 type="checkbox"
@@ -103,7 +108,7 @@
               ></div>
             </div>
           </div>
-          <!-- <div class="validate">{{errors.color}}</div> -->
+          <div class="validate">{{ errors.color }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="desc"> Description </label>
@@ -116,7 +121,7 @@
             v-model="newProduct.productDescription"
             required
           ></textarea>
-          <!-- <div class="validate">{{errors.desc}}</div> -->
+          <div class="validate">{{ errors.desc }}</div>
         </div>
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
@@ -124,17 +129,19 @@
             type="file"
             id="file"
             ref="file"
+            name="file"
             required
             v-on:change="handleFileUpload"
           />
+           <div class="validate">{{ errors.upload }}</div>
         </div>
-        <!-- <div class="validate">{{errors.upload}}</div> -->
+
         <div class="flex items-center justify-end">
           <button
             id="submit"
             class="btn-submit"
             type="submit"
-            @click.prevent="sendProduct"
+            @click.prevent="checkForm"
           >
             <em class="fab fa-whatsapp"></em> ส่งข้อมูล
           </button>
@@ -145,6 +152,7 @@
 </template>
 
 <script>
+import validate from "../myValidate.js";
 const axios = require("axios");
 export default {
   created() {
@@ -183,6 +191,10 @@ export default {
       brandArray: [],
       colorArray: {},
       warrantyArray: [],
+      valid: true,
+      success: false,
+      errors: {},
+      message: null,
     };
   },
   methods: {
@@ -253,10 +265,6 @@ export default {
     },
     sendProduct() {
       this.newProduct.productCode = this.newProductCode;
-      var filtered = this.newProduct.colors.filter((el) => {
-        return el.colorId != null;
-      });
-      this.newProduct.colors = filtered;
       axios
         .post("http://localhost:8082/products/create", this.newProduct)
         .then((response) => {
@@ -268,6 +276,75 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+    },
+    checkForm() {
+      this.errors = {};
+      this.valid = true;
+      var filtered = this.newProduct.colors.filter((el) => {
+        return el.colorId != null;
+      });
+      this.newProduct.colors = filtered;
+      console.log(this.newProduct);
+      console.log(this.valid)
+      const validDuplicateName = validate.checkDuplicate(
+        this.newProduct.productName
+      );
+      this.errors.productNameDuplicate = validDuplicateName.error;
+      if (this.valid) {
+        this.valid = validDuplicateName.valid;
+      }
+      console.log(this.valid)
+      const validBrand = validate.validateLength(
+        this.newProduct.brands.brandName
+      );
+      this.errors.brandName = validBrand.error;
+      if (this.valid) {
+        this.valid = validBrand.valid;
+      }
+      console.log(this.valid)
+      const validDesc = validate.validateLength(
+        this.newProduct.productDescription
+      );
+      this.errors.desc = validDesc.error;
+      if (this.valid) {
+        this.valid = validDesc.valid;
+      }
+      console.log(this.valid)
+      const validPrice = validate.validatePrice(this.newProduct.productPrice);
+      this.errors.productPrice = validPrice.error;
+      if (this.valid) {
+        this.valid = validPrice.valid;
+      }
+      console.log(this.valid)
+      const validDate = validate.validateLength(this.newProduct.date);
+      this.errors.date = validDate.error;
+      if (this.valid) {
+        this.valid = validDate.valid;
+      }
+      console.log(this.valid)
+      const validWarran = validate.validateLength(
+        this.newProduct.productWarranty.warrantyDescription
+      );
+      this.errors.waranty = validWarran.error;
+      if (this.valid) {
+        this.valid = validWarran.valid;
+      }
+      console.log(this.valid)
+      const validColor = validate.validateLength(this.newProduct.colors);
+      this.errors.color = validColor.error;
+      if (this.valid) {
+        this.valid = validColor.valid;
+      }
+      console.log(this.valid)
+      const validInput = validate.required();
+      this.errors.upload = validInput.error;
+      if (this.valid) {
+        this.valid = validInput.valid;
+      }
+      console.log(this.valid)
+      if (this.valid) {
+        this.sendProduct();
+      }
     },
   },
 };
@@ -291,5 +368,8 @@ form {
 }
 .btn-submit {
   @apply bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none;
+}
+.validate {
+  @apply text-red-400 font-bold underline;
 }
 </style>
