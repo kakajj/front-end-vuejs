@@ -3,8 +3,8 @@
   <div class="loader" v-if="loading"></div>
   <div class="flex flex-row">
     <div class="bg-gray-200 w-2/6 pt-10">
-      <h1 class="title">Add New Product</h1>
-      <h1 class="title">เพิ่มสินค้า</h1>
+      <h1 class="title">{{slug}}</h1>
+      <h1 class="title">{{welcomeMsg}}</h1>
     </div>
     <div class="w-full p-6">
       <form name="form" id="form" enctype="multipart/form-data">
@@ -159,6 +159,15 @@ export default {
   created() {
     this.fetchMultipleData();
   },
+  beforeMount(){
+    this.watchProp();
+  },
+  props:['slug'],
+  computed:{
+    welcomeMsg(){
+      return this.isEdit ? 'Edit Product' : 'Add Product';
+    },
+  },
   data() {
     return {
       ColorUrl: process.env.VUE_APP_COLOR_API+"/getall",
@@ -166,6 +175,7 @@ export default {
       brandUrl: process.env.VUE_APP_BRAND_API+"/getall",
       warrantyUrl: process.env.VUE_APP_WARRANTY_API+"/getall",
       file: "",
+      isEdit: false,
       newProduct: {
         productCode: null,
         productName: "",
@@ -200,6 +210,9 @@ export default {
     };
   },
   methods: {
+    watchProp(){
+      this.slug ? this.isEdit = true : this.isEdit = false
+    },
     clearData() {
       this.newProduct.productCode = null;
       this.newProduct.productName = "";

@@ -5,7 +5,7 @@
     </div>
     <div class="group">
         <div @mouseover='toggleShow' class="item">Product</div>
-        <router-link to="/add" v-show="showMenu" @mouseleave="toggleShow" class="item" >Add Product</router-link>
+        <router-link to="/form/add" v-show="showMenu" @mouseleave="toggleShow" class="item" >Add Product</router-link>
         <router-link to="/about" class="item" >About</router-link>
     </div>
   </nav>

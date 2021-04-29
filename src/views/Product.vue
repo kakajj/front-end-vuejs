@@ -50,7 +50,11 @@
             >
               View
             </router-link>
-            <button class="btn-edit">Edit</button>
+            <router-link 
+             :to="{ name: 'EditProduct', params: { slug: p.productCode, product: p } }"
+             class="btn-edit">
+             Edit
+             </router-link>
             <button class="btn-delete" @click="showModal(p.productCode)">
               Delete
             </button>
