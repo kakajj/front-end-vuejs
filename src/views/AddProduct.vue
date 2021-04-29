@@ -263,6 +263,20 @@ export default {
           });
       } else {
         url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+        this.loading = true;
+        axios
+          .get(url)
+          .then((response) => {
+            this.loading = false;
+            return response.data;
+          }).then((data)=>{
+            this.newProduct = data;
+            console.log(data);
+            console.log(this.newProduct);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       }
     },
     uploadPic() {
