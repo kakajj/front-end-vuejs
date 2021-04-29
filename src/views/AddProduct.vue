@@ -263,19 +263,32 @@ export default {
           });
       } else {
         url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+        const requestBrand = axios.get(this.brandUrl);
+        const requestWarranty = axios.get(this.warrantyUrl);
+        const requestColor = axios.get(this.ColorUrl);
         this.loading = true;
         axios
-          .get(url)
-          .then((response) => {
-            this.loading = false;
-            return response.data;
-          }).then((data)=>{
-            this.newProduct = data;
-            console.log(data);
-            console.log(this.newProduct);
+          axios
+          .all([
+            requestBrand,
+            requestWarranty,
+            requestColor,
+            url,
+          ])
+          .then(
+            axios.spread((...responses) => {
+              this.loading = false;
+              return responses;
+            })
+          )
+          .then((data) => {
+            this.brandArray = data[0].data;
+            this.warrantyArray = data[1].data;
+            this.colorArray = data[2].data;
+            this.newProduct = data[3].data
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((errors) => {
+            console.log(errors);
           });
       }
     },
