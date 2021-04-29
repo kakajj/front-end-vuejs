@@ -3,8 +3,8 @@
   <div class="loader" v-if="loading"></div>
   <div class="flex flex-row">
     <div class="bg-gray-200 w-2/6 pt-10">
-      <h1 class="title">{{slug}}</h1>
-      <h1 class="title">{{welcomeMsg}}</h1>
+      <h1 class="title">{{ slug }}</h1>
+      <h1 class="title">{{ welcomeMsg }}</h1>
     </div>
     <div class="w-full p-6">
       <form name="form" id="form" enctype="multipart/form-data">
@@ -134,7 +134,7 @@
             required
             v-on:change="handleFileUpload"
           />
-           <div class="validate">{{ errors.upload }}</div>
+          <div class="validate">{{ errors.upload }}</div>
         </div>
 
         <div class="flex items-center justify-end">
@@ -159,19 +159,19 @@ export default {
   created() {
     this.fetchMultipleData();
   },
-  props:['slug'],
-  computed:{
-    welcomeMsg(){
+  props: ["slug"],
+  computed: {
+    welcomeMsg() {
       this.watchProp();
-      return this.isEdit ? 'Edit Product' : 'Add Product';
+      return this.isEdit ? "Edit Product" : "Add Product";
     },
   },
   data() {
     return {
-      ColorUrl: process.env.VUE_APP_COLOR_API+"/getall",
-      productUrl: process.env.VUE_APP_PRODUCT_API+"/getall",
-      brandUrl: process.env.VUE_APP_BRAND_API+"/getall",
-      warrantyUrl: process.env.VUE_APP_WARRANTY_API+"/getall",
+      ColorUrl: process.env.VUE_APP_COLOR_API + "/getall",
+      productUrl: process.env.VUE_APP_PRODUCT_API + "/getall",
+      brandUrl: process.env.VUE_APP_BRAND_API + "/getall",
+      warrantyUrl: process.env.VUE_APP_WARRANTY_API + "/getall",
       file: "",
       isEdit: false,
       newProduct: {
@@ -204,13 +204,13 @@ export default {
       success: false,
       errors: {},
       message: null,
-      loading:false,
+      loading: false,
     };
   },
   methods: {
-    watchProp(){
-      this.slug == undefined ? this.isEdit = false : this.isEdit = true
-      console.log(this.slug)
+    watchProp() {
+      this.slug == undefined ? (this.isEdit = false) : (this.isEdit = true);
+      console.log(this.slug);
     },
     clearData() {
       this.newProduct.productCode = null;
@@ -229,31 +229,41 @@ export default {
       return this.$router.go(-1);
     },
     fetchMultipleData() {
-      const requestBrand = axios.get(this.brandUrl);
-      const requestWarranty = axios.get(this.warrantyUrl);
-      const requestColor = axios.get(this.ColorUrl);
-      const requestLastProduct = axios.get(this.productUrl);
-      this.loading = true;
-      axios
-        .all([requestBrand, requestWarranty, requestColor, requestLastProduct])
-        .then(
-          axios.spread((...responses) => {
-            this.loading = false;
-            return responses;
+      let url = "";
+      if (this.slug == undefined) {
+        const requestBrand = axios.get(this.brandUrl);
+        const requestWarranty = axios.get(this.warrantyUrl);
+        const requestColor = axios.get(this.ColorUrl);
+        const requestLastProduct = axios.get(this.productUrl);
+        this.loading = true;
+        axios
+          .all([
+            requestBrand,
+            requestWarranty,
+            requestColor,
+            requestLastProduct,
+          ])
+          .then(
+            axios.spread((...responses) => {
+              this.loading = false;
+              return responses;
+            })
+          )
+          .then((data) => {
+            this.brandArray = data[0].data;
+            this.warrantyArray = data[1].data;
+            this.colorArray = data[2].data;
+            var maxProductCode =
+              data[3].data[data[3].data.length - 1].productCode;
+            this.newProductCode = parseInt(maxProductCode);
+            this.newProductCode++;
           })
-        )
-        .then((data) => {
-          this.brandArray = data[0].data;
-          this.warrantyArray = data[1].data;
-          this.colorArray = data[2].data;
-          var maxProductCode =
-            data[3].data[data[3].data.length - 1].productCode;
-          this.newProductCode = parseInt(maxProductCode);
-          this.newProductCode++;
-        })
-        .catch((errors) => {
-          console.log(errors);
-        });
+          .catch((errors) => {
+            console.log(errors);
+          });
+      } else {
+        url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+      }
     },
     uploadPic() {
       let formData = new FormData();
@@ -261,7 +271,7 @@ export default {
       this.loading = true;
       axios
         .post(
-          process.env.VUE_APP_IMAGE_API+"/add/" + this.newProductCode,
+          process.env.VUE_APP_IMAGE_API + "/add/" + this.newProductCode,
           formData,
           {
             "Content-Type": "multipart/form-data",
@@ -285,7 +295,7 @@ export default {
       this.newProduct.productCode = this.newProductCode;
       this.loading = true;
       axios
-        .post(process.env.VUE_APP_PRODUCT_API+"/create", this.newProduct)
+        .post(process.env.VUE_APP_PRODUCT_API + "/create", this.newProduct)
         .then((response) => {
           this.loading = false;
           console.log(response);
@@ -305,7 +315,7 @@ export default {
       });
       this.newProduct.colors = filtered;
       console.log(this.newProduct);
-      console.log(this.valid)
+      console.log(this.valid);
       const validDuplicateName = validate.checkDuplicate(
         this.newProduct.productName
       );
@@ -313,7 +323,7 @@ export default {
       if (this.valid) {
         this.valid = validDuplicateName.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validBrand = validate.validateLength(
         this.newProduct.brands.brandName
       );
@@ -321,7 +331,7 @@ export default {
       if (this.valid) {
         this.valid = validBrand.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validDesc = validate.validateLength(
         this.newProduct.productDescription
       );
@@ -329,19 +339,19 @@ export default {
       if (this.valid) {
         this.valid = validDesc.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validPrice = validate.validatePrice(this.newProduct.productPrice);
       this.errors.productPrice = validPrice.error;
       if (this.valid) {
         this.valid = validPrice.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validDate = validate.validateLength(this.newProduct.date);
       this.errors.date = validDate.error;
       if (this.valid) {
         this.valid = validDate.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validWarran = validate.validateLength(
         this.newProduct.productWarranty.warrantyDescription
       );
@@ -349,19 +359,19 @@ export default {
       if (this.valid) {
         this.valid = validWarran.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validColor = validate.validateLength(this.newProduct.colors);
       this.errors.color = validColor.error;
       if (this.valid) {
         this.valid = validColor.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       const validInput = validate.required();
       this.errors.upload = validInput.error;
       if (this.valid) {
         this.valid = validInput.valid;
       }
-      console.log(this.valid)
+      console.log(this.valid);
       if (this.valid) {
         this.sendProduct();
       }
