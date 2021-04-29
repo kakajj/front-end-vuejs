@@ -237,7 +237,7 @@ export default {
       this.newProduct.colors.colorName = "";
       this.newProduct.colors.colorName = "";
       this.newProduct.colors.colorHex = "";
-      return this.$router.go(-1);
+      return this.$router.push("/product/#");
     },
     fetchMultipleData() {
       const requestBrand = axios.get(this.brandUrl);
@@ -307,24 +307,49 @@ export default {
       let formData = new FormData();
       formData.append("File", this.file);
       this.loading = true;
-      axios
-        .post(
-          process.env.VUE_APP_IMAGE_API + "/add/" + this.newProductCode,
-          formData,
-          {
-            "Content-Type": "multipart/form-data",
-          }
-        )
-        .then((response) => {
-          this.loading = false;
-          console.log(response);
-        })
-        .then(() => {
+      if (!this.isEdit) {
+        axios
+          .post(
+            process.env.VUE_APP_IMAGE_API + "/add/" + this.newProductCode,
+            formData,
+            {
+              "Content-Type": "multipart/form-data",
+            }
+          )
+          .then((response) => {
+            this.loading = false;
+            console.log(response);
+          })
+          .then(() => {
+            this.clearData();
+          })
+          .catch((errr) => {
+            console.log(errr);
+          });
+      } else {
+        if (this.file.length<1) {
           this.clearData();
-        })
-        .catch((errr) => {
-          console.log(errr);
-        });
+        } else {
+          axios
+            .put(
+              process.env.VUE_APP_IMAGE_API + "/edit/" + this.slug + ".jpg",
+              formData,
+              {
+                "Content-Type": "multipart/form-data",
+              }
+            )
+            .then((response) => {
+              this.loading = false;
+              console.log(response);
+            })
+            .then(() => {
+              this.clearData();
+            })
+            .catch((errr) => {
+              console.log(errr);
+            });
+        }
+      }
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
@@ -347,7 +372,22 @@ export default {
         });
     },
     updateProduct() {
-      
+      this.loading = true;
+      axios
+        .put(
+          process.env.VUE_APP_PRODUCT_API + "/edit/" + this.slug,
+          this.newProduct
+        )
+        .then((responses) => {
+          this.loading = false;
+          return responses.data;
+        })
+        .then(() => {
+          this.uploadPic();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     checkForm() {
       this.errors = {};

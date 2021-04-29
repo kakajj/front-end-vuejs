@@ -1,4 +1,4 @@
-const axios = require("axios")
+const axios = require("axios");
 let product = []
 let currentProduct = []
 
@@ -31,7 +31,7 @@ let fetchCurrentProduct = (slug) => {
 
 
 function checkDuplicate(name, edit, slug) {
-  if (edit == false) {
+  if (edit === false) {
     fetchProduct();
     let checkdupli = product.filter(p => p.productName == name);
     if (checkdupli.length > 0) {
@@ -49,11 +49,15 @@ function checkDuplicate(name, edit, slug) {
   } else {
     fetchProduct();
     fetchCurrentProduct(slug);
-    const index = product.indexOf(currentProduct.productName)
-    if (index > -1) {
-      product.splice(index, 1);
+
+    for(let i = 0;i < product.length;i++){
+      if(product[i].productName===currentProduct.productName){
+        console.log("HOORAY")
+        product.splice(i,1)
+      }
     }
-    let checkdupli = product.filter(p => p.productName == name);
+
+    let checkdupli = product.filter(p => p.productName === name);
     if (checkdupli.length > 0) {
       return {
         valid: false,
