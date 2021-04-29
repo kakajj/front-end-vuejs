@@ -1,9 +1,10 @@
 const axios = require("axios")
 let product = []
+let currentProduct = []
 
 let fetchProduct = () => {
   axios
-    .get(process.env.VUE_APP_PRODUCT_API+'/getall')
+    .get(process.env.VUE_APP_PRODUCT_API + '/getall')
     .then((response) => {
       return response.data;
     })
@@ -11,25 +12,60 @@ let fetchProduct = () => {
       product = data;
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
+    });
+};
+let fetchCurrentProduct = (slug) => {
+  axios
+    .get(process.env.VUE_APP_PRODUCT_API + '/get/' + slug)
+    .then((response) => {
+      return response.data;
+    })
+    .then((data) => {
+      currentProduct = data;
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
-function checkDuplicate(name) {
-  fetchProduct();
-  let checkdupli = product.filter(p => p.productName == name);
-  console.log(checkdupli)
-  if (checkdupli.length > 0) {
-    return {
-      valid: false,
-      error: "This field was duplicated in database"
-    };
-  }
-  if (!name.length) {
-    return {
-      valid: false,
-      error: "This field is required"
-    };
+
+function checkDuplicate(name, edit, slug) {
+  if (edit == false) {
+    fetchProduct();
+    let checkdupli = product.filter(p => p.productName == name);
+    if (checkdupli.length > 0) {
+      return {
+        valid: false,
+        error: "This field was duplicated in database"
+      };
+    }
+    if (!name.length) {
+      return {
+        valid: false,
+        error: "This field is required"
+      };
+    }
+  } else {
+    fetchProduct();
+    fetchCurrentProduct(slug);
+    const index = product.indexOf(currentProduct.productName)
+    if (index > -1) {
+      product.splice(index, 1);
+    }
+    let checkdupli = product.filter(p => p.productName == name);
+    if (checkdupli.length > 0) {
+      return {
+        valid: false,
+        error: "This field was duplicated in database"
+      };
+    }
+    if (!name.length) {
+      return {
+        valid: false,
+        error: "This field is required"
+      };
+    }
   }
   return {
     valid: true,
