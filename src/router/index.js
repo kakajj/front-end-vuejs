@@ -43,6 +43,11 @@ const routes = [
   {
     path: "/index.html",
     redirect: "/" 
+  },
+  { 
+    path: '/:catchNotMatchPath(.*)', 
+    name: 'NotFound',
+    component: ()=> import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue') 
   }
 ]
 

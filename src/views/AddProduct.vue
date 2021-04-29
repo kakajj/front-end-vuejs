@@ -126,6 +126,9 @@
         </div>
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
+          <div id="preview">
+            <img v-if="url" :src="url" />
+          </div>
           <input
             type="file"
             id="file"
@@ -134,6 +137,9 @@
             required
             v-on:change="handleFileUpload"
           />
+          <p v-if="isEdit">
+            (หากไม่ต้องการแก้ไขรูปภาพ ให้เว้น Field นี้ให้ว่างไว้)
+          </p>
           <div class="validate">{{ errors.upload }}</div>
         </div>
 
@@ -157,7 +163,11 @@ import validate from "../myValidate.js";
 const axios = require("axios");
 export default {
   created() {
-    this.fetchMultipleData();
+    if (this.slug == undefined) {
+      this.fetchMultipleData();
+    } else {
+      this.fetchEditData();
+    }
   },
   props: ["slug"],
   computed: {
@@ -174,6 +184,7 @@ export default {
       warrantyUrl: process.env.VUE_APP_WARRANTY_API + "/getall",
       file: "",
       isEdit: false,
+      url: process.env.VUE_APP_IMAGE_API + "/get/" + this.slug + ".jpg",
       newProduct: {
         productCode: null,
         productName: "",
@@ -229,68 +240,68 @@ export default {
       return this.$router.go(-1);
     },
     fetchMultipleData() {
-      let url = "";
-      if (this.slug == undefined) {
-        const requestBrand = axios.get(this.brandUrl);
-        const requestWarranty = axios.get(this.warrantyUrl);
-        const requestColor = axios.get(this.ColorUrl);
-        const requestLastProduct = axios.get(this.productUrl);
-        this.loading = true;
-        axios
-          .all([
-            requestBrand,
-            requestWarranty,
-            requestColor,
-            requestLastProduct,
-          ])
-          .then(
-            axios.spread((...responses) => {
-              this.loading = false;
-              return responses;
-            })
-          )
-          .then((data) => {
-            this.brandArray = data[0].data;
-            this.warrantyArray = data[1].data;
-            this.colorArray = data[2].data;
-            var maxProductCode =
-              data[3].data[data[3].data.length - 1].productCode;
-            this.newProductCode = parseInt(maxProductCode);
-            this.newProductCode++;
+      const requestBrand = axios.get(this.brandUrl);
+      const requestWarranty = axios.get(this.warrantyUrl);
+      const requestColor = axios.get(this.ColorUrl);
+      const requestLastProduct = axios.get(this.productUrl);
+      this.loading = true;
+      axios
+        .all([requestBrand, requestWarranty, requestColor, requestLastProduct])
+        .then(
+          axios.spread((...responses) => {
+            this.loading = false;
+            return responses;
           })
-          .catch((errors) => {
-            console.log(errors);
-          });
-      } else {
-        url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
-        const requestBrand = axios.get(this.brandUrl);
-        const requestWarranty = axios.get(this.warrantyUrl);
-        const requestColor = axios.get(this.ColorUrl);
-        this.loading = true;
-        axios
-          axios
-          .all([
-            requestBrand,
-            requestWarranty,
-            requestColor,
-            url,
-          ])
-          .then(
-            axios.spread((...responses) => {
-              this.loading = false;
-              return responses;
-            })
-          )
-          .then((data) => {
-            this.brandArray = data[0].data;
-            this.warrantyArray = data[1].data;
-            this.colorArray = data[2].data;
-            this.newProduct = data[3].data
+        )
+        .then((data) => {
+          this.brandArray = data[0].data;
+          this.warrantyArray = data[1].data;
+          this.colorArray = data[2].data;
+          var maxProductCode =
+            data[3].data[data[3].data.length - 1].productCode;
+          this.newProductCode = parseInt(maxProductCode);
+          this.newProductCode++;
+        })
+        .catch((errors) => {
+          console.log(errors);
+        });
+    },
+    fetchEditData() {
+      let url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+      this.loading = true;
+      axios
+        .get(url)
+        .then((response) => {
+          this.newProduct = response.data;
+          this.loading = false;
+          return response.data;
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      const requestBrand = axios.get(this.brandUrl);
+      const requestWarranty = axios.get(this.warrantyUrl);
+      const requestColor = axios.get(this.ColorUrl);
+      this.loading = true;
+      axios
+        .all([requestBrand, requestWarranty, requestColor])
+        .then(
+          axios.spread((...responses) => {
+            this.loading = false;
+            return responses;
           })
-          .catch((errors) => {
-            console.log(errors);
-          });
-      }
+        )
+        .then((data) => {
+          this.brandArray = data[0].data;
+          this.warrantyArray = data[1].data;
+          this.colorArray = data[2].data;
+        })
+        .catch((errors) => {
+          console.log(errors);
+        });
     },
     uploadPic() {
       let formData = new FormData();
@@ -317,6 +328,7 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+      this.url = URL.createObjectURL(this.file);
     },
     sendProduct() {
       this.newProduct.productCode = this.newProductCode;
@@ -334,23 +346,40 @@ export default {
           console.error(err);
         });
     },
+    updateProduct() {
+      
+    },
     checkForm() {
       this.errors = {};
       this.valid = true;
+
       var filtered = this.newProduct.colors.filter((el) => {
         return el.colorId != null;
       });
       this.newProduct.colors = filtered;
-      console.log(this.newProduct);
-      console.log(this.valid);
-      const validDuplicateName = validate.checkDuplicate(
-        this.newProduct.productName
-      );
-      this.errors.productNameDuplicate = validDuplicateName.error;
-      if (this.valid) {
-        this.valid = validDuplicateName.valid;
+
+      if (!this.isEdit) {
+        const validDuplicateName = validate.checkDuplicate(
+          this.newProduct.productName,
+          false,
+          null
+        );
+        this.errors.productNameDuplicate = validDuplicateName.error;
+        if (this.valid) {
+          this.valid = validDuplicateName.valid;
+        }
+      } else {
+        const validDuplicateName = validate.checkDuplicate(
+          this.newProduct.productName,
+          true,
+          this.slug
+        );
+        this.errors.productNameDuplicate = validDuplicateName.error;
+        if (this.valid) {
+          this.valid = validDuplicateName.valid;
+        }
       }
-      console.log(this.valid);
+
       const validBrand = validate.validateLength(
         this.newProduct.brands.brandName
       );
@@ -358,7 +387,6 @@ export default {
       if (this.valid) {
         this.valid = validBrand.valid;
       }
-      console.log(this.valid);
       const validDesc = validate.validateLength(
         this.newProduct.productDescription
       );
@@ -366,19 +394,16 @@ export default {
       if (this.valid) {
         this.valid = validDesc.valid;
       }
-      console.log(this.valid);
       const validPrice = validate.validatePrice(this.newProduct.productPrice);
       this.errors.productPrice = validPrice.error;
       if (this.valid) {
         this.valid = validPrice.valid;
       }
-      console.log(this.valid);
       const validDate = validate.validateLength(this.newProduct.date);
       this.errors.date = validDate.error;
       if (this.valid) {
         this.valid = validDate.valid;
       }
-      console.log(this.valid);
       const validWarran = validate.validateLength(
         this.newProduct.productWarranty.warrantyDescription
       );
@@ -386,21 +411,24 @@ export default {
       if (this.valid) {
         this.valid = validWarran.valid;
       }
-      console.log(this.valid);
       const validColor = validate.validateLength(this.newProduct.colors);
       this.errors.color = validColor.error;
       if (this.valid) {
         this.valid = validColor.valid;
       }
-      console.log(this.valid);
-      const validInput = validate.required();
-      this.errors.upload = validInput.error;
-      if (this.valid) {
-        this.valid = validInput.valid;
+      if (!this.isEdit) {
+        const validInput = validate.required();
+        this.errors.upload = validInput.error;
+        if (this.valid) {
+          this.valid = validInput.valid;
+        }
       }
-      console.log(this.valid);
       if (this.valid) {
-        this.sendProduct();
+        if (this.isEdit) {
+          this.updateProduct();
+        } else {
+          this.sendProduct();
+        }
       }
     },
   },
@@ -426,6 +454,9 @@ form {
 .btn-submit {
   @apply bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none;
 }
+.btn-pic {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none;
+}
 .validate {
   @apply text-red-400 font-bold underline;
 }
@@ -436,7 +467,16 @@ form {
   animation: spin 2s linear infinite;
   @apply w-72 h-72 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black bg-opacity-95;
 }
+#preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+#preview img {
+  max-width: 50%;
+  max-height: 200px;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
