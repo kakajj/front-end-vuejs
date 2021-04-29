@@ -159,12 +159,10 @@ export default {
   created() {
     this.fetchMultipleData();
   },
-  beforeMount(){
-    this.watchProp();
-  },
   props:['slug'],
   computed:{
     welcomeMsg(){
+      this.watchProp();
       return this.isEdit ? 'Edit Product' : 'Add Product';
     },
   },
@@ -211,7 +209,8 @@ export default {
   },
   methods: {
     watchProp(){
-      this.slug ? this.isEdit = true : this.isEdit = false
+      this.slug == undefined ? this.isEdit = false : this.isEdit = true
+      console.log(this.slug)
     },
     clearData() {
       this.newProduct.productCode = null;
