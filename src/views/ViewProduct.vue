@@ -9,7 +9,7 @@
       <div class="prod-img">
         <img @click="toggleView" :src="img" :alt="pic" />
       </div>
-      <div class="description flex-grow">
+      <div class="description">
         <p>Brand : {{ product.brands.brandName }}</p>
         <p>Release Date : {{ product.date }}</p>
         <p>Warranty : {{ product.productWarranty.warrantyDescription }}</p>
@@ -17,14 +17,14 @@
         <div class="color">
           <p class="pt-1">Color Available :</p>
           <div v-for="color in product.colors" :key="color.colorId">
-            <button
+            <div
               class="box"
               :style="{ backgroundColor: color.colorHex }"
-            ></button>
+            ></div>
           </div>
         </div>
       </div>
-      <div class="text-right text-xl pt-52 flex flex-col justify-end m-2 flex-1 w-20">
+      <div class="text-right text-xl pt-52 flex flex-col justify-end m-2 flex-auto ">
         <h2> Price : {{ product.productPrice }} บาท</h2>
       </div>
       
@@ -137,13 +137,13 @@ export default {
 
 <style scope>
 .description {
-  @apply flex-grow max-w-3xl break-normal;
+  @apply flex-grow flex-shrink block  max-w-3xl break-normal;
 }
 .prod-img {
-  @apply relative max-w-md h-auto overflow-visible cursor-pointer;
+  @apply relative  max-w-lg  overflow-visible cursor-pointer;
 }
 .product {
-  @apply flex flex-row justify-start bg-gray-300 p-4;
+  @apply flex flex-row justify-start flex-nowrap items-stretch bg-gray-300 p-4;
 }
 p {
   @apply text-left px-4 text-lg;

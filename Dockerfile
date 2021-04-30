@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
-RUN npm run serve
+RUN npm run build
 
 # production stage
 FROM nginx:1.19.8-alpine

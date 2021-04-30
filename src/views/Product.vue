@@ -1,7 +1,7 @@
 
 <template>
   <nav-bar nav-bar></nav-bar>
-  <div class="my-5">
+  <div class="mt-5 mb-24">
     <slide-show class="w-11/12 mx-auto"></slide-show>
     <div class="text-center bg-black w-11/12 h-10 mx-auto my-2 rounded-full">
       <span
@@ -25,19 +25,22 @@
         </button>
       </div>
     </div>
-    <h1 class=" py-4 text-center">มีสินค้าทั้งหมด {{ productList.length }} ชิ้น</h1>
+    <h1 class="py-4 text-center">
+      มีสินค้าทั้งหมด {{ productList.length }} ชิ้น
+    </h1>
     <!-- <pagination-footer :listData="productList"></pagination-footer> -->
     <div v-if="loading" class="loader"></div>
     <div class="flexbox">
-      <div class="item" v-for="p in productList" :key="p">
-        <div class="content">
+      <div class="item" v-for="p in filteredList" :key="p">
+        <div class="content" v-if="filteredList">
           <h1 class="text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
             class="blank-img cursor-pointer"
             @click="go(p.productCode)"
-            :src="urlImage+ '/get/' + p.productCode + '.jpg'"
-            alt="picofproducts"/>
-          <p class="truncate">{{ p.productDescription }}</p>
+            :src="urlImage + '/get/' + p.productCode + '.jpg'"
+            alt="picofproducts"
+          />
+          <p class="truncate mx-3">{{ p.productDescription }}</p>
           <div class="product-p">
             <p>Release: {{ p.date }}</p>
             <p>Price : {{ p.productPrice }} บาท</p>
@@ -51,15 +54,22 @@
             >
               View
             </router-link>
-            <router-link 
-             :to="{ name: 'EditProduct', params: { slug: p.productCode, product: p } }"
-             class="btn-edit">
-             Edit
-             </router-link>
+            <router-link
+              :to="{
+                name: 'EditProduct',
+                params: { slug: p.productCode, product: p },
+              }"
+              class="btn-edit"
+            >
+              Edit
+            </router-link>
             <button class="btn-delete" @click="showModal(p.productCode)">
               Delete
             </button>
           </div>
+        </div>
+        <div v-else> 
+            <h1>No Product Found</h1>
         </div>
       </div>
       <decision-modal
@@ -71,25 +81,35 @@
         <template v-slot:body>Delete from products?</template>
       </decision-modal>
     </div>
+    <pagination-footer :meta="meta"></pagination-footer>
   </div>
 </template>
 
 <script>
 import SlideShow from "../components/SlideShow.vue";
 import DecisionModal from "../components/DecisionModal";
-// import PaginationFooter from "../components/PaginationFooter.vue";
+import PaginationFooter from "../components/PaginationFooter.vue";
 
 const axios = require("axios");
-// import PaginationFooter from "../components/PaginationFooter.vue";
+
 export default {
-  components: { SlideShow, DecisionModal },
-  // components: { PaginationFooter },
+  components: { SlideShow, DecisionModal, PaginationFooter },
   created() {
     this.fetchProduct();
   },
+  computed: {
+    filteredList() {
+      let Arr = this.productList.filter((item) => {
+        return item.productName.toLowerCase().includes(this.searchField.toLowerCase());
+      });
+      return Arr;
+    },
+  },
   data() {
     return {
-      componentKey:0,
+      meta: [],
+      searchField: "",
+      componentKey: 0,
       loading: false,
       message: "",
       isSearch: true,
@@ -106,16 +126,16 @@ export default {
       this.$router.push({ name: "ViewProduct", params: { slug: id } });
     },
     fetchProduct() {
-      this.loading = true
+      this.loading = true;
       axios
         .get(`${this.url}/getall`)
         .then((response) => {
           this.productList = response.data;
+          this.meta = response.data.meta;
           this.loading = false;
           return response.data;
         })
         .then((data) => {
-          this.forceReload();
           console.log(data);
         })
         .catch((err) => {
@@ -148,12 +168,12 @@ export default {
               return response.data;
             })
             .then(() => {
-              console.log("Remove Success")
+              console.log("Remove Success");
               this.closeModal();
             })
             .catch((err) => {
               console.error(err);
-            })
+            });
         })
         .catch((err) => {
           console.error(err);
@@ -164,6 +184,7 @@ export default {
     },
     startSearch() {
       this.isSearch = !this.isSearch;
+      this.searchField = '';
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="slide">
     <transition-group name="fade" tag="div">
       <div v-for="i in [currentIndex]" :key="i">
         <img :src="currentImg" />
@@ -52,7 +52,9 @@ export default {
 </script>
 
 <style scoped>
-
+.slide{
+  
+}
 img {
   height:600px;
   width:100%
@@ -74,7 +76,7 @@ img {
 }
 
 .next {
-  position:absolute;
+  position:;
   right: 4%;
 
 }

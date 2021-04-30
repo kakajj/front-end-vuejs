@@ -2,11 +2,11 @@
   <nav-bar></nav-bar>
   <div class="loader" v-if="loading"></div>
   <div class="flex flex-row">
-    <div class="bg-gray-200 w-2/6 pt-10">
-      <h1 class="title">{{ slug }}</h1>
+    <div class="bg-gray-200 w-1/6 pt-10">
+      <h1 v-if="isEdit" class="title">Product ID :{{ slug }}</h1>
       <h1 class="title">{{ welcomeMsg }}</h1>
     </div>
-    <div class="w-full p-6">
+    <div class="w-full py-6 px-10">
       <form name="form" id="form" enctype="multipart/form-data">
         <div class="mb-4">
           <label class="input-name" for="Date"> Brand Name </label>
@@ -119,6 +119,7 @@
             id="message2"
             type="text"
             placeholder="product description"
+            maxlength="300"
             v-model="newProduct.productDescription"
             required
           ></textarea>

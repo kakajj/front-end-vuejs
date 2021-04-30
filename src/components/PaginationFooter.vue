@@ -1,42 +1,48 @@
 <template>
-    <div class="pagin">
-        <div class="pagination-row">
-             <button class="pagination-btn">Previus</button>
-            <span v-for="(item,index) in listData" :key="index">
-                <button class="pagination-btn">{{index+1}}</button>
-            </span>
-             <button class="pagination-btn">Next</button>
-        </div>
-        <slot :pageNum="pageNum" />
-    </div>
+    <ul class="flex justify-center">
+        <li class="pag-but">
+            <a class="pag-but-box" href="#">
+                <span class="mx-1">previous</span>
+            </a>
+        </li>
+        <h1>{{meta}}</h1>
+        <li class="num">
+            <a class="font-bold" href="#">1</a>
+        </li>
+        <li class="num">
+            <a class="font-bold" href="#">2</a>
+        </li>
+        <li class="num">
+            <a class="font-bold" href="#">3</a>
+        </li>
+        <li class="pag-but">
+            <a class="pag-but-box" href="#">
+                <span class="mx-1">Next</span>
+            </a>
+        </li>
+    </ul>
 </template>
 
 <script>
 export default {
-    props:{
-        listData: Array
-    },
+    props:['meta'],
     computed:{
-        totalPage(){
-            return this.listData/6
-        }
     },
     data() {
         return {
-           pageNum: 1 
         }
     },
 };
 </script>
 
 <style scoped>
-.pagin{
-    @apply mx-auto
+.pag-but{
+ @apply mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg
 }
-.pagination-btn{
-    @apply cursor-pointer border-2 p-1 m-1 text-xs  text-center
+.pag-but-box{
+ @apply flex items-center font-bold
 }
-.pagination-row{
-    @apply mx-auto
+.num{
+ @apply mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg
 }
 </style>
