@@ -1,3 +1,4 @@
+
 <template>
   <nav-bar nav-bar></nav-bar>
   <div class="my-5">
@@ -28,7 +29,7 @@
     <!-- <pagination-footer :listData="productList"></pagination-footer> -->
     <div v-if="loading" class="loader"></div>
     <div class="flexbox">
-      <div class="item" v-for="(p, index) in productList" :key="index">
+      <div class="item" v-for="p in productList" :key="p">
         <div class="content">
           <h1 class="text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
@@ -88,6 +89,7 @@ export default {
   },
   data() {
     return {
+      componentKey:0,
       loading: false,
       message: "",
       isSearch: true,
@@ -113,6 +115,7 @@ export default {
           return response.data;
         })
         .then((data) => {
+          this.forceReload();
           console.log(data);
         })
         .catch((err) => {

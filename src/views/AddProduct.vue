@@ -221,7 +221,6 @@ export default {
   methods: {
     watchProp() {
       this.slug == undefined ? (this.isEdit = false) : (this.isEdit = true);
-      console.log(this.slug);
     },
     clearData() {
       this.newProduct.productCode = null;
@@ -237,7 +236,7 @@ export default {
       this.newProduct.colors.colorName = "";
       this.newProduct.colors.colorName = "";
       this.newProduct.colors.colorHex = "";
-      return this.$router.push("/product/#");
+      return this.$router.push("/product/");
     },
     fetchMultipleData() {
       const requestBrand = axios.get(this.brandUrl);

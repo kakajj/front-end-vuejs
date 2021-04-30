@@ -30,7 +30,11 @@
       
     </div>
     <div class="btn-all">
-      <button class="btn-edit">Edit</button>
+      <router-link 
+             :to="{ name: 'EditProduct', params: { slug: product.productCode, product: product } }"
+             class="btn-edit">
+             Edit
+             </router-link>
       <button class="btn-delete" @click="toggleModal">Delete</button>
       <go-back></go-back>
     </div>
