@@ -1,91 +1,218 @@
 <template>
-  <div class="slide">
+  <!-- <div class="slide">
     <transition-group name="fade" tag="div">
-      <div v-for="i in [currentIndex]" :key="i">
+      <div class="img-cover" v-for="i in [currentIndex]" :key="i">
         <img :src="currentImg" />
       </div>
     </transition-group>
     <a class="prev mx-10" @click="prev" href="#">&#10094;</a>
     <a class="next mx-10" @click="next" href="#">&#10095;</a>
+  </div> -->
+  <div class="slide-body">
+    <!--image slider start-->
+    <div class="slider">
+      <div class="slides">
+        <!--radio buttons start-->
+        <input type="radio" name="radio-btn" id="radio1">
+        <input type="radio" name="radio-btn" id="radio2">
+        <input type="radio" name="radio-btn" id="radio3">
+        <input type="radio" name="radio-btn" id="radio4">
+        <!--radio buttons end-->
+        <!--slide images start-->
+        <div class="slide first">
+          <img src="1.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="2.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="3.jpg" alt="">
+        </div>
+        <div class="slide">
+          <img src="4.jpg" alt="">
+        </div>
+        <!--slide images end-->
+        <!--automatic navigation start-->
+        <div class="navigation-auto">
+          <div class="auto-btn1"></div>
+          <div class="auto-btn2"></div>
+          <div class="auto-btn3"></div>
+          <div class="auto-btn4"></div>
+        </div>
+        <!--automatic navigation end-->
+      </div>
+      <!--manual navigation start-->
+      <div class="navigation-manual">
+        <label for="radio1" class="manual-btn"></label>
+        <label for="radio2" class="manual-btn"></label>
+        <label for="radio3" class="manual-btn"></label>
+        <label for="radio4" class="manual-btn"></label>
+      </div>
+      <!--manual navigation end-->
+    </div>
+    <!--image slider end-->
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       images: [
         require("../assets/s20.jpg"),
         require("../assets/ped.png"),
-        "https://cdn.pixabay.com/photo/2015/05/15/14/27/eiffel-tower-768501_1280.jpg",
-        "https://cdn.pixabay.com/photo/2016/12/04/19/30/berlin-cathedral-1882397_1280.jpg"
+        require("../assets/jj.jpg"),
+        require("../assets/leng.jpg"),
       ],
       timer: null,
-      currentIndex: 0
+      currentIndex: 0,
     };
   },
 
-  mounted: function() {
+  mounted: function () {
     this.startSlide();
   },
-
   methods: {
-    startSlide: function() {
+    startSlide: function () {
       this.timer = setInterval(this.next, 4000);
     },
 
-    next: function() {
-      this.currentIndex += 1;
+    next: function () {
+      if (this.currentIndex > this.images.length) {
+        this.currentIndex = 0;
+      } else {
+        this.currentIndex += 1;
+      }
     },
-    prev: function() {
-      this.currentIndex -= 1;
-    }
+    prev: function () {
+      if (this.currentIndex < 0) {
+        this.currentIndex = this.images.length - 1;
+      } else {
+        this.currentIndex -= 1;
+      }
+    },
   },
-
   computed: {
-    currentImg: function() {
-      return this.images[Math.abs(this.currentIndex) % this.images.length];
-    }
-  }
+    currentImg: function () {
+      return this.images[this.currentIndex];
+    },
+  },
 };
 </script>
 
 <style scoped>
+.slide-body{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+.slider{
+  width: 800px;
+  height: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.slides{
+  width: 500%;
+  height: 500px;
+  display: flex;
+}
+
+.slides input{
+  display: none;
+}
+
 .slide{
-  
-}
-img {
-  height:600px;
-  width:100%
+  width: 20%;
+  transition: 2s;
 }
 
-.prev, .next {
-  cursor: pointer;
+.slide img{
+  width: 800px;
+  height: 500px;
+}
+
+/*css for manual slide navigation*/
+
+.navigation-manual{
   position: absolute;
-  top: 40%;
-  width: auto;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.7s ease;
-  border-radius: 0 4px 4px 0;
-  text-decoration: none;
-  user-select: none;
+  width: 800px;
+  margin-top: -40px;
+  display: flex;
+  justify-content: center;
 }
 
-.next {
-  position:;
-  right: 4%;
-
+.manual-btn{
+  border: 2px solid #40D3DC;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 1s;
 }
-/* 
-.prev {
-  left: 0;
-} */
 
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.9);
+.manual-btn:not(:last-child){
+  margin-right: 40px;
 }
+
+.manual-btn:hover{
+  background: #40D3DC;
+}
+
+#radio1:checked ~ .first{
+  margin-left: 0;
+}
+
+#radio2:checked ~ .first{
+  margin-left: -20%;
+}
+
+#radio3:checked ~ .first{
+  margin-left: -40%;
+}
+
+#radio4:checked ~ .first{
+  margin-left: -60%;
+}
+
+/*css for automatic navigation*/
+
+.navigation-auto{
+  position: absolute;
+  display: flex;
+  width: 800px;
+  justify-content: center;
+  margin-top: 460px;
+}
+
+.navigation-auto div{
+  border: 2px solid #40D3DC;
+  padding: 5px;
+  border-radius: 10px;
+  transition: 1s;
+}
+
+.navigation-auto div:not(:last-child){
+  margin-right: 40px;
+}
+
+#radio1:checked ~ .navigation-auto .auto-btn1{
+  background: #40D3DC;
+}
+
+#radio2:checked ~ .navigation-auto .auto-btn2{
+  background: #40D3DC;
+}
+
+#radio3:checked ~ .navigation-auto .auto-btn3{
+  background: #40D3DC;
+}
+
+#radio4:checked ~ .navigation-auto .auto-btn4{
+  background: #40D3DC;
+}
+
+
 </style>

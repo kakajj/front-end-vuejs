@@ -1,48 +1,72 @@
 <template>
-    <ul class="flex justify-center">
-        <li class="pag-but">
-            <a class="pag-but-box" href="#">
-                <span class="mx-1">previous</span>
-            </a>
-        </li>
-        <h1>{{meta}}</h1>
-        <li class="num">
-            <a class="font-bold" href="#">1</a>
-        </li>
-        <li class="num">
-            <a class="font-bold" href="#">2</a>
-        </li>
-        <li class="num">
-            <a class="font-bold" href="#">3</a>
-        </li>
-        <li class="pag-but">
-            <a class="pag-but-box" href="#">
-                <span class="mx-1">Next</span>
-            </a>
-        </li>
-    </ul>
+  <ul class="flex justify-center mb-8 mt-4">
+    <li class="pag-but">
+      <a
+        class="pag-but-box"
+        href="#"
+        @click.prevent="changePage(currentPage - 1)"
+      >
+        <span class="mx-1">prev</span>
+      </a>
+    </li>
+    <li
+      class="num"
+      :class="{ active: currentPage + 1 === p }"
+      v-for="p in lastpage"
+      :key="p.productId"
+    >
+      <a class="font-bold" href="#" @click.prevent="changePage(p - 1)">{{
+        p
+      }}</a>
+    </li>
+    <li class="pag-but">
+      <a
+        class="pag-but-box"
+        href="#"
+        @click.prevent="changePage(currentPage + 1)"
+      >
+        <span class="mx-1">Next</span>
+      </a>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
-    props:['meta'],
-    computed:{
+  props: ["lastpage", "currentPage"],
+  computed: {},
+  data() {
+    return {
+      // page
+    };
+  },
+  methods: {
+    changePage(page) {
+      if (page < 0) {
+        ("");
+        return;
+      }
+      if (page > this.lastpage-1) {
+        ("");
+        return;
+      }
+      this.$emit("pagination", page);
     },
-    data() {
-        return {
-        }
-    },
+  },
 };
 </script>
 
 <style scoped>
-.pag-but{
- @apply mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg
+.pag-but {
+  @apply mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded-lg;
 }
-.pag-but-box{
- @apply flex items-center font-bold
+.pag-but-box {
+  @apply flex items-center font-bold;
 }
-.num{
- @apply mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg
+.num {
+  @apply mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg;
+}
+.active {
+  @apply bg-gray-600 text-white;
 }
 </style>

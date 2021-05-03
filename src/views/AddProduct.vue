@@ -136,6 +136,7 @@
             ref="file"
             name="file"
             required
+            accept=".jpg"
             v-on:change="handleFileUpload"
           />
           <p v-if="isEdit">
@@ -263,43 +264,33 @@ export default {
           this.newProductCode++;
         })
         .catch((errors) => {
+          this.loading = false;
           console.log(errors);
         });
     },
     fetchEditData() {
       let url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
-      this.loading = true;
-      axios
-        .get(url)
-        .then((response) => {
-          this.newProduct = response.data;
-          this.loading = false;
-          return response.data;
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
       const requestBrand = axios.get(this.brandUrl);
       const requestWarranty = axios.get(this.warrantyUrl);
       const requestColor = axios.get(this.ColorUrl);
+      const requestEditProduct = axios.get(url)
       this.loading = true;
       axios
-        .all([requestBrand, requestWarranty, requestColor])
+        .all([requestBrand, requestWarranty, requestColor,requestEditProduct])
         .then(
           axios.spread((...responses) => {
-            this.loading = false;
             return responses;
           })
         )
         .then((data) => {
+          this.loading = false;
           this.brandArray = data[0].data;
           this.warrantyArray = data[1].data;
           this.colorArray = data[2].data;
+          this.newProduct = data[3].data;
         })
         .catch((errors) => {
+          this.loading = false;
           console.log(errors);
         });
     },
@@ -324,6 +315,7 @@ export default {
             this.clearData();
           })
           .catch((errr) => {
+            this.loading = false;
             console.log(errr);
           });
       } else {
@@ -346,14 +338,20 @@ export default {
               this.clearData();
             })
             .catch((errr) => {
+              this.loading = false;
               console.log(errr);
             });
         }
       }
     },
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-      this.url = URL.createObjectURL(this.file);
+    this.file = this.$refs.file.files[0];
+      if(this.file){
+        this.url = URL.createObjectURL(this.file);
+      }else{
+        this.url = '';
+        return ''
+      }
     },
     sendProduct() {
       this.newProduct.productCode = this.newProductCode;
@@ -368,6 +366,7 @@ export default {
           this.uploadPic();
         })
         .catch((err) => {
+          this.loading = false;
           console.error(err);
         });
     },
@@ -386,6 +385,7 @@ export default {
           this.uploadPic();
         })
         .catch((error) => {
+          this.loading = false;
           console.log(error);
         });
     },
@@ -500,13 +500,7 @@ form {
 .validate {
   @apply text-red-400 font-bold underline;
 }
-.loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #3498db;
-  border-radius: 50%;
-  animation: spin 2s linear infinite;
-  @apply w-72 h-72 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black bg-opacity-95;
-}
+
 #preview {
   display: flex;
   justify-content: center;
@@ -517,6 +511,13 @@ form {
   max-width: 50%;
   max-height: 200px;
 }
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  @apply w-20 h-20 mx-auto my-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-transparent bg-opacity-95;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -525,4 +526,5 @@ form {
     transform: rotate(360deg);
   }
 }
+
 </style>

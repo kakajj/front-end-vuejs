@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import ViewProductDetail from '../views/ViewProductDetail.vue'
 
 const routes = [
   {
@@ -24,10 +25,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "product" */ '../views/Product.vue')
   },
   {
-    path:'/view/:slug',
-    name: 'ViewProduct',
+    path:'/product/:id',
+    name: 'ViewProductDetail',
     props:true,
-    component: ()=> import(/* webpackChunkName: "view" */ '../views/ViewProduct.vue'),
+    component: ViewProductDetail
   },
   {
     path:'/form/add',

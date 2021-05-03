@@ -43,9 +43,7 @@
   <go-back></go-back>
 </template>
 <script>
-import GoBack from '../components/GoBack'
 export default {
-  components: {GoBack},
   name: "About",
   data() {
     return {
