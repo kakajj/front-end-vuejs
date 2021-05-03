@@ -3,7 +3,7 @@
   <nav-bar nav-bar></nav-bar>
   <div class="mt-5">
     <slide-show class="w-11/12 mx-auto"></slide-show>
-    <div class="text-center bg-black w-1/4 h-10 mx-auto my-2 rounded-lg">
+    <div class="text-center bg-black w-2/4 h-10 mx-auto my-2 rounded-lg">
       <span
         v-if="isSearch"
         class="material-icons py-2 w-full text-gray-600 hover:text-white transition duration-500"
@@ -26,15 +26,8 @@
         </button>
       </div>
     </div>
-    <!-- <div class="shadow flex w-1/4 mx-auto mt-6">
-      <input class="w-full rounded p-2" type="text" placeholder="Search..."
-        v-model="searchField" @keyup.enter="searchItem">
-    <button class="bg-white w-auto flex justify-end items-center text-blue-500 p-2 hover:text-blue-400">
-        <i class="material-icons" @click.prevent="searchItem">search</i>
-    </button>
-    </div> -->
     <h1 class="pt-4 text-center">
-      มีสินค้าทั้งหมด {{ totalProduct }} ชิ้น
+      พบสินค้าทั้งหมด {{ totalProduct }} ชิ้น
     </h1>
     <pagination-footer :current-page="pageNo" :lastpage="totalPage" @pagination="pagination"></pagination-footer>
     <div v-show="loading" class="loader"></div>
@@ -48,7 +41,7 @@
     <div class="flex flex-row flex-wrap justify-start items-stretch box-border mt-2 min-h-screen  text-center" >
       <div class="item" v-for="p in productList" :key="p">
         <div v-if="totalProduct>0">
-        <div class="text-gray-900 bg-gray-200 font-semibold box-border h-full py-4 space-y-2 rounded-md">
+        <div class="text-gray-900 bg-gray-50 font-semibold box-border h-full py-4 space-y-2 rounded-md hover:bg-gray-200 transition duration-300">
           <h1 class="text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
             class="blank-img cursor-pointer"
@@ -69,7 +62,7 @@
               :to="{ name: 'ViewProductDetail', params: { id: p.productCode } }"
               
             >
-              View
+              <li class="text-3xl material-icons">open_in_new</li>
             </router-link>
             </div>
            <div class="btn-edit">
@@ -80,12 +73,12 @@
               }"
               
             >
-              Edit
+              <li class="text-3xl material-icons">edit</li>
             </router-link>
            </div>
             <div class="btn-delete">
             <button @click="showModal(p.productCode)">
-              Delete
+              <li class="text-3xl material-icons">delete_forever</li>
             </button>
             </div>
 
@@ -251,22 +244,16 @@ export default {
   @apply box-border mb-4 px-4;
 }
 .blank-img {
-  @apply bg-gray-600 max-w-lg max-h-64 mx-auto shadow-lg;
+  @apply relative bg-gray-600 max-w-lg max-h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
 }
-/* .content {
-  @apply text-gray-900 bg-gray-200 font-semibold text-center box-border h-full py-4 space-y-2 rounded-md;
-} */
-/* .btn {
-  @apply flex justify-center text-sm inline-block;
-} */
 .btn-view {
-  @apply mr-2 mt-2 focus:outline-none text-green-600 text-sm py-1 px-5 rounded-full border border-green-600 hover:bg-green-50;
+  @apply mr-2 mt-2 focus:outline-none text-green-600 text-sm  px-5 rounded-full border border-green-600 hover:bg-green-50 ;
 }
 .btn-edit {
-  @apply mr-2 mt-2 focus:outline-none text-blue-600 text-sm py-1 px-5 rounded-full border border-blue-600 hover:bg-blue-50;
+  @apply mr-2 mt-2 focus:outline-none text-blue-600 text-sm  px-5 rounded-full border border-blue-600 hover:bg-blue-50;
 }
 .btn-delete {
-  @apply mr-2 mt-2 focus:outline-none text-red-600 text-sm py-1 px-5 rounded-full border border-red-600 hover:bg-red-50;
+  @apply mr-2 mt-2 focus:outline-none text-red-600 text-sm  px-5 rounded-full border border-red-600 hover:bg-red-50;
 }
 .loader {
   border: 16px solid #f3f3f3;

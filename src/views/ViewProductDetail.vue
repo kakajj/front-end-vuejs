@@ -170,6 +170,10 @@ export default {
 </script>
 
 <style>
+.product-main{
+  transition: 0.5s;
+  @apply hover:bg-gray-100
+}
 .footer-desc h3{
     @apply text-xl text-gray-500 font-bold py-2
 }
@@ -177,7 +181,7 @@ export default {
     @apply text-lg  font-normal
 }
 .footer-desc ,.footer-warranty{
-    @apply py-6
+    @apply py-4 px-4
 }
 .footer{
     @apply bg-white inline-block py-2 px-4 text-black hover:text-gray-500 font-semibold
@@ -187,7 +191,8 @@ export default {
     @apply bg-white inline-block border-b-4 border-gray-500 rounded-t py-2 px-4 text-black font-semibold
 }
 .product-footer{
-    @apply mx-64 border-t-4 hover:border-gray-500;
+  transition: 0.5s;
+    @apply mx-64 border-t-4 hover:border-gray-500 hover:bg-gray-50;
 }
 .product-edit {
   transition: 0.3s;

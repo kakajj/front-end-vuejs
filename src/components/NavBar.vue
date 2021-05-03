@@ -47,6 +47,7 @@ export default {
 
 <style scoped>
 .menu-bar {
+  z-index: 999;
     @apply bg-black  flex justify-between box-border sticky top-0
 }
 .item, .item-home{
