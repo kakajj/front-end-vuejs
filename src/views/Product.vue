@@ -145,7 +145,7 @@ export default {
       console.log(this.productList)
     },
     go(id) {
-      this.$router.push({ name: "ViewProduct", params: { slug: id } });
+      this.$router.push({ name: "ViewProductDetail", params: { id: id } });
     },
     pagination(page){
       this.pageNo = page;

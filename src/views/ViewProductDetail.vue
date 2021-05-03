@@ -74,8 +74,9 @@
           <div class="footer-desc" v-show="activeli==1">
             <h3>{{ product.brands.brandName }} {{ product.productName }}</h3>
             <p>รายละเอียดโดยรวม</p>
-            <p>Brand : {{ product.brands.brandName }}</p>
+            <p>Brand        : {{ product.brands.brandName }}</p>
             <p>Release Date : {{ product.date }}</p>
+            <p>Price        : ฿{{ product.productPrice }}</p>
             <p>Description</p>
             <p>{{ product.productDescription }}</p>
           </div>
@@ -173,10 +174,10 @@ export default {
     @apply text-xl text-gray-500 font-bold py-2
 }
 .footer-desc ,.footer-warranty p{
-    @apply text-lg  font-semibold
+    @apply text-lg  font-normal
 }
 .footer-desc ,.footer-warranty{
-    @apply py-10
+    @apply py-6
 }
 .footer{
     @apply bg-white inline-block py-2 px-4 text-black hover:text-gray-500 font-semibold
