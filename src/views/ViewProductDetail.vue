@@ -53,6 +53,9 @@
               <button class="product-delete" @click="toggleModal">
                 <li class="text-5xl material-icons">delete_forever</li>
               </button>
+              <button>
+                <go-back></go-back>
+              </button>
             </div>
           </div>
         </div>
@@ -123,19 +126,20 @@ export default {
     removeImage(curentProduct) {
       this.loading = true;
       axios
-        .delete(this.urlImage + "/delete/" + curentProduct + ".jpg")
+        .delete(process.env.VUE_APP_IMAGE_API + "/delete/" + curentProduct + ".jpg")
         .then((response) => {
           return response.data;
         })
         .then(() => {
           axios
-            .delete(`${this.url}/delete/${curentProduct}`)
+            .delete(process.env.VUE_APP_PRODUCT_API+`/delete/${curentProduct}`)
             .then((response) => {
               return response.data;
             })
             .then(() => {
               this.loading = false;
-              this.closeModal();
+              this.toggleModal();
+              this.$router.push('/product')
             })
             .catch((err) => {
               console.error(err);

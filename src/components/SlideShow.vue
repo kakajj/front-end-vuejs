@@ -9,10 +9,10 @@
         />
       </div>
     <div class="control flex flex-row justify-center">
-      <a class="prev" @click="prev" href="#">
+      <a class="prev" @click.prevent="prev">
         <li class="text-3xl material-icons">chevron_left</li>
       </a>
-      <a class="next" @click="next" href="#">
+      <a class="next" @click.prevent="next">
         <li class="text-3xl material-icons">chevron_right</li>
       </a>
     </div>

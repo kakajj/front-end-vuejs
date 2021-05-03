@@ -40,7 +40,7 @@
     </div>
 
   </div>
-  <go-back></go-back>
+  <go-back class="mx-auto"></go-back>
 </template>
 <script>
 export default {

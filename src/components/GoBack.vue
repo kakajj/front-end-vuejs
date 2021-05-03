@@ -1,14 +1,7 @@
 <template>
   <div class="go-back">
     <button @click="goBack">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M13.427 3.021h-7.427v-3.021l-6 5.39 6 5.61v-3h7.427c3.071 0 5.561 2.356 5.561 5.427 0 3.071-2.489 5.573-5.561 5.573h-7.427v5h7.427c5.84 0 10.573-4.734 10.573-10.573s-4.733-10.406-10.573-10.406z"
-        />
-      </svg>
+       <i class="text-5xl material-icons">arrow_back</i>
     </button>
   </div>
 </template>
@@ -25,9 +18,10 @@ export default {
 
 <style scoped>
 .go-back {
- @apply w-12 m-4 mx-auto focus:outline-none text-blue-600 text-sm  rounded-full border border-blue-600 hover:bg-blue-50;
+  transition: 0.5s;
+ @apply w-20 h-10 flex justify-center text-blue-800 text-sm  hover:text-blue-400 my-8;
 }
-button {
-  @apply cursor-pointer mx-auto  w-4 my-1 ml-4;
+li {
+  @apply cursor-pointer ;
 }
 </style>

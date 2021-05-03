@@ -60,6 +60,7 @@ export default {
   transition: opacity 0.5s ease;
 }
 .modal-backdrop {
+  z-index: 999;
   position: fixed;
   top: 0;
   bottom: 0;

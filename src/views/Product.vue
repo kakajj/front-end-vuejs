@@ -26,10 +26,9 @@
         </button>
       </div>
     </div>
-    <h1 class="pt-4 text-center">
+    <h1 class="p-4 text-xl text-center">
       พบสินค้าทั้งหมด {{ totalProduct }} ชิ้น
     </h1>
-    <pagination-footer :current-page="pageNo" :lastpage="totalPage" @pagination="pagination"></pagination-footer>
     <div v-show="loading" class="loader"></div>
     <decision-modal
         v-show="isModal"
@@ -90,6 +89,7 @@
         </div>
       </div>
     </div>
+    <pagination-footer :current-page="pageNo" :lastpage="totalPage" @pagination="pagination"></pagination-footer>
   </div>
 </template>
 
@@ -103,7 +103,7 @@ const axios = require("axios");
 export default {
   components: { 
     SlideShow,
-     DecisionModal, PaginationFooter },
+     DecisionModal, PaginationFooter,},
   created() {
     this.fetchProduct();
     this.fetchPaginationInfo();
@@ -200,6 +200,7 @@ export default {
               return response.data;
             })
             .then(() => {
+              this.pageNo = 0;
               this.fetchProduct();
               this.fetchPaginationInfo();
               this.loading = false;

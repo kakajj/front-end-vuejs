@@ -145,7 +145,7 @@
           <div class="validate">{{ errors.upload }}</div>
         </div>
 
-        <div class="flex items-center justify-end">
+        <div class="flex items-center justify-end space-x-6">
           <button
             id="submit"
             class="btn-submit"
@@ -153,7 +153,9 @@
             @click.prevent="checkForm"
           >
             <em class="fab fa-whatsapp"></em> ส่งข้อมูล
+            <li class="text-2xl material-icons">cloud_upload</li>
           </button>
+          <go-back></go-back>
         </div>
       </form>
     </div>
