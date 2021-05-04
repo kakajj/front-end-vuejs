@@ -20,7 +20,7 @@
   <div class="shop-container" v-if="!isLoading">
     <div class="product-container" >
       <div class="product-main">
-        <div class="flex flex-row justify-center space-x-4">
+        <div class="flex flex-col md:flex-row justify-center space-x-4">
           <div class="product-pic">
             <img class="prod-img" @click="toggleView" :src="img" :alt="pic" />
           </div>
@@ -30,7 +30,7 @@
               <h2>฿{{ product.productPrice }}</h2>
               <div class="color">
                 <p class="pt-1">Color Available</p>
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-row flex-wrap justify-start space-x-2 space-x-2">
                   <div v-for="color in product.colors" :key="color.colorId">
                     <div
                       class="box"
@@ -89,6 +89,7 @@
       </div>
     </div>
   </div>
+  <div  class="spacer"> . </div>
 </template>
 
 <script>
@@ -173,10 +174,10 @@ export default {
 };
 </script>
 
-<style>
-.product-main{
-  transition: 0.5s;
-  @apply hover:bg-gray-100
+<style scoped>
+.spacer{
+  margin-bottom: 40px; /* how high is your footer */
+  visibility: hidden; 
 }
 .footer-desc h3{
     @apply text-xl text-gray-500 font-bold py-2
@@ -188,7 +189,7 @@ export default {
     @apply py-4 px-4
 }
 .footer{
-    @apply bg-white inline-block py-2 px-4 text-black hover:text-gray-500 font-semibold
+    @apply  bg-white inline-block py-2 px-4 text-black hover:text-gray-500 font-semibold
 }
 .footer-active{
     transition: 0.5s;
@@ -196,7 +197,10 @@ export default {
 }
 .product-footer{
   transition: 0.5s;
-    @apply mx-64 border-t-4 hover:border-gray-500 hover:bg-gray-50;
+    @apply mx-4 border-t-4  hover:border-gray-500 hover:bg-gray-50  xl:mx-52 ;
+}
+.product-main {
+  @apply  mt-5 border-b-4 mx-4 p-4 hover:border-gray-500 md:p-8 xl:mx-52 lg:p-14 hover:bg-gray-100;
 }
 .product-edit {
   transition: 0.3s;
@@ -206,31 +210,27 @@ export default {
   transition: 0.3s;
   @apply text-red-600 hover:text-red-300;
 }
-.shop-container {
-  @apply h-screen;
-}
-.product-main {
-  @apply  mt-5 border-b-4 mx-64 p-14 hover:border-gray-500;
-}
+
 .product-pic {
   height: 500px;
   display: block;
   object-fit: contain;
+  @apply max-w-full md:w-2/5 my-auto flex overflow-hidden
 }
 .prod-img {
-  @apply max-w-full max-h-full cursor-pointer my-auto;
+  @apply  cursor-pointer mx-auto my-auto lg:max-w-full lg:max-h-full;
 }
 .product-btn {
-  @apply space-x-8;
+  @apply space-x-8 mx-auto md:mx-1 ;
 }
 .product-summary {
-  @apply flex flex-col justify-around;
+  @apply max-w-full pt-4 md:w-2/5 flex flex-col justify-center lg:w-2/5 ;
 }
 .product-summary h1 {
-  @apply text-4xl font-bold py-1 text-gray-600;
+  @apply text-2xl font-bold py-1 text-gray-600 xl:text-4xl;
 }
 .product-summary h2 {
-  @apply text-3xl font-bold py-1;
+  @apply text-xl font-bold py-1 xl:text-3xl;
 }
 .product-summary p {
   @apply text-sm font-normal py-1;
@@ -239,8 +239,8 @@ export default {
   @apply flex flex-col pt-2;
 }
 .box {
-  transition: 0.5s;
-  @apply w-14 h-14 border-2 border-opacity-80 hover:border-gray-400;
+  transition: 0.2s;
+  @apply w-8 h-8 lg:w-12 lg:h-12 border-2 border-opacity-80 hover:border-gray-400;
 }
 .loader {
   border: 16px solid #f3f3f3;

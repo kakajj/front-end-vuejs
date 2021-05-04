@@ -4,7 +4,13 @@
       <div class="md:flex md:items-center md:justify-center" >
           <div class="md:mx-2 md:inline leading-7 text-sm">
             <h1 class="text-white text-sm font-thin text-center">
-               Kodlnw-Production<br>INT221 Information Technology Integrated Project I
+               Kodlnw-Production
+            </h1>
+            <h1 class="text-white text-sm font-thin text-center hidden sm:block">
+              INT221 Information Technology Integrated Project I
+            </h1>
+            <h1 class="text-white text-sm font-thin text-center block sm:hidden">
+              INT221 Information Technology Integrated Project I
             </h1>
           </div>
       </div>

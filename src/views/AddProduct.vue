@@ -1,12 +1,12 @@
 <template>
   <nav-bar></nav-bar>
   <div class="loader" v-if="loading"></div>
-  <div class="flex flex-row">
-    <div class="bg-gray-200 w-1/6 pt-10">
-      <h1 v-if="isEdit" class="title">Product ID :{{ slug }}</h1>
+  <div class="flex flex-col sm:flex-row">
+    <div class="title-box">
       <h1 class="title">{{ welcomeMsg }}</h1>
+      <h1 v-if="isEdit" class="title">Product ID: {{ slug }}</h1>
     </div>
-    <div class="w-full py-6 px-10">
+    <div class="w-full py-6 px-10 hover:bg-gray-100">
       <form name="form" id="form" enctype="multipart/form-data">
         <div class="mb-4">
           <label class="input-name" for="Date"> Brand Name </label>
@@ -91,14 +91,14 @@
         </div>
         <div class="mb-4">
           <label class="input-name" for="Color"> Color Available </label>
-          <div class="flex flex-row">
+          <div class="flex flex-col md:flex-row">
             <div
               class="flex flex-row"
               v-for="color in colorArray"
               :key="color.colorId"
             >
               <input
-                class="mt-2 mx-auto"
+                class="my-auto w-4 h-4 md:mx-auto"
                 type="checkbox"
                 :value="color"
                 v-model="newProduct.colors"
@@ -145,7 +145,7 @@
           <div class="validate">{{ errors.upload }}</div>
         </div>
 
-        <div class="flex items-center justify-end space-x-6">
+        <div class="flex items-center justify-center space-x-6 md:justify-end">
           <button
             id="submit"
             class="btn-submit"
@@ -155,7 +155,6 @@
             <em class="fab fa-whatsapp"></em> ส่งข้อมูล
             <li class="text-2xl material-icons">cloud_upload</li>
           </button>
-          <go-back></go-back>
         </div>
       </form>
     </div>
@@ -188,7 +187,7 @@ export default {
       warrantyUrl: process.env.VUE_APP_WARRANTY_API + "/getall",
       file: "",
       isEdit: false,
-      url: process.env.VUE_APP_IMAGE_API + "/get/" + this.slug + ".jpg",
+      url: process.env.VUE_APP_IMAGE_API + "/get/" + this.slug + '.jpg',
       newProduct: {
         productCode: null,
         productName: "",
@@ -478,8 +477,12 @@ export default {
 </script>
 
 <style scope>
+.title-box{
+  transition: 1s;
+  @apply bg-gray-200 sm:w-3/6 md:w-2/6 lg:w-1/6 pt-10 hover:bg-gray-300
+}
 .title {
-  @apply text-right font-bold text-2xl px-2;
+  @apply  text-center text-3xl font-bold md:text-2xl px-2 md:text-right;
 }
 form {
   @apply bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
@@ -491,7 +494,7 @@ form {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md;
 }
 .box {
-  @apply mx-1 w-8 h-8 font-extralight text-xs border-2 border-opacity-70 hover:border-black;
+  @apply mx-1 w-8 h-8 md:w-12 md:h-12 border-2 border-opacity-70 hover:border-black;
 }
 .btn-submit {
   @apply bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none;
@@ -507,6 +510,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+  @apply py-4
 }
 
 #preview img {

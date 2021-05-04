@@ -1,6 +1,7 @@
 <template>
   <nav-bar></nav-bar>
   <!-- Container -->
+  <go-back class="px-4"></go-back>
   <div v-for="team in teamMate" :key="team.id">
     
     <div class="card-container">
@@ -40,7 +41,6 @@
     </div>
 
   </div>
-  <go-back class="mx-auto"></go-back>
 </template>
 <script>
 export default {
@@ -77,33 +77,33 @@ export default {
 
 <style scoped>
 .card-container {
-  @apply container my-16 mx-auto p-4 md:p-0
+  @apply container px-4 my-10 mx-auto md:p-0 
 }
 .wrapper {
-  @apply shadow-lg flex flex-auto w-full lg:w-4/5 mx-auto
+  @apply w-full shadow-lg flex flex-col justify-center md:flex-row  mx-auto sm:justify-center md:w-11/12 lg:w-full
 }
 .image{
-  @apply bg-cover bg-bottom border w-full md:w-1/3 h-80 
+  @apply bg-cover  border w-full h-80 md:flex-shrink-0 md:w-8/12 lg:w-1/4
 }
 .body-outer{
-  @apply bg-white w-full 
+  @apply bg-white w-full md:w-1/4 lg:w-full 
 }
 .body-inner{
-  @apply h-full mx-auto px-6 md:px-0 md:pt-20 md:-ml-6 
+  @apply h-full mx-auto  md:px-0 md:pt-20 md:-ml-6  sm:w-4/5
 }
 .body{
-  @apply bg-white lg:h-full p-6 -mt-6 md:mt-0  mb-4 md:mb-0 flex flex-wrap md:flex-wrap items-center
+  @apply bg-white lg:h-full p-6 -mt-6 md:mt-0  mb-4 md:mb-0 flex flex-wrap md:flex-wrap items-center md:w-3/4 lg:w-full
 }
 .card.title{
-  @apply w-full lg:w-1/5 lg:border-solid text-center md:text-left
+  @apply w-full lg:w-1/5 lg:border-solid text-center md:text-left 
 }
 .nickname{
   @apply mb-0 mt-3 text-gray-700 text-base italic
 }
 .card-desc{
-  @apply w-full lg:w-3/5 mx-auto
+  @apply w-full lg:w-3/5 mx-auto sm:flex sm:flex-row sm:justify-start
 }
 .response{
-  @apply  mt-4 lg:mt-0 text-justify md:text-left text-lg
+  @apply  mt-4 lg:mt-0  md:text-left text-lg
 }
 </style>

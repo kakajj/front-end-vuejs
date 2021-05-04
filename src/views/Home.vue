@@ -28,9 +28,10 @@ export default {
   @apply w-screen h-screen bg-black text-center
 }
 .greeting{
-  @apply pt-52 text-white
+  @apply text-white pt-64 text-2xl lg:text-xl
 }
 .btn{
-  @apply m-2 focus:outline-none text-sm py-2.5 px-5 rounded-md hover:bg-gray-600
+  transition: 0.5s;
+  @apply bg-gray-800 w-60 h-full m-2 focus:outline-none py-2.5 rounded-md hover:bg-gray-500 text-2xl lg:text-xl lg:w-48 hover:text-black
 }
 </style>
