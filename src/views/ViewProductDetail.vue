@@ -218,7 +218,7 @@ export default {
   @apply max-w-full md:w-2/5 my-auto flex overflow-hidden
 }
 .prod-img {
-  @apply  cursor-pointer mx-auto my-auto lg:max-w-full lg:max-h-full;
+  @apply  cursor-pointer mx-auto my-auto lg:max-w-full lg:max-h-full transition duration-200 ease-in-out hover:shadow-2xl;
 }
 .product-btn {
   @apply space-x-8 mx-auto md:mx-1 ;

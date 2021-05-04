@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="slide">
       <div class="block">
         <img
           v-for="(img, i) in images"
@@ -52,15 +52,22 @@ export default {
 </script>
 
 <style scoped>
+.slide{
+  @apply w-11/12 mx-auto
+}
+.block{
+  @apply w-full h-auto 
+}
 .control{
   @apply space-x-8 m-4
 }
 .image {
   transition: 1s;
   display: none;
-  height: 600px;
   width: 100%;
-}
+  object-fit: cover ;
+  @apply  sm:max-h-64 md:max-h-80 2xl:max-h-96
+ }
 .active {
   display: block;
 }

@@ -54,12 +54,12 @@ export default {
   @apply relative w-auto my-6 mx-auto;
 }
 .content {
-  @apply border-0 rounded-lg shadow-lg relative flex flex-col outline-none focus:outline-none max-w-xs;
+  @apply border-0 rounded-lg shadow-lg relative flex flex-col outline-none focus:outline-none max-w-md md:max-w-sm sm:max-w-xs;
 }
 .header {
   @apply flex justify-center space-x-4;
 }
 .picture {
-  @apply relative w-full p-4  ;
+  @apply relative p-4  ;
 }
 </style>

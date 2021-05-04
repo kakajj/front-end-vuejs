@@ -2,8 +2,8 @@
 <template>
   <nav-bar nav-bar></nav-bar>
   <div class="mt-5">
-    <slide-show class="w-11/12 mx-auto"></slide-show>
-    <div class="text-center bg-black w-2/4 h-10 mx-auto my-2 rounded-lg">
+    <slide-show></slide-show>
+    <div id="search" class="text-center bg-black w-3/4 h-10 mx-auto my-2 rounded-lg sm:w-2/4">
       <span
         v-if="isSearch"
         class="material-icons py-2 w-full text-gray-600 hover:text-white transition duration-500"
@@ -37,11 +37,11 @@
         <template v-slot:header> Warning </template>
         <template v-slot:body>Delete from products?</template>
     </decision-modal>
-    <div class="flex flex-row flex-wrap justify-start items-stretch box-border mt-2 min-h-screen  text-center" >
+    <div class="flex flex-col md:flex-row flex-wrap justify-start  box-border mt-2 text-center" >
       <div class="item" v-for="p in productList" :key="p">
         <div v-if="totalProduct>0">
         <div class="text-gray-900 bg-gray-50 font-semibold box-border h-full py-4 space-y-2 rounded-md hover:bg-gray-200 transition duration-300">
-          <h1 class="text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
+          <h1 class="text-lg md:text-xl lg:text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
             class="blank-img cursor-pointer"
             @click="go(p.productCode)"
@@ -55,13 +55,13 @@
             <p>Warranty : {{ p.productWarranty.warrantyDescription }}</p>
             <p>{{ p.colors.length }} colors available</p>
           </div>
-          <div class="flex justify-center text-sm inline-block">
+          <div class="flex justify-center inline-block">
             <div class="btn-view">
                <router-link
               :to="{ name: 'ViewProductDetail', params: { id: p.productCode } }"
               
             >
-              <li class="text-3xl material-icons">open_in_new</li>
+              <li class="text-3xl md:text-xl lg:text-3xl material-icons">open_in_new</li>
             </router-link>
             </div>
            <div class="btn-edit">
@@ -72,12 +72,12 @@
               }"
               
             >
-              <li class="text-3xl material-icons">edit</li>
+              <li class="text-3xl md:text-xl lg:text-3xl material-icons ">edit</li>
             </router-link>
            </div>
             <div class="btn-delete">
             <button @click="showModal(p.productCode)">
-              <li class="text-3xl material-icons">delete_forever</li>
+              <li class="text-3xl md:text-xl lg:text-3xl material-icons">delete_forever</li>
             </button>
             </div>
 
@@ -91,6 +91,7 @@
     </div>
     <pagination-footer :current-page="pageNo" :lastpage="totalPage" @pagination="pagination"></pagination-footer>
   </div>
+  <div  class="spacer"> . </div>
 </template>
 
 <script>
@@ -143,6 +144,8 @@ export default {
     pagination(page){
       this.pageNo = page;
       this.fetchProduct();
+      location.href = "#";
+      location.href = "#search";
     },
     fetchPaginationInfo(){
       axios
@@ -237,18 +240,18 @@ export default {
 </script>
 
 <style scoped>
-/* .flexbox {
-  @apply flex flex-row flex-wrap justify-start items-stretch box-border mt-2;
-} */
+.spacer{
+  margin-bottom: 80px;
+  visibility: hidden; 
+}
 .item {
-  width: 33.33%;
-  @apply box-border mb-4 px-4;
+  @apply  items-stretch mx-auto md:-mx-0 w-80 md:w-1/3 box-border mb-4 px-4;
 }
 .blank-img {
-  @apply relative bg-gray-600 max-w-lg max-h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+  @apply relative bg-gray-600 max-w-lg h-64 md:h-32 lg:h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
 }
 .btn-view {
-  @apply mr-2 mt-2 focus:outline-none text-green-600 text-sm  px-5 rounded-full border border-green-600 hover:bg-green-50 ;
+  @apply  mr-2 mt-2 focus:outline-none text-green-600 text-sm  px-5 rounded-full border border-green-600 hover:bg-green-50 ;
 }
 .btn-edit {
   @apply mr-2 mt-2 focus:outline-none text-blue-600 text-sm  px-5 rounded-full border border-blue-600 hover:bg-blue-50;

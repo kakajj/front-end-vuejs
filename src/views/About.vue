@@ -77,7 +77,7 @@ export default {
 
 <style scoped>
 .card-container {
-  @apply container px-4 my-10 mx-auto md:p-0 
+  @apply container px-4 my-10 mx-auto md:p-0  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105
 }
 .wrapper {
   @apply w-full shadow-lg flex flex-col justify-center md:flex-row  mx-auto sm:justify-center md:w-11/12 lg:w-full
@@ -89,7 +89,7 @@ export default {
   @apply bg-white w-full md:w-1/4 lg:w-full 
 }
 .body-inner{
-  @apply h-full mx-auto  md:px-0 md:pt-20 md:-ml-6  sm:w-4/5
+  @apply h-full mx-auto  md:px-0  sm:w-4/5
 }
 .body{
   @apply bg-white lg:h-full p-6 -mt-6 md:mt-0  mb-4 md:mb-0 flex flex-wrap md:flex-wrap items-center md:w-3/4 lg:w-full

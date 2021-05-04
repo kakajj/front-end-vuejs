@@ -9,8 +9,8 @@
             <h1 class="text-white text-sm font-thin text-center hidden sm:block">
               INT221 Information Technology Integrated Project I
             </h1>
-            <h1 class="text-white text-sm font-thin text-center block sm:hidden">
-              INT221 Information Technology Integrated Project I
+            <h1 class="text-black text-sm font-thin text-center block sm:hidden">
+              .
             </h1>
           </div>
       </div>
