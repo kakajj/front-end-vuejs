@@ -136,7 +136,6 @@ export default {
       this.pageNo = 0;
       this.fetchProduct()
       this.fetchPaginationInfo()
-      console.log(this.productList)
     },
     go(id) {
       this.$router.push({ name: "ViewProductDetail", params: { id: id } });
@@ -154,9 +153,9 @@ export default {
           return response.data;
         })
         .then((data) => {
-          this.totalProduct = data.totalElements
+          this.totalProduct = data.totalElements;
           this.totalPage = data.totalPage;
-          console.log(data);
+          return data;
         })
         .catch((err) => {
           console.error(err);
@@ -170,9 +169,6 @@ export default {
           this.productList = response.data;
           this.loading = false;
           return response.data;
-        })
-        .then((data) => {
-          console.log(data);
         })
         .catch((err) => {
           console.error(err);

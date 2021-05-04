@@ -8,16 +8,11 @@
         <li class="text-2xl material-icons">arrow_upward</li>
         </router-link>
       </h2>
-       
-
-
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style>

@@ -34,12 +34,6 @@
 <script>
 export default {
   props: ["lastpage", "currentPage"],
-  computed: {},
-  data() {
-    return {
-      // page
-    };
-  },
   methods: {
     changePage(page) {
       if (page < 0) {

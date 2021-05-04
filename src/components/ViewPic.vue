@@ -2,9 +2,7 @@
   <transition name="outline-fade">
     <div class="outline">
       <div class="outline-header">
-        <!--content-->
         <div class="content">
-          <!--header-->
           <div class="header">
             <h3 class="text-3xl font-semibold text-white">
               {{ pic.productName }}
@@ -13,7 +11,6 @@
               <li class=" text-4xl material-icons text-gray-300 hover:text-white">close</li>
             </button>
           </div>
-          <!--body-->
           <div class="picture">
             <img  v-bind:src="img" alt="picofproduct" />
           </div>

@@ -62,7 +62,7 @@
             name="date"
             id="date"
             type="date"
-            placeholder="Ingresa tu Fecha de Nacimiento"
+            placeholder="Date"
             v-model="newProduct.date"
             required
           />
@@ -310,7 +310,7 @@ export default {
           )
           .then((response) => {
             this.loading = false;
-            console.log(response);
+            return response.data
           })
           .then(() => {
             this.clearData();
@@ -333,7 +333,7 @@ export default {
             )
             .then((response) => {
               this.loading = false;
-              console.log(response);
+              return response.data
             })
             .then(() => {
               this.clearData();
@@ -361,7 +361,7 @@ export default {
         .post(process.env.VUE_APP_PRODUCT_API + "/create", this.newProduct)
         .then((response) => {
           this.loading = false;
-          console.log(response);
+          return response.data
         })
         .then(() => {
           this.uploadPic();
