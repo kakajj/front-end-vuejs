@@ -65,6 +65,7 @@ export default {
   transition: 1s;
   display: none;
   width: 100%;
+  object-position: center;
   object-fit: cover ;
   @apply  sm:max-h-64 md:max-h-80 2xl:max-h-96
  }
