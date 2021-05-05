@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fe-config
+  namespace: ...
+data:
+  config.js: |
+    var config = (() => {
+      return {
+        "window.VUE_APP_API": "http://kodlnw-service-back-end-{{ .Values.frontend.tag }}",
+      };
+    })();

@@ -181,13 +181,13 @@ export default {
   },
   data() {
     return {
-      ColorUrl: process.env.VUE_APP_COLOR_API + "/getall",
-      productUrl: process.env.VUE_APP_PRODUCT_API + "/getall",
-      brandUrl: process.env.VUE_APP_BRAND_API + "/getall",
-      warrantyUrl: process.env.VUE_APP_WARRANTY_API + "/getall",
+      ColorUrl: config.window.VUE_APP_API + "/colors/getall",
+      productUrl: config.window.VUE_APP_API + "/products/getall",
+      brandUrl: config.window.VUE_APP_API + "/brands/getall",
+      warrantyUrl: config.window.VUE_APP_API + "/warranty/getall",
       file: "",
       isEdit: false,
-      url: process.env.VUE_APP_IMAGE_API + "/get/" + this.slug + '.jpg',
+      url: config.window.VUE_APP_API + "/picture/get/" + this.slug + '.jpg',
       newProduct: {
         productCode: null,
         productName: "",
@@ -270,7 +270,7 @@ export default {
         });
     },
     fetchEditData() {
-      let url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+      let url = config.window.VUE_APP_API + "/products/get/" + this.slug;
       const requestBrand = axios.get(this.brandUrl);
       const requestWarranty = axios.get(this.warrantyUrl);
       const requestColor = axios.get(this.ColorUrl);
@@ -302,7 +302,7 @@ export default {
       if (!this.isEdit) {
         axios
           .post(
-            process.env.VUE_APP_IMAGE_API + "/add/" + this.newProductCode,
+            config.window.VUE_APP_API + "/picture/add/" + this.newProductCode,
             formData,
             {
               "Content-Type": "multipart/form-data",
@@ -325,7 +325,7 @@ export default {
         } else {
           axios
             .put(
-              process.env.VUE_APP_IMAGE_API + "/edit/" + this.slug + ".jpg",
+              config.window.VUE_APP_API + "/picture/edit/" + this.slug + ".jpg",
               formData,
               {
                 "Content-Type": "multipart/form-data",
@@ -358,7 +358,7 @@ export default {
       this.newProduct.productCode = this.newProductCode;
       this.loading = true;
       axios
-        .post(process.env.VUE_APP_PRODUCT_API + "/create", this.newProduct)
+        .post(config.window.VUE_APP_API + "/products/create", this.newProduct)
         .then((response) => {
           this.loading = false;
           return response.data
@@ -375,7 +375,7 @@ export default {
       this.loading = true;
       axios
         .put(
-          process.env.VUE_APP_PRODUCT_API + "/edit/" + this.slug,
+          config.window.VUE_APP_API + "/products/edit/" + this.slug,
           this.newProduct
         )
         .then((responses) => {
