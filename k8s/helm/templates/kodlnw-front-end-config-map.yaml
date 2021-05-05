@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fe-config
-  namespace: ...
+  name: feconfig
+  namespace: {{ .Values.frontend.namespace }}
 data:
   config.js: |
     var config = (() => {

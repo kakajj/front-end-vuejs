@@ -18,7 +18,7 @@ spec:
     volumes:
       - name: config-volume
         configMap:
-          name: fe-config
+          name: feconfig
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.frontend.image }}:{{ .Values.frontend.tag }}
