@@ -127,13 +127,13 @@ export default {
     removeImage(curentProduct) {
       this.loading = true;
       axios
-        .delete(config.window.VUE_APP_API + "/picture/delete/" + curentProduct + ".jpg")
+        .delete(config.VUE_APP_API + "/picture/delete/" + curentProduct + ".jpg")
         .then((response) => {
           return response.data;
         })
         .then(() => {
           axios
-            .delete(config.window.VUE_APP_API+`/products/delete/${curentProduct}`)
+            .delete(config.VUE_APP_API+`/products/delete/${curentProduct}`)
             .then((response) => {
               return response.data;
             })
@@ -156,9 +156,9 @@ export default {
     fetchProduct() {
       this.loading = true;
       axios
-        .get(config.window.VUE_APP_API + "/products/get/" + this.id)
+        .get(config.VUE_APP_API + "/products/get/" + this.id)
         .then((response) => {
-          this.img = config.window.VUE_APP_API + "/picture/get/" + this.id + ".jpg";
+          this.img = config.VUE_APP_API + "/picture/get/" + this.id + ".jpg";
           this.loading = false;
           return response.data;
         })
