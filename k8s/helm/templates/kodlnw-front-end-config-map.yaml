@@ -7,6 +7,6 @@ data:
   config.js: |
     var config = (() => {
       return {
-        "VUE_APP_API": "http://10.72.3.52:8082"
+        "VUE_APP_API": "https://10.72.3.52:8082"
       };
     })();
