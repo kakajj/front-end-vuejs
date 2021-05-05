@@ -15,10 +15,10 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
-    volumes:
-      - name: config-volume
-        configMap:
-          name: feconfig
+      volumes:
+        - name: config-volume
+          configMap:
+            name: feconfig
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.frontend.image }}:{{ .Values.frontend.tag }}
