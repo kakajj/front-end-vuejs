@@ -68,7 +68,7 @@
              <router-link
               :to="{
                 name: 'EditProduct',
-                params: { slug: p.productCode, product: p },
+                params: { slug: p.productCode},
               }"
               
             >
