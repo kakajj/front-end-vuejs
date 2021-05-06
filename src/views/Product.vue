@@ -40,7 +40,7 @@
     <div class="flex flex-col md:flex-row flex-wrap justify-start  box-border mt-2 text-center" >
       <div class="item" v-for="p in productList" :key="p">
         <div v-if="totalProduct>0">
-        <div class="text-gray-900 bg-gray-50 font-semibold box-border h-full py-4 space-y-2 rounded-md hover:bg-gray-200 transition duration-300">
+        <div class="text-gray-900 font-semibold box-border h-full py-4 space-y-2 rounded-md hover:bg-gray-200 transition duration-300">
           <h1 class="text-lg md:text-xl lg:text-2xl">{{ p.brands.brandName }} {{ p.productName }}</h1>
           <img
             class="blank-img cursor-pointer"
@@ -244,7 +244,7 @@ export default {
   @apply  items-stretch mx-auto md:-mx-0 w-80 md:w-1/3 box-border mb-4 px-4;
 }
 .blank-img {
-  @apply relative bg-gray-600 max-w-lg h-64 md:h-32 lg:h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+  @apply relative  h-64 md:h-32 lg:h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
 }
 .btn-view {
   @apply  mr-2 mt-2 focus:outline-none text-green-600 text-sm  px-5 rounded-full border border-green-600 hover:bg-green-50 ;

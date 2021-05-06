@@ -119,7 +119,7 @@
             id="message2"
             type="text"
             placeholder="product description"
-            maxlength="300"
+            maxlength="500"
             v-model="newProduct.productDescription"
             required
           ></textarea>
