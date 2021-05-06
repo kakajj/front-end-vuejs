@@ -7,6 +7,6 @@ data:
   config.js: |
     var config = (() => {
       return {
-        "VUE_APP_API": "${BACK_API}"
+        "VUE_APP_API": "{{ .Values.extraEnv.BACK_API }}"
       };
     })();
