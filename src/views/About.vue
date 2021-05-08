@@ -1,23 +1,22 @@
 <template>
   <nav-bar></nav-bar>
-  <!-- Container -->
+
   <go-back class="px-4"></go-back>
   <div v-for="team in teamMate" :key="team.id">
     
     <div class="card-container">
-      <!-- Card wrapper -->
+
       <div class="wrapper">
-        <!-- Card image -->
+
         <div
           class="image"
           :style="{ backgroundImage: `url(${require('@/assets/' + team.img)})`}">
         </div>
-        <!-- ./Card image -->
-        <!-- Card body -->
+
         <div class="body-outer">
           <div class="body-inner">
             <div class="body">
-              <!-- Card title and subtitle -->
+
               <div class="card-title">
                 <h3>{{team.name}}</h3>
                 <h2>{{team.id}}</h2>
@@ -25,11 +24,13 @@
                   {{team.nickName}}
                 </p>
               </div>
-              <!-- ./Card title and subtitle -->
-              <!-- Card description -->
+
               <div class="card-desc">
                 <h1 class="response">
                   {{team.response}}
+                </h1>
+                <h1 class="response">
+                   {{team.contact.github}}
                 </h1>
               </div>
             </div>
@@ -53,6 +54,10 @@ export default {
           nickName: "JayJay",
           id: "62130500024",
           response: "Front-End and Database Development",
+          contact:{
+            github:'kakajj',
+            fb:'เฮียเจ จุ้บจิ้บ กระซิบกระซาบ'
+          },
           img: 'jj.jpg'
         },
         {
@@ -60,6 +65,10 @@ export default {
           nickName: "Tom-Leng",
           id: "62130500034",
           response: "Back-End and Database Development",
+          contact:{
+            github:'lengleng9090',
+            fb:'Thanapat Loharattanavisid'
+          },
           img: 'leng.jpg'
         },
         {
@@ -67,6 +76,10 @@ export default {
           nickName: "Gunny",
           id: "62130500057",
           response: "DevSecOps, Network and Infastructure Development",
+          contact:{
+            github:'gun082544',
+            fb:'Punnapop Chalor'
+          },
           img: 'gun.jpg'
         },
       ],

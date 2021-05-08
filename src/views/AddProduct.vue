@@ -185,9 +185,9 @@ export default {
       productUrl: config.VUE_APP_API + "/products/getall",
       brandUrl: config.VUE_APP_API + "/brands/getall",
       warrantyUrl: config.VUE_APP_API + "/warranty/getall",
+      url: config.VUE_APP_API + "/picture/get/" + this.slug + '.jpg',
       file: "",
       isEdit: false,
-      url: config.VUE_APP_API + "/picture/get/" + this.slug + '.jpg',
       newProduct: {
         productCode: null,
         productName: "",
@@ -215,7 +215,6 @@ export default {
       colorArray: {},
       warrantyArray: [],
       valid: true,
-      success: false,
       errors: {},
       message: null,
       loading: false,
@@ -226,19 +225,7 @@ export default {
       this.slug == undefined ? (this.isEdit = false) : (this.isEdit = true);
     },
     clearData() {
-      this.newProduct.productCode = null;
-      this.newProduct.productName = "";
-      this.newProduct.productDescription = "";
-      this.newProduct.productPrice = 0;
-      this.newProduct.date = "";
-      this.newProduct.brands.brandId = "";
-      this.newProduct.brandName = "";
-      this.newProduct.productWarranty.warrantyId = null;
-      this.newProduct.productWarranty.warrantyDescription = "";
-      this.newProduct.colors.colorId = null;
-      this.newProduct.colors.colorName = "";
-      this.newProduct.colors.colorName = "";
-      this.newProduct.colors.colorHex = "";
+      this.newProduct = {};
       return this.$router.push("/product/");
     },
     fetchMultipleData() {
