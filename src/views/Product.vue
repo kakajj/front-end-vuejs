@@ -53,9 +53,9 @@
             :src="urlImage + '/get/' + p.productCode + '.jpg'"
             alt="picofproducts"
           />
-          <p class="truncate mx-3">Brand: {{ p.brands.brandName }}</p>
+          <p class="truncate mx-3">Brand : {{ p.brands.brandName }}</p>
           <div class="font-light">
-            <p>Release: {{ p.date }}</p>
+            <p>Release : {{ p.date }}</p>
             <p>Price : {{ p.productPrice }} บาท</p>
             <p>Warranty : {{ p.productWarranty.warrantyDescription }}</p>
             <p>{{ p.colors.length }} colors available</p>
@@ -95,6 +95,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="productList.length==0">
+        <img class="mx-auto my-10 p-2 w-4/6 sm:w-3/6 xl:w-2/6" src="@/assets/pnotfound.png" alt="notfound">
     </div>
     <pagination-footer
       :current-page="pageNo"
