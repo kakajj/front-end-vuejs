@@ -119,7 +119,7 @@
             id="message2"
             type="text"
             placeholder="product description"
-            maxlength="300"
+            maxlength="500"
             v-model="newProduct.productDescription"
             required
           ></textarea>
@@ -128,7 +128,7 @@
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
           <div id="preview">
-            <img v-if="url" :src="url" />
+            <img v-if="url" :src="url" alt="preview" />
           </div>
           <input
             type="file"
@@ -153,7 +153,7 @@
             @click.prevent="checkForm"
           >
             <em class="fab fa-whatsapp"></em> ส่งข้อมูล
-            <li class="text-2xl material-icons">cloud_upload</li>
+            <span class="text-2xl material-icons">cloud_upload</span>
           </button>
         </div>
       </form>
@@ -181,13 +181,13 @@ export default {
   },
   data() {
     return {
-      ColorUrl: process.env.VUE_APP_COLOR_API + "/getall",
-      productUrl: process.env.VUE_APP_PRODUCT_API + "/getall",
-      brandUrl: process.env.VUE_APP_BRAND_API + "/getall",
-      warrantyUrl: process.env.VUE_APP_WARRANTY_API + "/getall",
+      ColorUrl: config.VUE_APP_API + "/colors/getall",
+      productUrl: config.VUE_APP_API + "/products/getall",
+      brandUrl: config.VUE_APP_API + "/brands/getall",
+      warrantyUrl: config.VUE_APP_API + "/warranty/getall",
+      url: config.VUE_APP_API + "/picture/get/" + this.slug + '.jpg',
       file: "",
       isEdit: false,
-      url: process.env.VUE_APP_IMAGE_API + "/get/" + this.slug + '.jpg',
       newProduct: {
         productCode: null,
         productName: "",
@@ -215,7 +215,6 @@ export default {
       colorArray: {},
       warrantyArray: [],
       valid: true,
-      success: false,
       errors: {},
       message: null,
       loading: false,
@@ -226,19 +225,7 @@ export default {
       this.slug == undefined ? (this.isEdit = false) : (this.isEdit = true);
     },
     clearData() {
-      this.newProduct.productCode = null;
-      this.newProduct.productName = "";
-      this.newProduct.productDescription = "";
-      this.newProduct.productPrice = 0;
-      this.newProduct.date = "";
-      this.newProduct.brands.brandId = "";
-      this.newProduct.brandName = "";
-      this.newProduct.productWarranty.warrantyId = null;
-      this.newProduct.productWarranty.warrantyDescription = "";
-      this.newProduct.colors.colorId = null;
-      this.newProduct.colors.colorName = "";
-      this.newProduct.colors.colorName = "";
-      this.newProduct.colors.colorHex = "";
+      this.newProduct = {};
       return this.$router.push("/product/");
     },
     fetchMultipleData() {
@@ -270,7 +257,7 @@ export default {
         });
     },
     fetchEditData() {
-      let url = process.env.VUE_APP_PRODUCT_API + "/get/" + this.slug;
+      let url = config.VUE_APP_API + "/products/get/" + this.slug;
       const requestBrand = axios.get(this.brandUrl);
       const requestWarranty = axios.get(this.warrantyUrl);
       const requestColor = axios.get(this.ColorUrl);
@@ -302,7 +289,7 @@ export default {
       if (!this.isEdit) {
         axios
           .post(
-            process.env.VUE_APP_IMAGE_API + "/add/" + this.newProductCode,
+            config.VUE_APP_API + "/picture/add/" + this.newProductCode,
             formData,
             {
               "Content-Type": "multipart/form-data",
@@ -325,7 +312,7 @@ export default {
         } else {
           axios
             .put(
-              process.env.VUE_APP_IMAGE_API + "/edit/" + this.slug + ".jpg",
+              config.VUE_APP_API + "/picture/edit/" + this.slug + ".jpg",
               formData,
               {
                 "Content-Type": "multipart/form-data",
@@ -358,7 +345,7 @@ export default {
       this.newProduct.productCode = this.newProductCode;
       this.loading = true;
       axios
-        .post(process.env.VUE_APP_PRODUCT_API + "/create", this.newProduct)
+        .post(config.VUE_APP_API + "/products/create", this.newProduct)
         .then((response) => {
           this.loading = false;
           return response.data
@@ -375,7 +362,7 @@ export default {
       this.loading = true;
       axios
         .put(
-          process.env.VUE_APP_PRODUCT_API + "/edit/" + this.slug,
+          config.VUE_APP_API + "/products/edit/" + this.slug,
           this.newProduct
         )
         .then((responses) => {

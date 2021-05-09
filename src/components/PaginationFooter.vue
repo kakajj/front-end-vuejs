@@ -37,11 +37,9 @@ export default {
   methods: {
     changePage(page) {
       if (page < 0) {
-        ("");
         return;
       }
       if (page > this.lastpage-1) {
-        ("");
         return;
       }
       this.$emit("pagination", page);

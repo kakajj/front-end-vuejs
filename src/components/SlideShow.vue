@@ -2,6 +2,7 @@
   <div class="slide">
       <div class="block">
         <img
+          alt="banner"
           v-for="(img, i) in images"
           :key="i"
           :src="img"
@@ -10,10 +11,10 @@
       </div>
     <div class="control flex flex-row justify-center">
       <a class="prev" @click.prevent="prev">
-        <li class="text-3xl material-icons">chevron_left</li>
+        <button class="text-3xl material-icons">chevron_left</button>
       </a>
       <a class="next" @click.prevent="next">
-        <li class="text-3xl material-icons">chevron_right</li>
+        <button class="text-3xl material-icons">chevron_right</button>
       </a>
     </div>
   </div>
@@ -21,6 +22,9 @@
 
 <script>
 export default {
+  mounted: function() {
+    this.startSlide();
+  },
   data() {
     return {
       images: [
@@ -30,9 +34,13 @@ export default {
         require("../assets/banner4.jpg"),
       ],
       currentIndex: 0,
+      timer:null
     };
   },
   methods: {
+    startSlide(){
+      this.timer = setInterval(this.next, 4500);
+    },
     next: function () {
       if (this.currentIndex + 1 > this.images.length - 1) {
         this.currentIndex = 0;
@@ -56,7 +64,7 @@ export default {
   @apply w-11/12 mx-auto
 }
 .block{
-  @apply w-full h-auto 
+  @apply w-full h-44 sm:h-auto 
 }
 .control{
   @apply space-x-8 m-4
@@ -72,7 +80,7 @@ export default {
 .active {
   display: block;
 }
-li {
+button {
   transition: 0.5s;
   cursor: pointer;
   width: auto;

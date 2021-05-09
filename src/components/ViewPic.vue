@@ -8,7 +8,7 @@
               {{ pic.productName }}
             </h3>
             <button v-on:click="switchModal()">
-              <li class=" text-4xl material-icons text-gray-300 hover:text-white">close</li>
+              <span class=" text-4xl material-icons text-gray-300 hover:text-white">close</span>
             </button>
           </div>
           <div class="picture">
@@ -23,7 +23,7 @@
 <script>
 export default {
   props: {
-    pic: Array,
+    pic: Object,
     img: null,
   },
   methods: {
@@ -57,6 +57,6 @@ export default {
   @apply flex justify-center space-x-4;
 }
 .picture {
-  @apply relative p-4  ;
+  @apply relative p-4 ;
 }
 </style>

@@ -4,7 +4,7 @@ let currentProduct = []
 
 let fetchProduct = () => {
   axios
-    .get(process.env.VUE_APP_PRODUCT_API + '/getall')
+    .get(config.VUE_APP_API + '/products/getall')
     .then((response) => {
       return response.data;
     })
@@ -17,7 +17,7 @@ let fetchProduct = () => {
 };
 let fetchCurrentProduct = (slug) => {
   axios
-    .get(process.env.VUE_APP_PRODUCT_API + '/get/' + slug)
+    .get(config.VUE_APP_API + '/products/get/' + slug)
     .then((response) => {
       return response.data;
     })
