@@ -35,42 +35,52 @@ function checkDuplicate(name, edit, slug) {
     fetchProduct();
     let checkdupli = product.filter(p => p.productName == name);
     if (checkdupli.length > 0) {
+      product = []
+      currentProduct = []
       return {
         valid: false,
         error: "This field was duplicated in database"
       };
     }
     if (!name.length) {
+      product = []
+      currentProduct = []
       return {
         valid: false,
         error: "This field is required"
       };
     }
   } else {
+    product = []
+    currentProduct = []
     fetchProduct();
     fetchCurrentProduct(slug);
-
     for(let i = 0;i < product.length;i++){
       if(product[i].productName===currentProduct.productName){
-        console.log("HOORAY")
         product.splice(i,1)
       }
     }
 
     let checkdupli = product.filter(p => p.productName === name);
     if (checkdupli.length > 0) {
+      product = []
+      currentProduct = []
       return {
         valid: false,
         error: "This field was duplicated in database"
       };
     }
     if (!name.length) {
+      product = []
+      currentProduct = []
       return {
         valid: false,
         error: "This field is required"
       };
     }
   }
+  product = []
+  currentProduct = []
   return {
     valid: true,
     error: null
