@@ -30,7 +30,7 @@
               <h2>฿{{ product.productPrice }}</h2>
               <div class="color">
                 <p class="pt-1">Color Available</p>
-                <div class="flex flex-row flex-wrap justify-start space-x-2 space-x-2">
+                <div class="flex flex-row flex-wrap justify-start">
                   <div v-for="color in product.colors" :key="color.colorId">
                     <div
                       class="box"
@@ -48,10 +48,10 @@
                 }"
                 class="product-edit"
               >
-                <li class="text-5xl material-icons">edit</li>
+                <span class="text-5xl material-icons">edit</span>
               </router-link>
               <button class="product-delete" @click="toggleModal">
-                <li class="text-5xl material-icons">delete_forever</li>
+                <span class="text-5xl material-icons">delete_forever</span>
               </button>
               <button>
                 <go-back></go-back>
@@ -63,7 +63,7 @@
     </div>
     <div class="product-footer">
       <ul class="flex justify-center">
-        <li class="-mb-px mr-1" v-for="desc in desc" :key="desc.id">
+        <span class="-mb-px mr-1" v-for="desc in desc" :key="desc.id">
           <a
             class="footer"
             href="#"
@@ -71,7 +71,7 @@
             @click.prevent="activeNav(desc.id)"
             >{{desc.text}}</a
           >
-        </li>
+        </span>
       </ul>
       <div class="footer-content">
           <div class="footer-desc" v-show="activeli==1">
@@ -221,7 +221,7 @@ export default {
   @apply  cursor-pointer mx-auto my-auto lg:max-w-full lg:max-h-full transition duration-200 ease-in-out hover:shadow-2xl;
 }
 .product-btn {
-  @apply space-x-8 mx-auto md:mx-1 ;
+  @apply space-x-5 mx-auto md:mx-1 ;
 }
 .product-summary {
   @apply max-w-full pt-4 md:w-2/5 flex flex-col justify-center lg:w-2/5 ;

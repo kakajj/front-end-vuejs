@@ -128,7 +128,7 @@
         <div class="mb-4">
           <label class="input-name" for="upload"> Upload Picture </label>
           <div id="preview">
-            <img v-if="url" :src="url" />
+            <img v-if="url" :src="url" alt="preview" />
           </div>
           <input
             type="file"
@@ -153,7 +153,7 @@
             @click.prevent="checkForm"
           >
             <em class="fab fa-whatsapp"></em> ส่งข้อมูล
-            <li class="text-2xl material-icons">cloud_upload</li>
+            <span class="text-2xl material-icons">cloud_upload</span>
           </button>
         </div>
       </form>

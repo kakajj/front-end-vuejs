@@ -5,7 +5,7 @@
       <h2 class="text-center text-3xl m-auto pt-20">
         <router-link :to="{name: 'Product'}">
         Back to Product's Page
-        <li class="text-2xl material-icons">arrow_upward</li>
+        <span class="text-2xl material-icons">arrow_upward</span>
         </router-link>
       </h2>
   </div>

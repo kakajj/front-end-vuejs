@@ -68,9 +68,9 @@
                   params: { id: p.productCode },
                 }"
               >
-                <li class="text-3xl md:text-xl lg:text-3xl material-icons">
+                <span class="text-3xl md:text-xl lg:text-3xl material-icons">
                   open_in_new
-                </li>
+                </span>
               </router-link>
             </div>
             <div class="btn-edit">
@@ -80,16 +80,16 @@
                   params: { slug: p.productCode },
                 }"
               >
-                <li class="text-3xl md:text-xl lg:text-3xl material-icons">
+                <span class="text-3xl md:text-xl lg:text-3xl material-icons">
                   edit
-                </li>
+                </span>
               </router-link>
             </div>
             <div class="btn-delete">
               <button @click="showModal(p.productCode)">
-                <li class="text-3xl md:text-xl lg:text-3xl material-icons">
+                <span class="text-3xl md:text-xl lg:text-3xl material-icons">
                   delete_forever
-                </li>
+                </span>
               </button>
             </div>
           </div>
@@ -257,7 +257,7 @@ export default {
   @apply items-stretch mx-auto md:-mx-0 w-80 md:w-1/3 box-border mb-4 px-4;
 }
 .blank-img {
-  @apply relative  h-64 md:h-32 lg:h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+  @apply relative rounded-lg  h-64 md:h-32 lg:h-64 mx-auto shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
 }
 .btn-view {
   @apply mr-2 mt-2 focus:outline-none text-green-600 text-sm  px-5 rounded-full border border-green-600 hover:bg-green-50;

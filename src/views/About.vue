@@ -30,7 +30,10 @@
                   {{team.response}}
                 </h1>
                 <h1 class="response">
-                   {{team.contact.github}}
+                  GitHub: {{team.contact.github}}
+                </h1>
+                <h1 class="response">
+                  Facebook: {{team.contact.fb}}
                 </h1>
               </div>
             </div>
@@ -96,16 +99,16 @@ export default {
   @apply w-full shadow-lg flex flex-col justify-center md:flex-row  mx-auto sm:justify-center md:w-11/12 lg:w-full
 }
 .image{
-  @apply bg-cover  border w-full h-80 md:flex-shrink-0 md:w-8/12 lg:w-1/4
+  @apply bg-cover  border w-full h-80 md:flex-shrink-0 md:w-5/12 lg:w-1/4
 }
 .body-outer{
-  @apply bg-white w-full md:w-1/4 lg:w-full 
+  @apply bg-white w-full md:w-auto lg:w-full 
 }
 .body-inner{
   @apply h-full mx-auto  md:px-0  sm:w-4/5
 }
 .body{
-  @apply bg-white lg:h-full p-6 -mt-6 md:mt-0  mb-4 md:mb-0 flex flex-wrap md:flex-wrap items-center md:w-3/4 lg:w-full
+  @apply bg-white lg:h-full p-6 -mt-6 md:mt-0  mb-4 md:mb-0 flex flex-wrap  items-center  lg:w-full
 }
 .card.title{
   @apply w-full lg:w-1/5 lg:border-solid text-center md:text-left 
@@ -114,7 +117,7 @@ export default {
   @apply mb-0 mt-3 text-gray-700 text-base italic
 }
 .card-desc{
-  @apply w-full lg:w-3/5 mx-auto sm:flex sm:flex-row sm:justify-start
+  @apply w-full mx-auto lg:pl-8 lg:w-3/5 text-left sm:flex sm:flex-col sm:justify-start 
 }
 .response{
   @apply  mt-4 lg:mt-0  md:text-left text-lg

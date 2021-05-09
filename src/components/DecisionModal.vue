@@ -26,7 +26,7 @@
         <footer class="modal-footer">
           <slot name="footer"></slot>
           <button type="button" class="btn-red" @click="submit" aria-label="Close modal">
-            <li class="text-5xl material-icons">delete_forever</li>
+            <span class="text-5xl material-icons">delete_forever</span>
           </button>
         </footer>
       </div>
