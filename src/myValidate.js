@@ -28,59 +28,42 @@ let fetchCurrentProduct = (slug) => {
       console.log(err);
     });
 };
-
-
-function checkDuplicate(name, edit, slug) {
+function checkDuplicate(name, edit){
   if (edit === false) {
-    fetchProduct();
-    let checkdupli = product.filter(p => p.productName == name);
+    let checkdupli = product.filter(p => p.productName.trim().toLowerCase() == name);
     if (checkdupli.length > 0) {
-      product = []
-      currentProduct = []
+      console.log("find duplicate!!")
       return {
         valid: false,
         error: "This field was duplicated in database"
       };
     }
     if (!name.length) {
-      product = []
-      currentProduct = []
       return {
         valid: false,
         error: "This field is required"
       };
     }
   } else {
-    product = []
-    currentProduct = []
-    fetchProduct();
-    fetchCurrentProduct(slug);
-    for(let i = 0;i < product.length;i++){
-      if(product[i].productName===currentProduct.productName){
-        product.splice(i,1)
+    for (let i = 0; i < product.length; i++) {
+      if (product[i].productName.trim().toLowerCase() === currentProduct.productName.trim().toLowerCase()) {
+        product.splice(i, 1)
       }
     }
-
-    let checkdupli = product.filter(p => p.productName === name);
+    let checkdupli = product.filter(p => p.productName.trim().toLowerCase() === name);
     if (checkdupli.length > 0) {
-      product = []
-      currentProduct = []
       return {
         valid: false,
         error: "This field was duplicated in database"
       };
     }
     if (!name.length) {
-      product = []
-      currentProduct = []
       return {
         valid: false,
         error: "This field is required"
       };
     }
   }
-  product = []
-  currentProduct = []
   return {
     valid: true,
     error: null
@@ -134,4 +117,6 @@ module.exports = {
   validateLength: validateLength,
   validatePrice: validatePrice,
   required: required,
+  fetchProduct: fetchProduct,
+  fetchCurrentProduct:fetchCurrentProduct,
 }

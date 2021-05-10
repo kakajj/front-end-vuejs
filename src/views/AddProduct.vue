@@ -168,8 +168,11 @@ export default {
   created() {
     if (this.slug == undefined) {
       this.fetchMultipleData();
+      validate.fetchProduct();
     } else {
       this.fetchEditData();
+      validate.fetchProduct();
+      validate.fetchCurrentProduct(this.slug);
     }
   },
   props: ["slug"],
@@ -222,10 +225,23 @@ export default {
   },
   methods: {
     watchProp() {
-      this.slug == undefined ? (this.isEdit = false) : (this.isEdit = true);
+      this.slug == undefined ? this.isEdit = false : this.isEdit = true;
+      console.log(this.isEdit)
     },
     clearData() {
-      this.newProduct = {};
+      this.newProduct.productCode = null;
+      this.newProduct.productName = "";
+      this.newProduct.productDescription = "";
+      this.newProduct.productPrice = 0;
+      this.newProduct.date = "";
+      this.newProduct.brands.brandId = "";
+      this.newProduct.brandName = "";
+      this.newProduct.productWarranty.warrantyId = null;
+      this.newProduct.productWarranty.warrantyDescription = "";
+      this.newProduct.colors.colorId = null;
+      this.newProduct.colors.colorName = "";
+      this.newProduct.colors.colorName = "";
+      this.newProduct.colors.colorHex = "";
       return this.$router.push("/product/");
     },
     fetchMultipleData() {
@@ -386,28 +402,25 @@ export default {
       });
       this.newProduct.colors = filtered;
 
-      if (!this.isEdit) {
+      if (this.isEdit===false) {
         const validDuplicateName = validate.checkDuplicate(
-          this.newProduct.productName,
-          false,
-          null
+          this.newProduct.productName.trim().toLowerCase(),
+          false
         );
         this.errors.productNameDuplicate = validDuplicateName.error;
         if (this.valid) {
           this.valid = validDuplicateName.valid;
         }
       } else {
-        const validDuplicateName = validate.checkDuplicate(
-          this.newProduct.productName,
-          true,
-          this.slug
+        const validDuplicateEditName = validate.checkDuplicate(
+          this.newProduct.productName.trim().toLowerCase(),
+          true
         );
-        this.errors.productNameDuplicate = validDuplicateName.error;
+        this.errors.productNameDuplicate = validDuplicateEditName.error;
         if (this.valid) {
-          this.valid = validDuplicateName.valid;
+          this.valid = validDuplicateEditName.valid;
         }
       }
-
       const validBrand = validate.validateLength(
         this.newProduct.brands.brandName
       );
@@ -444,7 +457,7 @@ export default {
       if (this.valid) {
         this.valid = validColor.valid;
       }
-      if (!this.isEdit) {
+      if (this.isEdit===false) {
         const validInput = validate.required();
         this.errors.upload = validInput.error;
         if (this.valid) {
