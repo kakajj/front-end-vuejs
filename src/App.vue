@@ -1,4 +1,5 @@
 <template>
+
     <router-view :key="$route.path"/>
     <footer-component/>
 </template>

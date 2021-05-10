@@ -28,12 +28,9 @@ let fetchCurrentProduct = (slug) => {
       console.log(err);
     });
 };
-
-
-function checkDuplicate(name, edit, slug) {
+function checkDuplicate(name, edit){
   if (edit === false) {
-    fetchProduct();
-    let checkdupli = product.filter(p => p.productName == name);
+    let checkdupli = product.filter(p => p.productName.trim().toLowerCase() == name);
     if (checkdupli.length > 0) {
       return {
         valid: false,
@@ -47,17 +44,12 @@ function checkDuplicate(name, edit, slug) {
       };
     }
   } else {
-    fetchProduct();
-    fetchCurrentProduct(slug);
-
-    for(let i = 0;i < product.length;i++){
-      if(product[i].productName===currentProduct.productName){
-        console.log("HOORAY")
-        product.splice(i,1)
+    for (let i = 0; i < product.length; i++) {
+      if (product[i].productName.trim().toLowerCase() === currentProduct.productName.trim().toLowerCase()) {
+        product.splice(i, 1)
       }
     }
-
-    let checkdupli = product.filter(p => p.productName === name);
+    let checkdupli = product.filter(p => p.productName.trim().toLowerCase() === name);
     if (checkdupli.length > 0) {
       return {
         valid: false,
@@ -109,7 +101,7 @@ function required() {
   if (empt == "") {
     return {
       valid: false,
-      error: 'Please, dont let this input empthy.'
+      error: 'Please, dont let this input empty.'
     };
   } else {
     return {
@@ -124,4 +116,6 @@ module.exports = {
   validateLength: validateLength,
   validatePrice: validatePrice,
   required: required,
+  fetchProduct: fetchProduct,
+  fetchCurrentProduct:fetchCurrentProduct,
 }

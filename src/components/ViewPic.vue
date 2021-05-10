@@ -51,7 +51,7 @@ export default {
   @apply relative w-auto my-6 mx-auto;
 }
 .content {
-  @apply border-0 rounded-lg shadow-lg relative flex flex-col outline-none focus:outline-none max-w-md md:max-w-sm sm:max-w-xs;
+  @apply border-0 rounded-lg shadow-lg relative flex flex-col outline-none focus:outline-none max-w-xs lg:max-w-3xl md:max-w-xl sm:max-w-md;
 }
 .header {
   @apply flex justify-center space-x-4;
