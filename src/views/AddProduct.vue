@@ -189,7 +189,7 @@ export default {
       brandUrl: config.VUE_APP_API + "/brands/getall",
       warrantyUrl: config.VUE_APP_API + "/warranty/getall",
       url: config.VUE_APP_API + "/picture/get/" + this.slug + '.jpg',
-      file: "",
+      file: undefined,
       isEdit: false,
       newProduct: {
         productCode: null,
@@ -322,7 +322,7 @@ export default {
             console.log(errr);
           });
       } else {
-        if (this.file.length<1) {
+        if (this.file === undefined) {
           this.clearData();
         } else {
           axios
@@ -352,7 +352,7 @@ export default {
       if(this.file){
         this.url = URL.createObjectURL(this.file);
       }else{
-        this.url = '';
+        this.url = config.VUE_APP_API + "/picture/get/" + this.slug + '.jpg';
         return ''
       }
     },

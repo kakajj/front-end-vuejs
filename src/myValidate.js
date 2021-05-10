@@ -102,7 +102,7 @@ function required() {
   if (empt == "") {
     return {
       valid: false,
-      error: 'Please, dont let this input empthy.'
+      error: 'Please, dont let this input empty.'
     };
   } else {
     return {
