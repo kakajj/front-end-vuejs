@@ -226,7 +226,6 @@ export default {
   methods: {
     watchProp() {
       this.slug == undefined ? this.isEdit = false : this.isEdit = true;
-      console.log(this.isEdit)
     },
     clearData() {
       this.newProduct.productCode = null;
