@@ -32,7 +32,6 @@ function checkDuplicate(name, edit){
   if (edit === false) {
     let checkdupli = product.filter(p => p.productName.trim().toLowerCase() == name);
     if (checkdupli.length > 0) {
-      console.log("find duplicate!!")
       return {
         valid: false,
         error: "This field was duplicated in database"
